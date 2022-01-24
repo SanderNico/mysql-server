@@ -3260,6 +3260,18 @@ static bool check_optimizer_switch(sys_var *, THD *thd [[maybe_unused]],
   const bool want_hypergraph_optimizer =
       var->save_result.ulonglong_value & OPTIMIZER_SWITCH_HYPERGRAPH_OPTIMIZER;
 
+  const bool current_auto_statistics =
+      thd->optimizer_switch_flag(OPTIMIZER_SWITCH_AUTO_STATISTICS);
+  const bool want_auto_statistics =
+      var->save_result.ulonglong_value & OPTIMIZER_SWITCH_AUTO_STATISTICS;
+
+  if((current_auto_statistics && current_hypergraph_optimizer && !want_hypergraph_optimizer) || 
+     (!current_auto_statistics && want_auto_statistics && !current_hypergraph_optimizer)){
+    // Warn that hypergraph needs to be on for auto statistics to work
+    push_warning(thd, Sql_condition::SL_WARNING, ER_WARN_DEPRECATED_SYNTAX,
+                ER_THD(thd, ER_WARN_HYPERGRAPH_AUTO_STATISTICS));
+  }
+
   if (current_hypergraph_optimizer && !want_hypergraph_optimizer) {
     // Don't turn off the hypergraph optimizer on set optimizer_switch=DEFAULT.
     // This is so that mtr --hypergraph should not be easily cancelled in the
