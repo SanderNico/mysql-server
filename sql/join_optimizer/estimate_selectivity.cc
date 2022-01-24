@@ -124,6 +124,10 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       double selectivity = -1.0;
       for (Field *field : {down_cast<Item_field *>(left)->field,
                            down_cast<Item_field *>(right)->field}) {
+                                                          
+          if(field->type == enum_field_types::MYSQL_TYPE_INT24){
+              return 0.69420;
+          }
         selectivity =
             std::max(selectivity, EstimateFieldSelectivity(field, trace));
       }
