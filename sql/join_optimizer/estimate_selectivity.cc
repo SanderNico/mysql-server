@@ -128,7 +128,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
                                                           
           if(field->type() == enum_field_types::MYSQL_TYPE_INT24){
               yes = true;
-             }
           }
         selectivity =
             std::max(selectivity, EstimateFieldSelectivity(field, trace));
