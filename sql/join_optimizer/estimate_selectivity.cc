@@ -120,15 +120,14 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
     Item *left = eq->arguments()[0];
     Item *right = eq->arguments()[1];
+    bool yes = false;
     if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
       double selectivity = -1.0;
       for (Field *field : {down_cast<Item_field *>(left)->field,
                            down_cast<Item_field *>(right)->field}) {
                                                           
           if(field->type() == enum_field_types::MYSQL_TYPE_INT24){
-             if(trace != nullptr){
-               *trace +=
-                    StringPrintf("Hei Jorgen");
+              yes = true;
              }
           }
         selectivity =
@@ -139,6 +138,10 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           *trace +=
               StringPrintf(" - used an index for %s, selectivity = %.3f\n",
                            ItemToString(condition).c_str(), selectivity);
+                           if(yes){
+                             *trace +=
+                                  StringPrintf("Hei Jørgen");
+                           }
         }
         return selectivity;
       }
