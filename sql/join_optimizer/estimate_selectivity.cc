@@ -42,7 +42,7 @@
 #include "sql/sql_const.h"
 #include "sql/table.h"
 #include "template_utils.h"
-#include "tuple_struct.h"
+#include "sql/tuple_struct.h"
 
 using std::string;
 
@@ -173,7 +173,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     double selectivity = -1.0;
      
     selectivity = test.GetSelectivityForCondition(condition);
-    
+
     if (selectivity >= 0.0){
       if (trace != nullptr) {
           *trace +=
