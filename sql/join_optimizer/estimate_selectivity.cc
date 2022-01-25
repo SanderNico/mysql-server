@@ -165,7 +165,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
   if(condition->type() == Item::FUNC_ITEM){
     double selectivity = -1.0;
-    std::string cond& = ItemToString(condition).c_str();
+    std::string cond = ItemToString(condition).c_str();
     std::size_t a = cond.find("'[de]'");
     std::size_t b = cond.find("cn.country_code");
     if(a != std::string::npos && b != std::string::npos){
