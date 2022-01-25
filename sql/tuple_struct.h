@@ -34,7 +34,7 @@ class InMemoryTuple{
     tuple<string, string, string, double> Content;
 
 public:
-    InMemoryTuple::InMemoryTuple(tuple<string, string, string, double> PublicContent){
+    InMemoryTuple(tuple<string, string, string, double> PublicContent){
         Content = PublicContent;
     }
     double GetSelectivityForCondition(Item *condition) {return -1;}
