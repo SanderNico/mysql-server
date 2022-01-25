@@ -112,9 +112,8 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   }
 
   if(condition->type() == Item::FUNC_ITEM){
-    if(trace != nullptr){
-          *trace +=
-      StringPrintf("Hei Jorgen");
+      double selectivity = 0.69420;
+      return selectivity;
     }
   }
 
