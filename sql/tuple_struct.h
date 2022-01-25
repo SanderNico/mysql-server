@@ -27,11 +27,14 @@
 
 #include "sql/item.h"
 
+using namespace std;
+
+
 static class InMemoryTuple{
-    tuple <string, string, string, double> Content;
+    tuple<string, string, string, double> Content;
 
 public:
-    double GetSelectivityForCondition(Item *condition)
+    double GetSelectivityForCondition(Item *condition);
 };
 
 #endif /* TUPLE_STRUCT_H */
