@@ -30,7 +30,7 @@
 using namespace std;
 
 
-static class InMemoryTuple{
+class InMemoryTuple{
     tuple<string, string, string, double> Content;
 
 public:
