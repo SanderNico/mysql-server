@@ -114,7 +114,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   if(condition->type() == Item::FUNC_ITEM){
       double selectivity = 0.69420;
       return selectivity;
-    }
   }
 
   // For field = field (e.g. t1.x = t2.y), we try to use index information
