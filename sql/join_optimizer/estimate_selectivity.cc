@@ -112,13 +112,20 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   }
 
   if(condition->type() == Item::FUNC_ITEM){
-      string a = "(cn.country_code ='[de]')";
-      string b = "(k.keyword ='character-name-in-title')";
+      string a = "(cn.country_code = '[de]')";
+      string aa = "('[de]' = cn.country_code)";
+      string b = "(k.keyword = 'character-name-in-title')";
+      string bb = "('character-name-in-title' = k.keyword)";
       string c = "(cn.id = mc.company_id)";
+      string cc = "(mc.company_id = cn.id)";
       string d = "(mc.movie_id = t.id)";
+      string dd = "(t.id = mc.movie_id)";
       string e = "(t.id = mk.movie_id)";
+      string ee = "(mk.movie_id = t.id)";
       string f = "(mk.keyword_id = k.id)";
-      string g = "(mc.movie_id = mk.movie_id;)";
+      string ff = "(k.id = mk.keyword_id)";
+      string g = "(mc.movie_id = mk.movie_id)";
+      string gg = "(mk.movie_id = mc.movie_id)";
 
       std::string conditions[7] = {"(cn.country_code ='[de]')",
                                    "(k.keyword ='character-name-in-title')",
@@ -126,27 +133,32 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
                                    "(mc.movie_id = t.id)",
                                    "(t.id = mk.movie_id)",
                                    "(mk.keyword_id = k.id)",
-                                   "(mc.movie_id = mk.movie_id;)"};
+                                   "(mc.movie_id = mk.movie_id)"};
 
       double selectivity = -1.0;
 
-      if (ItemToString(condition).c_str() == a){
+      if (ItemToString(condition).c_str() == a || ItemToString(condition).c_str() == aa){
         selectivity = 0.036;
-      } else if (ItemToString(condition).c_str() == b){
+      } else if (ItemToString(condition).c_str() == b || ItemToString(condition).c_str() == bb){
         selectivity = 0.00000423;
-      }else if (ItemToString(condition).c_str() == c){
-        selectivity = 0.932;
-      }else if (ItemToString(condition).c_str() == d){
-        selectivity = 0.511;
-      }else if (ItemToString(condition).c_str() == e){
-        selectivity = 0.612;
-      }else if (ItemToString(condition).c_str() == f){
-        selectivity = 0.969;
-      }else if (ItemToString(condition).c_str() == g){
-        selectivity = 1;
+      }else if (ItemToString(condition).c_str() == c || ItemToString(condition).c_str() == cc){
+        // selectivity = 0.932;
+        selectivity = 0.0000028
+      }else if (ItemToString(condition).c_str() == d || ItemToString(condition).c_str() == dd){
+        // selectivity = 0.511;
+        selectivity = 0.00000021;
+      }else if (ItemToString(condition).c_str() == e || ItemToString(condition).c_str() == ee){
+        // selectivity = 0.612;
+        selectivity = 0.00000021;
+      }else if (ItemToString(condition).c_str() == f || ItemToString(condition).c_str() == ff){
+        // selectivity = 0.969;
+        selectivity = 0.00000013;
+      }else if (ItemToString(condition).c_str() == g || ItemToString(condition).c_str() == gg){
+        // selectivity = 1;
+        selectivity = 0.0000017;
       }
    
-      if(selectivity >= 0.0){
+      if (selectivity >= 0.0){
       if (trace != nullptr) {
           *trace +=
               StringPrintf(" - used hardcoded selectivity for %s, selectivity = %.3f\n",
