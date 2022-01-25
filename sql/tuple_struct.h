@@ -23,6 +23,8 @@
 #define TUPLE_STRUCT_H
 
 #include <sys/types.h>
+#include <string>
+
 #include "sql/item.h"
 
 static class InMemoryTuple{
