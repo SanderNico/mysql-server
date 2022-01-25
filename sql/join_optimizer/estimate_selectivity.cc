@@ -112,8 +112,10 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   }
 
   if(condition->type() == Item::FUNC_ITEM){
-    *trace +=
-      StringPrintf("Hei Jørgen");
+    if(trace != nullptr){
+          *trace +=
+      StringPrintf("Hei Jorgen");
+    }
   }
 
   // For field = field (e.g. t1.x = t2.y), we try to use index information
