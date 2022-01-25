@@ -126,7 +126,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       for (Field *field : {down_cast<Item_field *>(left)->field,
                            down_cast<Item_field *>(right)->field}) {
                                                           
-          if(field->type() == enum_field_types::MYSQL_TYPE_INT24){
+          if(field->type() == enum_field_types::MYSQL_TYPE_VARCHAR){
               yes = true;
           }
         selectivity =
