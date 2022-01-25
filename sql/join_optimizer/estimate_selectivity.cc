@@ -113,6 +113,11 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
   if(condition->type() == Item::FUNC_ITEM){
       double selectivity = 0.69420;
+      if (trace != nullptr) {
+          *trace +=
+              StringPrintf(" - used hardcoded selectivity for %s, selectivity = %.3f\n",
+                           ItemToString(condition).c_str(), selectivity);
+        }
       return selectivity;
   }
 
