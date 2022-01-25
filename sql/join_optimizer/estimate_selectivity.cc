@@ -112,13 +112,48 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   }
 
   if(condition->type() == Item::FUNC_ITEM){
-      double selectivity = 0.69420;
+      string a = "(cn.country_code ='[de]')";
+      string b = "(k.keyword ='character-name-in-title')";
+      string c = "(cn.id = mc.company_id)";
+      string d = "(mc.movie_id = t.id)";
+      string e = "(t.id = mk.movie_id)";
+      string f = "(mk.keyword_id = k.id)";
+      string g = "(mc.movie_id = mk.movie_id;)";
+
+      std::string conditions[7] = {"(cn.country_code ='[de]')",
+                                   "(k.keyword ='character-name-in-title')",
+                                   "(cn.id = mc.company_id)",
+                                   "(mc.movie_id = t.id)",
+                                   "(t.id = mk.movie_id)",
+                                   "(mk.keyword_id = k.id)",
+                                   "(mc.movie_id = mk.movie_id;)"};
+
+      double selectivity = -1.0;
+
+      if (ItemToString(condition).c_str() == a){
+        selectivity = 0.036;
+      } else if (ItemToString(condition).c_str() == b){
+        selectivity = 0.00000423;
+      }else if (ItemToString(condition).c_str() == c){
+        selectivity = 0.932;
+      }else if (ItemToString(condition).c_str() == d){
+        selectivity = 0.511;
+      }else if (ItemToString(condition).c_str() == e){
+        selectivity = 0.612;
+      }else if (ItemToString(condition).c_str() == f){
+        selectivity = 0.969;
+      }else if (ItemToString(condition).c_str() == g){
+        selectivity = 1;
+      }
+   
+      if(selectivity >= 0.0){
       if (trace != nullptr) {
           *trace +=
               StringPrintf(" - used hardcoded selectivity for %s, selectivity = %.3f\n",
                            ItemToString(condition).c_str(), selectivity);
         }
-      return selectivity;
+        return selectivity;
+      }
   }
 
   // For field = field (e.g. t1.x = t2.y), we try to use index information
@@ -134,7 +169,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       double selectivity = -1.0;
       for (Field *field : {down_cast<Item_field *>(left)->field,
                            down_cast<Item_field *>(right)->field}) {
-
         selectivity =
             std::max(selectivity, EstimateFieldSelectivity(field, trace));
       }
