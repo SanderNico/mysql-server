@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <initializer_list>
 #include <string>
+#include <tuple>
 
 #include "my_bitmap.h"
 #include "my_table_map.h"
@@ -41,6 +42,7 @@
 #include "sql/sql_const.h"
 #include "sql/table.h"
 #include "template_utils.h"
+#include "tuple_struct.h"
 
 using std::string;
 
@@ -164,14 +166,14 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   // }
 
   if(condition->type() == Item::FUNC_ITEM){
-    double selectivity = -1.0;
-    std::string cond = ItemToString(condition).c_str();
-    std::size_t a = cond.find("'[de]'");
-    std::size_t b = cond.find("cn.country_code");
-    if(a != std::string::npos && b != std::string::npos){
-      selectivity = 0.036;
-    }
 
+    std::tuple <string, string, string, double> testContent = std::make_tuple("cn.country_code", "=", "'[de]'", 0.036);
+    InMemoryTuple test(testContent);
+
+    double selectivity = -1.0;
+     
+    selectivity = test.GetSelectivityForCondition(condition);
+    
     if (selectivity >= 0.0){
       if (trace != nullptr) {
           *trace +=
