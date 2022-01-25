@@ -192,7 +192,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     for (Item_field &field : equal->get_fields()) {
       selectivity =
           std::max(selectivity, EstimateFieldSelectivity(field.field, trace));
-            if(field->type() == enum_field_types::MYSQL_TYPE_VARCHAR){
+            if(field.data_type() == enum_field_types::MYSQL_TYPE_VARCHAR){
               yes = true;
             }
     }
