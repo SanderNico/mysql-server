@@ -182,6 +182,9 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           Item_func::MULT_EQUAL_FUNC) {
     Item_equal *equal = down_cast<Item_equal *>(condition);
 
+    bool yes = false;
+
+
     // These should have been expanded early, before we get here.
     assert(equal->get_const() == nullptr);
 
@@ -189,11 +192,18 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     for (Item_field &field : equal->get_fields()) {
       selectivity =
           std::max(selectivity, EstimateFieldSelectivity(field.field, trace));
+            if(field->type() == enum_field_types::MYSQL_TYPE_VARCHAR){
+              yes = true;
+            }
     }
     if (selectivity >= 0.0) {
       if (trace != nullptr) {
         *trace += StringPrintf(" - used an index for %s, selectivity = %.3f\n",
                                ItemToString(condition).c_str(), selectivity);
+                                if(yes){
+                                  *trace +=
+                                  StringPrintf("Hei Jørgen");
+                                }
       }
       return selectivity;
     }
