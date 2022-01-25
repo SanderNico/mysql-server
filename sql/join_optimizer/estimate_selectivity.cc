@@ -143,7 +143,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         selectivity = 0.00000423;
       }else if (ItemToString(condition).c_str() == c || ItemToString(condition).c_str() == cc){
         // selectivity = 0.932;
-        selectivity = 0.0000028
+        selectivity = 0.0000028;
       }else if (ItemToString(condition).c_str() == d || ItemToString(condition).c_str() == dd){
         // selectivity = 0.511;
         selectivity = 0.00000021;
