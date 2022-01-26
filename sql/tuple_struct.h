@@ -24,6 +24,7 @@
 
 #include <sys/types.h>
 #include <string>
+#include <vector>
 
 #include "sql/item.h"
 
@@ -32,10 +33,10 @@ using namespace std;
 
 class InMemoryTuple{
 private:
-    tuple<string, string, string, double> Content;
+    vector< tuple<string, string, string, double> > Content;
 
 public:
-    InMemoryTuple(tuple<string, string, string, double> PublicContent);
+    InMemoryTuple(vector < tuple<string, string, string, double> > PublicContent);
     double GetSelectivityForCondition(Item *condition);
 };
 
