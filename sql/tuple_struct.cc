@@ -15,7 +15,7 @@ InMemoryTuple::InMemoryTuple(vector <tuple<string, string, string, double> > Pub
 double InMemoryTuple::GetSelectivityForCondition(Item *condition){
     double selectivity = -1.0;
 
-    for(Content::const_iterator i = Content.begin(); i != Content.end(); i++){
+    for(vector <tuple<string, string, string, double>>::const_iterator i = Content.begin(); i != Content.end(); i++){
       std::size_t a = ItemToString(condition).find(i->get<0>());
       std::size_t b = ItemToString(condition).find(i->get<2>());
       if(a != std::string::npos && b != std::string::npos){
