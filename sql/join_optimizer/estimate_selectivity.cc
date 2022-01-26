@@ -168,7 +168,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   if(condition->type() == Item::FUNC_ITEM){
 
     std::tuple <string, string, string, double> testContent = std::make_tuple("cn.country_code", "=", "'[de]'", 0.036);
-    InMemoryTuple tuple(testContent)
+    InMemoryTuple tuple(testContent);
 
     double selectivity = -1.0;
      
