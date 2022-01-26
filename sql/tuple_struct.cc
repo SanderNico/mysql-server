@@ -7,7 +7,7 @@
 
 using namespace std;
 
-InMemoryTuple::InMemoryTuple(tuple<string, string, string, double> Content);
+InMemoryTuple::InMemoryTuple(tuple<string, string, string, double> n) : Content(n);
 
 double InMemoryTuple::GetSelectivityForCondition(Item *condition){
     double selectivity = -1.0;
