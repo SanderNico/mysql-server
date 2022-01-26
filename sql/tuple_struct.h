@@ -37,7 +37,7 @@ public:
     InMemoryTuple(tuple<string, string, string, double> PublicContent){
         Content = PublicContent;
     }
-    virtual double GetSelectivityForCondition(Item *condition);
+    double GetSelectivityForCondition(Item *condition);
 };
 
 #endif /* TUPLE_STRUCT_H */
