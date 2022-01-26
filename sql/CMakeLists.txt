@@ -620,6 +620,7 @@ SET(SQL_SHARED_SOURCES
   trigger.cc
   trigger_creation_ctx.cc
   trigger_chain.cc
+  tuple_struct.cc
   tztime.cc
   uniques.cc
   xa.cc
