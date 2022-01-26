@@ -31,6 +31,7 @@ using namespace std;
 
 
 class InMemoryTuple{
+private:
     tuple<string, string, string, double> Content;
 
 public:
