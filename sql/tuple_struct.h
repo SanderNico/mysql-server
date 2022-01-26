@@ -35,7 +35,7 @@ private:
     tuple<string, string, string, double> Content;
 
 public:
-    InMemoryTuple(tuple<string, string, string, double> PublicContent = make_tuple());
+    InMemoryTuple(tuple<string, string, string, double> PublicContent = tuple<string, string, string, double>);
     double GetSelectivityForCondition(Item *condition);
 };
 
