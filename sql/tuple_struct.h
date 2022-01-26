@@ -32,12 +32,10 @@ using namespace std;
 
 class InMemoryTuple{
 private:
-    //tuple<string, string, string, double> Content;
-    double selectivity;
+    tuple<string, string, string, double> Content;
 
 public:
-    //InMemoryTuple(tuple<string, string, string, double> PublicContent);
-    InMemoryTuple(double select);
+    InMemoryTuple(tuple<string, string, string, double> PublicContent = make_tuple());
     double GetSelectivityForCondition(Item *condition);
 };
 
