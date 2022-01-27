@@ -32,6 +32,7 @@ vector <tuple <string, string, string, double> > GetSelectivitiesFromFile(string
                             stod(tuplestring.substr(3,tuplestring.find(","))));
 
             Content.push_back(Row);
+        }
     }
     return Content;
 }
