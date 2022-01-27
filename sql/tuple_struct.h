@@ -37,7 +37,7 @@ private:
 
 public:
     InMemoryTuple(vector < tuple<string, string, string, double> > PublicContent);
-    double GetSelectivityForCondition(Item *condition);
+    static double GetSelectivityForCondition(Item *condition);
 };
 
 #endif /* TUPLE_STRUCT_H */
