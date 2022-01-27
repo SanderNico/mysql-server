@@ -8,6 +8,8 @@
 
 using namespace std;
 
+Content* InMemoryTuple::Content;
+
 InMemoryTuple::InMemoryTuple(vector <tuple<string, string, string, double> > PublicContent){
   Content = PublicContent;
 }
