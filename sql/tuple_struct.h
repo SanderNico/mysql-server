@@ -33,9 +33,9 @@ using namespace std;
 namespace InMemoryTuple{
 
     struct InMemoryTuple{
-        static double GetSelectivityForCondition(Item *condition);
-        static void SetContent(vector < tuple<string, string, string, double> > PublicContent);
-        static vector< tuple<string, string, string, double> > Content;
+         double GetSelectivityForCondition(Item *condition);
+         void SetContent(vector < tuple<string, string, string, double> > PublicContent);
+         vector< tuple<string, string, string, double> > Content;
     };
 }
 #endif /* TUPLE_STRUCT_H */
