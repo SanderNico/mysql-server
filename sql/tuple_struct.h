@@ -36,7 +36,7 @@ private:
     vector< tuple<string, string, string, double> > Content;
 
 public:
-    static double GetSelectivityForCondition(Item *condition);
+    double GetSelectivityForCondition(Item *condition);
     void SetContent(vector < tuple<string, string, string, double> > PublicContent);
 };
 
