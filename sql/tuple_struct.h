@@ -31,7 +31,7 @@
 using namespace std;
 
 
-struct InMemoryTuple{
+class InMemoryTuple{
 private:
     
 
