@@ -47,7 +47,7 @@
 #include <process.h>  // getpid
 #endif
 
-namespace InMemoryTuple{
+namespace inmemorytuple{
   struct InMemoryTuple;
 }
 

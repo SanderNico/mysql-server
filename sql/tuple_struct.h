@@ -30,7 +30,7 @@
 
 using namespace std;
 
-namespace InMemoryTuple{
+namespace inmemorytuple{
 
     struct InMemoryTuple{
          double GetSelectivityForCondition(Item *condition);

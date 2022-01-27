@@ -9,7 +9,7 @@
 using namespace std;
 
 
-namespace InMemoryTuple{
+namespace inmemorytuple{
   double InMemoryTuple::GetSelectivityForCondition(Item *condition){
       double selectivity = -1.0;
 
