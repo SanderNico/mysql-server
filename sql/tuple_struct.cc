@@ -24,7 +24,7 @@ namespace InMemoryTuple{
       return selectivity;
   }
 
-  static void InMemoryTuple::SetContent(vector <tuple<string, string, string, double> > PublicContent){
+  void InMemoryTuple::SetContent(vector <tuple<string, string, string, double> > PublicContent){
     Content = PublicContent;
   }
 }

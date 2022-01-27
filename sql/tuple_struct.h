@@ -40,6 +40,6 @@ namespace InMemoryTuple{
         static double GetSelectivityForCondition(Item *condition);
         static void SetContent(vector < tuple<string, string, string, double> > PublicContent);
         static vector< tuple<string, string, string, double> > Content;
-    }
+    };
 }
 #endif /* TUPLE_STRUCT_H */
