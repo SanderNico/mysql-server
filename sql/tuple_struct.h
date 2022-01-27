@@ -33,7 +33,7 @@ using namespace std;
 
 class InMemoryTuple{
 private:
-    static vector< tuple<string, string, string, double> > Content;
+    vector< tuple<string, string, string, double> > Content;
 
 public:
     static double GetSelectivityForCondition(Item *condition);
