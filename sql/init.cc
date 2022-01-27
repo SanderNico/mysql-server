@@ -51,6 +51,8 @@ namespace inmemorytuple{
   struct InMemoryTuple;
 }
 
+using inmemorytuple::InMemoryTuple;
+
 void unireg_init(ulong options) {
   DBUG_TRACE;
 
