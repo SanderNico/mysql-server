@@ -34,4 +34,4 @@ vector <tuple <string, string, string, double> > GetSelectivitiesFromFile(string
             Content.push_back(Row);
     }
     return Content;
-};
+}
