@@ -3,7 +3,7 @@
 #include <string>
 #include <stdio.h>
 #include <vector>
-#include "tuple_struct.h"
+#include "sql/tuple_struct.h"
 #include "sql/item.h"
 
 using namespace std;
