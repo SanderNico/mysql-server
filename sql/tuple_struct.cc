@@ -11,7 +11,6 @@ using namespace std;
 
 
 double InMemoryTuple::GetSelectivityForCondition(Item *condition){
-  vector<tuple<string,string,string,double>>* InMemoryTuple::Content;
     double selectivity = -1.0;
 
     for(std::vector< tuple<string, string, string, double>>::size_type it = 0; it != Content.size(); it++){
