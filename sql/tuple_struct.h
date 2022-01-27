@@ -33,10 +33,6 @@ using namespace std;
 namespace InMemoryTuple{
 
     struct InMemoryTuple{
-    private:
-        
-
-    public:
         static double GetSelectivityForCondition(Item *condition);
         static void SetContent(vector < tuple<string, string, string, double> > PublicContent);
         static vector< tuple<string, string, string, double> > Content;
