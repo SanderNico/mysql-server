@@ -47,6 +47,10 @@
 #include <process.h>  // getpid
 #endif
 
+namespace InMemoryTuple{
+  struct InMemoryTuple;
+}
+
 void unireg_init(ulong options) {
   DBUG_TRACE;
 

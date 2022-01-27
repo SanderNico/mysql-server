@@ -30,15 +30,16 @@
 
 using namespace std;
 
+namespace InMemoryTuple{
 
-class InMemoryTuple{
-private:
-    
+    struct InMemoryTuple{
+    private:
+        
 
-public:
-    static double GetSelectivityForCondition(Item *condition);
-    static void SetContent(vector < tuple<string, string, string, double> > PublicContent);
-    static vector< tuple<string, string, string, double> > Content;
-};
-
+    public:
+        static double GetSelectivityForCondition(Item *condition);
+        static void SetContent(vector < tuple<string, string, string, double> > PublicContent);
+        static vector< tuple<string, string, string, double> > Content;
+    };
+}
 #endif /* TUPLE_STRUCT_H */
