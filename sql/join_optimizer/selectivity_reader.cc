@@ -22,7 +22,6 @@ vector <tuple <string, string, string, double> > GetSelectivitiesFromFile(string
         while(getline(file, line)){
             stringstream str(line);
 
-            int i = 0;
             while(getline(str, word))
                 tuplestring.append(word);
             
