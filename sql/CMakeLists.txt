@@ -432,6 +432,7 @@ SET(SQL_SHARED_SOURCES
   join_optimizer/overflow_bitset.cc
   join_optimizer/print_utils.cc
   join_optimizer/replace_item.cc
+  join_optimizer/selectivity_reader.cc
   json_binary.cc
   json_diff.cc
   json_dom.cc

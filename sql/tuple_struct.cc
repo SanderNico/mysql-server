@@ -24,6 +24,6 @@ double InMemoryTuple::GetSelectivityForCondition(Item *condition){
     return selectivity;
 }
 
-void InMemoryTuple::SetContent(vector <tuple<string, string, string, double> > PublicContent){
+static void InMemoryTuple::SetContent(vector <tuple<string, string, string, double> > PublicContent){
   Content = PublicContent;
 }
