@@ -6,7 +6,7 @@
 #include "sql/tuple_struct.h"
 #include "sql/item.h"
 
-using namespace std;
+using std::string;
 
 
 namespace inmemorytuple{
