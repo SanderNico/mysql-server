@@ -185,20 +185,20 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
     //InMemoryTuple tuple(testContent);
 
-    TupleContent::SetContent("cn.country_code", "=", "'[de]'", 0.036);
+    // TupleContent::SetContent("cn.country_code", "=", "'[de]'", 0.036);
 
-    double selectivity = -1.0;
+    // double selectivity = -1.0;
      
-    selectivity = inmemorytuple::Table::GetSelectivityForCondition(condition);
+    // selectivity = inmemorytuple::Table::GetSelectivityForCondition(condition);
 
-    if (selectivity >= 0.0){
-      if (trace != nullptr) {
-          *trace +=
-              StringPrintf(" - used hardcoded selectivity for %s, selectivity = %.3f\n",
-                           ItemToString(condition).c_str(), selectivity);
-        }
-        return selectivity;
-      }
+    // if (selectivity >= 0.0){
+    //   if (trace != nullptr) {
+    //       *trace +=
+    //           StringPrintf(" - used hardcoded selectivity for %s, selectivity = %.3f\n",
+    //                        ItemToString(condition).c_str(), selectivity);
+    //     }
+    //     return selectivity;
+    //   }
   }
 
   // For field = field (e.g. t1.x = t2.y), we try to use index information
