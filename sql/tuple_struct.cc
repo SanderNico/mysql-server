@@ -31,9 +31,9 @@ namespace inmemorytuple{
   /*
    * TupleContent
    */
-  void TupleContent::SetContent(string aExp, string operator, string bExp, double selectivity){
+  void TupleContent::SetContent(string aExp, string oper, string bExp, double selectivity){
     TupleContent::a = aExp;
-    TupleContent::op = operator;
+    TupleContent::op = oper;
     TupleContent::b = bExp;
     TupleContent::sel = selectivity;
   }

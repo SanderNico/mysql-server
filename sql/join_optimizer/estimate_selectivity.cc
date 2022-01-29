@@ -189,7 +189,8 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
     double selectivity = -1.0;
      
-    selectivity = InMemoryTuple::GetSelectivityForCondition(condition);
+    // selectivity = InMemoryTuple::GetSelectivityForCondition(condition);
+    selectivity = 0.036;
 
     if (selectivity >= 0.0){
       if (trace != nullptr) {
