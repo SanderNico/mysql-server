@@ -45,18 +45,18 @@ namespace inmemorytuple{
         double sel;
 
         void SetContent(string a, string op, string b, double sel);
-    }
+    };
 
     struct Row {
         std::tuple<TupleContent> Tuple;
 
         void AddContent(TupleContent content);
-    }
+    };
 
     struct Table{
         std::vector<Row> Rows;
 
         void AddRow(Row row);
-    }
+    };
 }
 #endif /* TUPLE_STRUCT_H */
