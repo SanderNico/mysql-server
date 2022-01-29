@@ -57,6 +57,7 @@ namespace inmemorytuple{
         std::vector<Row> Rows;
 
         void AddRow(Row row);
+        double GetSelectivityForCondition(Item condition);
     };
 }
 #endif /* TUPLE_STRUCT_H */

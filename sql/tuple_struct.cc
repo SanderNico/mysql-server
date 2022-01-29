@@ -42,7 +42,7 @@ namespace inmemorytuple{
    * Row
    */
   void Row::AddContent(TupleContent content){
-    Row::Tuple = make_tuple(content.a, content.op, content.b, content.sel);
+    Row::Tuple = make_tuple((string)content.a, (string)content.op, (string)content.b, (double)content.sel);
   }
 
   /*
@@ -50,5 +50,9 @@ namespace inmemorytuple{
    */
   void Table::AddRow(Row row){
     Table::Rows.emplace_back(row);
+  }
+
+  void Table::GetSelectivityForCondition(Item condition){
+    return 0.036;
   }
 }
