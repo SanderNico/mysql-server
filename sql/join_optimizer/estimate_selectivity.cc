@@ -46,6 +46,10 @@
 
 using std::string;
 
+namespace inmemorytuple{
+  struct TupleContent;
+}
+
 /**
   Estimate the selectivity of (equi)joining a given field to any other field
   using cardinality information from indexes, if possible. Assumes equal
@@ -167,19 +171,21 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
   if(condition->type() == Item::FUNC_ITEM){
 
-    std::tuple <string, string, string, double> testContent1 = std::make_tuple("cn.country_code", "=", "'[de]'", 0.036);
-    std::tuple <string, string, string, double> testContent2 = std::make_tuple("k.keyword", "=", "'character-name-in-title'", 0.00000423);
-    std::tuple <string, string, string, double> testContent3 = std::make_tuple("cn.id", "=", "mc.company_id", 0.0000028);
-    std::tuple <string, string, string, double> testContent4 = std::make_tuple("mc.movie_id", "=", "t.id", 0.00000021);
-    std::tuple <string, string, string, double> testContent5 = std::make_tuple("t.id", "=", "mk.movie_id", 0.00000021);
-    std::tuple <string, string, string, double> testContent6 = std::make_tuple("mk.keyword_id", "=", "k.id", 0.00000013);
-    std::tuple <string, string, string, double> testContent7 = std::make_tuple("mc.movie_id", "=", "mk.movie_id", 0.0000017);
+    // std::tuple <string, string, string, double> testContent1 = std::make_tuple("cn.country_code", "=", "'[de]'", 0.036);
+    // std::tuple <string, string, string, double> testContent2 = std::make_tuple("k.keyword", "=", "'character-name-in-title'", 0.00000423);
+    // std::tuple <string, string, string, double> testContent3 = std::make_tuple("cn.id", "=", "mc.company_id", 0.0000028);
+    // std::tuple <string, string, string, double> testContent4 = std::make_tuple("mc.movie_id", "=", "t.id", 0.00000021);
+    // std::tuple <string, string, string, double> testContent5 = std::make_tuple("t.id", "=", "mk.movie_id", 0.00000021);
+    // std::tuple <string, string, string, double> testContent6 = std::make_tuple("mk.keyword_id", "=", "k.id", 0.00000013);
+    // std::tuple <string, string, string, double> testContent7 = std::make_tuple("mc.movie_id", "=", "mk.movie_id", 0.0000017);
 
-    std::vector <tuple <string, string, string, double>> testContent = {testContent1, testContent2, testContent3, 
-    testContent4, testContent5, testContent6, testContent7};
+    // std::vector <tuple <string, string, string, double>> testContent = {testContent1, testContent2, testContent3, 
+    // testContent4, testContent5, testContent6, testContent7};
 
-  
+
     //InMemoryTuple tuple(testContent);
+
+    TupleContent::SetContent("cn.country_code", "=", "'[de]'", 0.036);
 
     double selectivity = -1.0;
      

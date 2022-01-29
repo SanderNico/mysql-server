@@ -28,14 +28,35 @@
 
 #include "sql/item.h"
 
-using namespace std;
+using std::string;
 
 namespace inmemorytuple{
 
-    struct InMemoryTuple{
-         double GetSelectivityForCondition(Item *condition);
-         void SetContent(vector < tuple<string, string, string, double> > PublicContent);
-         vector< tuple<string, string, string, double> > Content;
-    };
+    // struct InMemoryTuple{
+    //      double GetSelectivityForCondition(Item *condition);
+    //      void SetContent(vector < tuple<string, string, string, double> > PublicContent);
+    //      vector< tuple<string, string, string, double> > Content;
+    // };
+
+    struct TupleContent{
+        string a;
+        string op;
+        string b;
+        double sel;
+
+        void SetContent(string a, string op, string b, double sel);
+    }
+
+    struct Row {
+        std::tuple<TupleContent> Tuple;
+
+        void AddContent(TupleContent content);
+    }
+
+    struct Table{
+        std::vector<Row> Rows;
+
+        void AddRow(Row row);
+    }
 }
 #endif /* TUPLE_STRUCT_H */
