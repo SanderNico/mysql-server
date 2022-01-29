@@ -42,16 +42,17 @@
 #include "sql/mysqld.h"  // connection_events_loop_aborted(), ...
 #include "join_optimizer/selectivity_reader.h"
 #include "sql/tuple_struct.h"
+#include "sql/aStruct.h"
 
 #ifdef _WIN32
 #include <process.h>  // getpid
 #endif
 
-namespace inmemorytuple{
-  struct InMemoryTuple;
-}
+// namespace inmemorytuple{
+//   struct InMemoryTuple;
+// }
 
-using inmemorytuple::InMemoryTuple;
+// using inmemorytuple::InMemoryTuple;
 
 void unireg_init(ulong options) {
   DBUG_TRACE;
@@ -65,6 +66,8 @@ void unireg_init(ulong options) {
   (void)my_stpcpy(reg_ext, ".frm");
   reg_ext_length = 4;
   specialflag = options; /* Set options from argv */
+
+  aStruct::setCount = 4;
 
   // auto Content = GetSelectivitiesFromFile("../../selectivities.csv");
   // InMemoryTuple::SetContent(Content);

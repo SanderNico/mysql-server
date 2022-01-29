@@ -359,6 +359,7 @@ SET(SQL_SHARED_SOURCES
   auth/sql_security_ctx.cc
   auth/service_security_context.cc
   auto_thd.cc
+  aStruct.cc
   keyring_service.cc
   auth/roles.cc
   auth/role_tables.cc
