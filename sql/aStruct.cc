@@ -1,4 +1,3 @@
-#include <sys/types.h>
 #include <string>
 #include <vector>
 #include "aStruct.h"
