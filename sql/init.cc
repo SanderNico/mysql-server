@@ -67,7 +67,7 @@ void unireg_init(ulong options) {
   reg_ext_length = 4;
   specialflag = options; /* Set options from argv */
 
-  aStruct::setCount(4);
+  //aStruct::setCount(4);
 
   // auto Content = GetSelectivitiesFromFile("../../selectivities.csv");
   // InMemoryTuple::SetContent(Content);

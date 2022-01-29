@@ -43,6 +43,7 @@
 #include "sql/table.h"
 #include "template_utils.h"
 #include "sql/tuple_struct.h"
+#include "sql/aStruct.h"
 
 using std::string;
 
@@ -110,6 +111,7 @@ static double EstimateFieldSelectivity(Field *field, string *trace) {
   for joins with multiple predicates.
  */
 double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
+  aStruct::setCount(4);
   // If the item is a true constant, we can say immediately whether it passes
   // or filters all rows. (Actually, calling get_filtering_effect() below
   // would crash if used_tables() is zero, which it is for const items.)
