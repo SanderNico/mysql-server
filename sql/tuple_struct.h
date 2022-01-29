@@ -30,7 +30,7 @@
 
 using std::string;
 
-namespace inmemorytuple{
+/*namespace inmemorytuple{
 
     // struct InMemoryTuple{
     //      double GetSelectivityForCondition(Item *condition);
@@ -59,5 +59,5 @@ namespace inmemorytuple{
         void AddRow(Row row);
         double GetSelectivityForCondition(Item condition);
     };
-}
+}*/
 #endif /* TUPLE_STRUCT_H */
