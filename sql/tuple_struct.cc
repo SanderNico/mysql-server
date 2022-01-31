@@ -42,7 +42,7 @@ namespace inmemorytuple{
    * Row
    */
   void Row::AddContent(TupleContent content){
-    Row::Tuple = make_tuple((string)content.a, (string)content.op, (string)content.b, (double)content.sel);
+    Row::Tuple = std::make_tuple((string)content.a, (string)content.op, (string)content.b, (double)content.sel);
   }
 
   /*
