@@ -26,9 +26,9 @@
 #include <vector>
 #include <string>
 
-using namespace std;
+using std::string;
 
-vector <tuple <string, string, string, double> > GetSelectivitiesFromFile(string Filepath);
+void GetSelectivitiesFromFile(string Filepath);
 
 
 #endif /* TUPLE_STRUCT_H */

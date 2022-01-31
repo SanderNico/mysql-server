@@ -8,30 +8,21 @@
 #include "selectivity_reader.h"
 #include "sql/tuple_struct.h"
 
-using namespace std;
-// typedef tuple <string, string, string, double> Row;
+using std::string;
 
-// vector <tuple <string, string, string, double> > GetSelectivitiesFromFile(string Filepath){
-//     vector <tuple <string, string, string, double> > Content;
-//     Row Row;
-//     string line, word, tuplestring;
+void GetSelectivitiesFromFile(string Filepath){
+    string line, word, tuplestring;
 
 
-//     fstream file(Filepath, ios::in);
-//     if(file.is_open()){
-//         while(getline(file, line)){
-//             stringstream str(line);
+    std::fstream file(Filepath, ios::in);
+    if(file.is_open()){
+        while(getline(file, line)){
+            std::stringstream str(line);
 
-//             while(getline(str, word))
-//                 tuplestring.append(word);
-            
-//             Row = make_tuple(tuplestring.substr(0,tuplestring.find(",")), 
-//                             tuplestring.substr(1,tuplestring.find(",")),
-//                             tuplestring.substr(2,tuplestring.find(",")),
-//                             stod(tuplestring.substr(3,tuplestring.find(","))));
-
-//             Content.push_back(Row);
-//         }
-//     }
-//     return Content;
-// }
+            inmemoryselectivitytable::Table::AddRow(line.substr(0,line.find(",")), 
+                                                    line.substr(1,line.find(",")),
+                                                    line.substr(2,line.find(",")),
+                                                    stod(line.substr(3,line.find(","))));
+        }
+    }
+}
