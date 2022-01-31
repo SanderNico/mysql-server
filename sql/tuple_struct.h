@@ -47,4 +47,6 @@ namespace inmemoryselectivitytable{
         static double GetSelectivityForCondition(Item *condition);
     };
 }
+
+extern inmemoryselectivitytable::Table *InMemorySelectivityTable; 
 #endif /* TUPLE_STRUCT_H */

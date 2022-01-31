@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <vector>
 #include <tuple>
-#include "sql/mysqld.h"
 #include "selectivity_reader.h"
 #include "sql/tuple_struct.h"
 

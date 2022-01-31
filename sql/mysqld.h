@@ -117,8 +117,6 @@ typedef Bitmap<((MAX_INDEXES + 7) / 8 * 8)> Key_map; /* Used for finding keys */
 
 extern bool dynamic_plugins_are_initialized;
 
-extern inmemoryselectivitytable::Table *InMemorySelectivityTable; 
-
 /* Function prototypes */
 
 /**

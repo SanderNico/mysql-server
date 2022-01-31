@@ -5,6 +5,7 @@
 #include <vector>
 #include "sql/tuple_struct.h"
 #include "sql/item.h"
+#include "sql/join_optimizer/selectivity_reader.h"
 
 using std::string;
 
@@ -70,3 +71,4 @@ namespace inmemoryselectivitytable{
   // }
 
 }
+inmemoryselectivitytable::Table *InMemorySelectivityTable;
