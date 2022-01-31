@@ -1,7 +1,6 @@
 #ifndef ASTRUCT_H
 #define ASTRUCT_H
 
-#include <sys/types.h>
 #include <string>
 #include <vector>
 
