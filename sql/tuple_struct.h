@@ -39,6 +39,7 @@ namespace inmemoryselectivitytable{
     };
 
     struct Table{
+        Table();
         static std::vector<Row> Rows;
 
         static void AddRow(Row row);
