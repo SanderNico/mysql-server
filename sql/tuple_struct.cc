@@ -9,38 +9,12 @@
 using std::string;
 
 
-namespace inmemorytuple{
-  // double InMemoryTuple::GetSelectivityForCondition(Item *condition){
-  //     double selectivity = -1.0;
-
-  //     for(std::vector< tuple<string, string, string, double>>::size_type it = 0; it != Content.size(); it++){
-  //       std::size_t a = ItemToString(condition).find(get<0>(Content.at(it)));
-  //       std::size_t b = ItemToString(condition).find(get<2>(Content.at(it)));
-  //       if(a != std::string::npos && b != std::string::npos){
-  //         selectivity = get<3>(Content.at(it));
-  //         return selectivity;
-  //       }
-  //     }
-  //     return selectivity;
-  // }
-
-  // void InMemoryTuple::SetContent(vector <tuple<string, string, string, double> > PublicContent){
-  //   Content = PublicContent;
-  // }
-
-  /*
-   * TupleContent
-   */
-  // void TupleContent::SetContent(string aExp, string oper, string bExp, double selectivity){
-  //   TupleContent::a = aExp;
-  //   TupleContent::op = oper;
-  //   TupleContent::b = bExp;
-  //   TupleContent::sel = selectivity;
-  // }
-
+namespace inmemoryselectivitytable{
   /*
    * Row
    */
+  std::tuple<string, string, string, double> Row::Tuple;
+
   void Row::AddContent(string a, string op, string b, double sel){
     Row::Tuple = std::make_tuple(a, op, b, sel);
   }
@@ -48,6 +22,8 @@ namespace inmemorytuple{
   /*
    * Table
    */
+  std::vector<Row> Table::Rows;
+
   void Table::AddRow(Row row){
     Table::Rows.emplace_back(row);
   }
@@ -61,4 +37,19 @@ namespace inmemorytuple{
   double Table::GetSelectivityForCondition(Item *condition){
     return 0.036;
   }
+
+  // double Table::GetSelectivityForCondition(Item *condition){
+  //     double selectivity = -1.0;
+
+  //     for(std::vector< tuple<string, string, string, double>>::size_type it = 0; it != Content.size(); it++){
+  //       std::size_t a = ItemToString(condition).find(get<0>(Content.at(it)));
+  //       std::size_t b = ItemToString(condition).find(get<2>(Content.at(it)));
+  //       if(a != std::string::npos && b != std::string::npos){
+  //         selectivity = get<3>(Content.at(it));
+  //         return selectivity;
+  //       }
+  //     }
+  //     return selectivity;
+  // }
+
 }

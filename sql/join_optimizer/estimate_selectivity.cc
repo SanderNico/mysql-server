@@ -114,76 +114,9 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     return (condition->val_int() != 0) ? 1.0 : 0.0;
   }
 
-  // if(condition->type() == Item::FUNC_ITEM){
-  //     string a = "(cn.country_code = '[de]')";
-  //     string aa = "('[de]' = cn.country_code)";
-  //     string b = "(k.keyword = 'character-name-in-title')";
-  //     string bb = "('character-name-in-title' = k.keyword)";
-  //     string c = "(cn.id = mc.company_id)";
-  //     string cc = "(mc.company_id = cn.id)";
-  //     string d = "(mc.movie_id = t.id)";
-  //     string dd = "(t.id = mc.movie_id)";
-  //     string e = "(t.id = mk.movie_id)";
-  //     string ee = "(mk.movie_id = t.id)";
-  //     string f = "(mk.keyword_id = k.id)";
-  //     string ff = "(k.id = mk.keyword_id)";
-  //     string g = "(mc.movie_id = mk.movie_id)";
-  //     string gg = "(mk.movie_id = mc.movie_id)";
-
-  //     std::string conditions[7] = {"(cn.country_code ='[de]')",
-  //                                  "(k.keyword ='character-name-in-title')",
-  //                                  "(cn.id = mc.company_id)",
-  //                                  "(mc.movie_id = t.id)",
-  //                                  "(t.id = mk.movie_id)",
-  //                                  "(mk.keyword_id = k.id)",
-  //                                  "(mc.movie_id = mk.movie_id)"};
-
-  //     double selectivity = -1.0;
-
-  //     if (ItemToString(condition).c_str() == a || ItemToString(condition).c_str() == aa){
-  //       selectivity = 0.036;
-  //     } else if (ItemToString(condition).c_str() == b || ItemToString(condition).c_str() == bb){
-  //       selectivity = 0.00000423;
-  //     }else if (ItemToString(condition).c_str() == c || ItemToString(condition).c_str() == cc){
-  //       selectivity = 0.0000028;
-  //     }else if (ItemToString(condition).c_str() == d || ItemToString(condition).c_str() == dd){
-  //       selectivity = 0.00000021;
-  //     }else if (ItemToString(condition).c_str() == e || ItemToString(condition).c_str() == ee){
-  //       selectivity = 0.00000021;
-  //     }else if (ItemToString(condition).c_str() == f || ItemToString(condition).c_str() == ff){
-  //       selectivity = 0.00000013;
-  //     }else if (ItemToString(condition).c_str() == g || ItemToString(condition).c_str() == gg){
-  //       selectivity = 0.0000017;
-  //     }
-   
-  //     if (selectivity >= 0.0){
-  //     if (trace != nullptr) {
-  //         *trace +=
-  //             StringPrintf(" - used hardcoded selectivity for %s, selectivity = %.3f\n",
-  //                          ItemToString(condition).c_str(), selectivity);
-  //       }
-  //       return selectivity;
-  //     }
-  // }
-
+  //Check if conditions are part of the JOB query
   if(condition->type() == Item::FUNC_ITEM){
-
-    // std::tuple <string, string, string, double> testContent1 = std::make_tuple("cn.country_code", "=", "'[de]'", 0.036);
-    // std::tuple <string, string, string, double> testContent2 = std::make_tuple("k.keyword", "=", "'character-name-in-title'", 0.00000423);
-    // std::tuple <string, string, string, double> testContent3 = std::make_tuple("cn.id", "=", "mc.company_id", 0.0000028);
-    // std::tuple <string, string, string, double> testContent4 = std::make_tuple("mc.movie_id", "=", "t.id", 0.00000021);
-    // std::tuple <string, string, string, double> testContent5 = std::make_tuple("t.id", "=", "mk.movie_id", 0.00000021);
-    // std::tuple <string, string, string, double> testContent6 = std::make_tuple("mk.keyword_id", "=", "k.id", 0.00000013);
-    // std::tuple <string, string, string, double> testContent7 = std::make_tuple("mc.movie_id", "=", "mk.movie_id", 0.0000017);
-
-    // std::vector <tuple <string, string, string, double>> testContent = {testContent1, testContent2, testContent3, 
-    // testContent4, testContent5, testContent6, testContent7};
-
-
-    //InMemoryTuple tuple(testContent);
-
     InMemorySelectivityTable->AddRow("cn.country_code", "=", "'[de]'", 0.036);
-    // InMemorySelectivityTable.AddRow("cn.country_code", "=", "'[de]'", 0.036);
     double selectivity = -1.0;
      
     selectivity = InMemorySelectivityTable->GetSelectivityForCondition(condition);

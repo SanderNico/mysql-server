@@ -30,23 +30,7 @@
 
 using std::string;
 
-namespace inmemorytuple{
-
-    // struct InMemoryTuple{
-    //      double GetSelectivityForCondition(Item *condition);
-    //      void SetContent(vector < tuple<string, string, string, double> > PublicContent);
-    //      vector< tuple<string, string, string, double> > Content;
-    // };
-
-    // struct TupleContent{
-    //     string a;
-    //     string op;
-    //     string b;
-    //     double sel;
-
-    //     void SetContent(string a, string op, string b, double sel);
-    // };
-
+namespace inmemoryselectivitytable{
     struct Row {
         static std::tuple<string, string, string, double> Tuple;
 
