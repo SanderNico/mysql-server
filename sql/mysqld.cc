@@ -1518,6 +1518,7 @@ MY_TMPDIR mysql_tmpdir_list;
 CHARSET_INFO *system_charset_info, *files_charset_info;
 CHARSET_INFO *national_charset_info, *table_alias_charset;
 CHARSET_INFO *character_set_filesystem;
+inmemorytuple::Table InMemorySelectivityTable;
 
 MY_LOCALE *my_default_lc_messages;
 MY_LOCALE *my_default_lc_time_names;
