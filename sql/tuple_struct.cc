@@ -38,10 +38,10 @@ namespace inmemoryselectivitytable{
     double selectivity = -1.0;
 
     for(std::vector<std::tuple<string, string, string, double>>::size_type it = 0; it != Table::Rows.size(); it++){
-      std::size_t a = ItemToString(condition).find(get<0>(Table::Rows.at(it)));
-      std::size_t b = ItemToString(condition).find(get<2>(Table::Rows.at(it)));
+      std::size_t a = ItemToString(condition).find(std::get<0>(Table::Rows.at(it)));
+      std::size_t b = ItemToString(condition).find(std::get<2>(Table::Rows.at(it)));
       if(a != string::npos && b != string::npos){
-        selectivity = get<3>(Table::Rows.at(it));
+        selectivity = std::get<3>(Table::Rows.at(it));
         return selectivity;
       }
     }
