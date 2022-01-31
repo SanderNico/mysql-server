@@ -75,7 +75,6 @@ class THD;
 class Time_zone;
 struct MEM_ROOT;
 struct handlerton;
-struct inmemorytuple::Table;
 
 #if MAX_INDEXES <= 64
 typedef Bitmap<64> Key_map; /* Used for finding keys */
