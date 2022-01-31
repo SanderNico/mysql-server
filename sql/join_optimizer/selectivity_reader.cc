@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <vector>
 #include <tuple>
+#include "sql/mysqld.h"
 #include "selectivity_reader.h"
 #include "sql/tuple_struct.h"
 
@@ -14,12 +15,12 @@ void GetSelectivitiesFromFile(string Filepath){
     string line, word, tuplestring;
 
 
-    std::fstream file(Filepath, ios::in);
+    std::fstream file(Filepath, std::ios::in);
     if(file.is_open()){
         while(getline(file, line)){
             std::stringstream str(line);
 
-            inmemoryselectivitytable::Table::AddRow(line.substr(0,line.find(",")), 
+            InMemorySelectivityTable->AddRow(line.substr(0,line.find(",")), 
                                                     line.substr(1,line.find(",")),
                                                     line.substr(2,line.find(",")),
                                                     stod(line.substr(3,line.find(","))));
