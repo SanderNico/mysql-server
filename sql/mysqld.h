@@ -66,6 +66,7 @@
 #endif  // _WIN32
 #include "sql/sql_bitmap.h"
 #include "sql/sql_const.h"  // UUID_LENGTH
+#include "sql/aStruct.h"
 
 class Rpl_global_filter;
 class Rpl_acf_configuration_handler;
@@ -113,6 +114,8 @@ typedef Bitmap<((MAX_INDEXES + 7) / 8 * 8)> Key_map; /* Used for finding keys */
 #define SPECIAL_NO_RESOLVE 64     /* Don't use gethostname */
 #define SPECIAL_NO_HOST_CACHE 512 /* Don't cache hosts */
 #define SPECIAL_SHORT_LOG_FORMAT 1024
+
+extern aStruct testStruct;
 
 extern bool dynamic_plugins_are_initialized;
 
