@@ -31,18 +31,18 @@ namespace inmemorytuple{
   /*
    * TupleContent
    */
-  void TupleContent::SetContent(string aExp, string oper, string bExp, double selectivity){
-    TupleContent::a = aExp;
-    TupleContent::op = oper;
-    TupleContent::b = bExp;
-    TupleContent::sel = selectivity;
-  }
+  // void TupleContent::SetContent(string aExp, string oper, string bExp, double selectivity){
+  //   TupleContent::a = aExp;
+  //   TupleContent::op = oper;
+  //   TupleContent::b = bExp;
+  //   TupleContent::sel = selectivity;
+  // }
 
   /*
    * Row
    */
-  void Row::AddContent(TupleContent content){
-    Row::Tuple = std::make_tuple((string)content.a, (string)content.op, (string)content.b, (double)content.sel);
+  void Row::AddContent(string a, string op, string b, double sel){
+    Row::Tuple = std::make_tuple(a, op, b, sel);
   }
 
   /*

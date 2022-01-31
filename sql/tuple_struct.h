@@ -38,19 +38,19 @@ namespace inmemorytuple{
     //      vector< tuple<string, string, string, double> > Content;
     // };
 
-    struct TupleContent{
-        string a;
-        string op;
-        string b;
-        double sel;
+    // struct TupleContent{
+    //     string a;
+    //     string op;
+    //     string b;
+    //     double sel;
 
-        void SetContent(string a, string op, string b, double sel);
-    };
+    //     void SetContent(string a, string op, string b, double sel);
+    // };
 
     struct Row {
-        std::tuple<TupleContent> Tuple;
+        std::tuple<string, string, string, double> Tuple;
 
-        void AddContent(TupleContent content);
+        void AddContent(string a, string op, string b, string sel);
     };
 
     struct Table{
