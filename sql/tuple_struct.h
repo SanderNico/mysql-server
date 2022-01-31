@@ -50,14 +50,14 @@ namespace inmemorytuple{
     struct Row {
         std::tuple<string, string, string, double> Tuple;
 
-        void AddContent(string a, string op, string b, double sel);
+        static void AddContent(string a, string op, string b, double sel);
     };
 
     struct Table{
         std::vector<Row> Rows;
 
-        void AddRow(Row row);
-        double GetSelectivityForCondition(Item *condition);
+        static void AddRow(Row row);
+        static double GetSelectivityForCondition(Item *condition);
     };
 }
 #endif /* TUPLE_STRUCT_H */
