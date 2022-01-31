@@ -48,13 +48,13 @@ namespace inmemorytuple{
     // };
 
     struct Row {
-        std::tuple<string, string, string, double> Tuple;
+        static std::tuple<string, string, string, double> Tuple;
 
         static void AddContent(string a, string op, string b, double sel);
     };
 
     struct Table{
-        std::vector<Row> Rows;
+        static std::vector<Row> Rows;
 
         static void AddRow(Row row);
         static double GetSelectivityForCondition(Item *condition);
