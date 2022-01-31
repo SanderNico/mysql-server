@@ -182,7 +182,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
     //InMemoryTuple tuple(testContent);
 
-    InMemorySelectivityTable.AddContent("cn.country_code", "=", "'[de]'", 0.036);
+    InMemorySelectivityTable.AddRow("cn.country_code", "=", "'[de]'", 0.036);
     double selectivity = -1.0;
      
     selectivity = InMemorySelectivityTable.GetSelectivityForCondition(condition);
