@@ -50,7 +50,7 @@ namespace inmemorytuple{
     struct Row {
         std::tuple<string, string, string, double> Tuple;
 
-        void AddContent(string a, string op, string b, string sel);
+        void AddContent(string a, string op, string b, double sel);
     };
 
     struct Table{
