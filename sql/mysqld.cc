@@ -872,6 +872,7 @@ MySQL clients support the protocol:
 #include "thr_mutex.h"
 #include "typelib.h"
 #include "violite.h"
+#include "sql/aStruct.h"
 
 #ifdef WITH_PERFSCHEMA_STORAGE_ENGINE
 #include "storage/perfschema/pfs_server.h"
@@ -1508,6 +1509,7 @@ Rpl_filter *binlog_filter;
 Rpl_acf_configuration_handler *rpl_acf_configuration_handler = nullptr;
 Source_IO_monitor *rpl_source_io_monitor = nullptr;
 Udf_load_service udf_load_service;
+aStruct testStruct;
 
 struct System_variables global_system_variables;
 struct System_variables max_system_variables;
