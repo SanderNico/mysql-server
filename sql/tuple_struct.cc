@@ -52,7 +52,7 @@ namespace inmemorytuple{
     Table::Rows.emplace_back(row);
   }
 
-  double Table::GetSelectivityForCondition(Item condition){
+  double Table::GetSelectivityForCondition(Item *condition){
     return 0.036;
   }
 }
