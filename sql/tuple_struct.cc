@@ -52,6 +52,12 @@ namespace inmemorytuple{
     Table::Rows.emplace_back(row);
   }
 
+  void Table::AddRow(string a, string op, string b, double sel){
+    Row row;
+    row.AddContent(a, op, b, sel);
+    Table::AddRow(row);
+  }
+
   double Table::GetSelectivityForCondition(Item *condition){
     return 0.036;
   }

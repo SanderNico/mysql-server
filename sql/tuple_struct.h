@@ -57,6 +57,7 @@ namespace inmemorytuple{
         static std::vector<Row> Rows;
 
         static void AddRow(Row row);
+        static void AddRow(string a, string op, string b, double sel);
         static double GetSelectivityForCondition(Item *condition);
     };
 }

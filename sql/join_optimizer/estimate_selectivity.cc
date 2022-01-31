@@ -43,12 +43,9 @@
 #include "sql/table.h"
 #include "template_utils.h"
 #include "sql/tuple_struct.h"
+#include "sql/mysqld.h"
 
 using std::string;
-
-namespace inmemorytuple{
-  struct TupleContent;
-}
 
 /**
   Estimate the selectivity of (equi)joining a given field to any other field
@@ -185,10 +182,10 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
     //InMemoryTuple tuple(testContent);
 
-    inmemorytuple::Row::AddContent("cn.country_code", "=", "'[de]'", 0.036);
+    InMemorySelectivityTable.AddContent("cn.country_code", "=", "'[de]'", 0.036);
     double selectivity = -1.0;
      
-    selectivity = inmemorytuple::Table::GetSelectivityForCondition(condition);
+    selectivity = InMemorySelectivityTable.GetSelectivityForCondition(condition);
 
     if (selectivity >= 0.0){
       if (trace != nullptr) {
