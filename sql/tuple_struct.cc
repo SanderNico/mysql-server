@@ -35,7 +35,17 @@ namespace inmemoryselectivitytable{
   }
 
   double Table::GetSelectivityForCondition(Item *condition){
-    return 0.036;
+    double selectivity = -1.0;
+
+    for(std::vector<tuple<string, string, string, double>>::size_type it = 0; it != Table::Rows.size(); it++){
+      std::size_t a = ItemToString(condition).find(get<0>(Table::Rows.at(it)));
+      std::size_t b = ItemToString(condition).find(get<2>(Table::Rows.at(it)));
+      if(a != string::npos && b != string::npos){
+        selectivity = get<3>(Table::Rows.at(it));
+        return selectivity;
+      }
+    }
+    return selectivity;
   }
 
   // double Table::GetSelectivityForCondition(Item *condition){
