@@ -43,7 +43,6 @@
 #include "sql/table.h"
 #include "template_utils.h"
 #include "sql/tuple_struct.h"
-#include "sql/aStruct.h"
 
 using std::string;
 

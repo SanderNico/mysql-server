@@ -12,3 +12,5 @@ void aStruct::setCount(int count){
     testCount = count;
 }
 
+aStruct testStruct;
+

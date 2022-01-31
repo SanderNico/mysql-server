@@ -14,5 +14,6 @@ struct aStruct{
         static void setCount(int count);
 };
 
+extern aStruct testStruct;
 
 #endif /* TUPLE_STRUCT_H */

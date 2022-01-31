@@ -42,6 +42,7 @@
 #include "sql/mysqld.h"  // connection_events_loop_aborted(), ...
 #include "join_optimizer/selectivity_reader.h"
 #include "sql/tuple_struct.h"
+#include "aStruct.h"
 
 #ifdef _WIN32
 #include <process.h>  // getpid
