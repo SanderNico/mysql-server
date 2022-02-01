@@ -43,6 +43,7 @@
 #include "sql/table.h"
 #include "template_utils.h"
 #include "sql/tuple_struct.h"
+#include "sql/join_optimizer/selectivity_reader.h"
 
 using std::string;
 
