@@ -25,10 +25,12 @@
 #include <sys/types.h>
 #include <vector>
 #include <string>
+#include "sql/tuple_struct.h"
+
 
 using std::string;
 
-void GetSelectivitiesFromFile(string Filepath);
+std::vector<inmemoryselectivitytable::Row> GetSelectivitiesFromFile(string Filepath);
 
 
 #endif /* SELECTIVITY_READER_H */
