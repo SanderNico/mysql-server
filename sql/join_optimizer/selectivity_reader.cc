@@ -9,21 +9,20 @@
 
 using std::string;
 
-std::vector<inmemoryselectivitytable::Row> GetSelectivitiesFromFile(string Filepath){
+std::vector<std::tuple<string, string, string, double>> GetSelectivitiesFromFile(string Filepath){
     string line, word, tuplestring;
 
-    inmemoryselectivitytable::Row row;
-    std::vector<inmemoryselectivitytable::Row> rows;
+    std::vector<std::tuple<string, string, string, double>> rows;
 
     std::fstream file(Filepath, std::ios::in);
     if(file.is_open()){
         while(getline(file, line)){
             std::stringstream str(line);
 
-            rows.emplace_back(line.substr(0,line.find(",")), 
+            rows.emplace_back(std::make_tuple(line.substr(0,line.find(",")), 
                                 line.substr(1,line.find(",")),
                                 line.substr(2,line.find(",")),
-                                stod(line.substr(3,line.find(","))));
+                                stod(line.substr(3,line.find(",")))));
         }
     }
     return rows;

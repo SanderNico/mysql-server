@@ -43,7 +43,7 @@ namespace inmemoryselectivitytable{
     Table::AddRow(row);
   }
 
-  void SetTable(std::vector<Row> rows){
+  void SetTable(std::vector<std::tuple<string, string, string, double>> rows){
     Table::Rows = rows;
   }
 
