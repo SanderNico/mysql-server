@@ -44,6 +44,7 @@ namespace inmemoryselectivitytable{
 
         static void AddRow(Row row);
         static void AddRow(string a, string op, string b, double sel);
+        static void SetTable(std::vector<Row> rows);
         static double GetSelectivityForCondition(Item *condition);
         static double GetSelectivityForCondition(Item *condition, string *trace);
     };

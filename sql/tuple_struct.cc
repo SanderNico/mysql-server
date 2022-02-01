@@ -29,7 +29,7 @@ namespace inmemoryselectivitytable{
    * Table
    */
 
-  Table::Table(){GetSelectivitiesFromFile("/home/jaasvest/selectivities.csv");}
+  // Table::Table(){GetSelectivitiesFromFile("/home/jaasvest/selectivities.csv");}
 
   std::vector<Row> Table::Rows;
 
@@ -41,6 +41,10 @@ namespace inmemoryselectivitytable{
     Row row;
     row.AddContent(a, op, b, sel);
     Table::AddRow(row);
+  }
+
+  void SetTable(std::vector<Row> rows){
+    Table::Rows = rows;
   }
 
   double Table::GetSelectivityForCondition(Item *condition, string *trace){
@@ -80,3 +84,4 @@ namespace inmemoryselectivitytable{
 
 }
 inmemoryselectivitytable::Table *InMemorySelectivityTable;
+InMemorySelectivityTable->SetTable(GetSelectivitiesFromFile("/home/jaasvest/selectivities.csv"));

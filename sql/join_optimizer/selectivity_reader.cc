@@ -10,20 +10,22 @@
 
 using std::string;
 
-void GetSelectivitiesFromFile(string Filepath){
+std::vector<inmemoryselectivitytable::Row> GetSelectivitiesFromFile(string Filepath){
     string line, word, tuplestring;
+
+    inmemoryselectivitytable::Row row;
+    std::vector<inmemoryselectivitytable::Row> rows;
 
     std::fstream file(Filepath, std::ios::in);
     if(file.is_open()){
         while(getline(file, line)){
             std::stringstream str(line);
 
-            // InMemorySelectivityTable->AddRow(line.substr(0,line.find(",")), 
-            //                                         line.substr(1,line.find(",")),
-            //                                         line.substr(2,line.find(",")),
-            //                                         stod(line.substr(3,line.find(","))));
-            InMemorySelectivityTable->AddRow("cn.country_code", "=", "'[de]'", 0.036);
+            rows.emplace_back(line.substr(0,line.find(",")), 
+                                line.substr(1,line.find(",")),
+                                line.substr(2,line.find(",")),
+                                stod(line.substr(3,line.find(","))));
         }
     }
-    InMemorySelectivityTable->AddRow("k.keyword", "=", "'character-name-in-title'", 0.00000423);
+    return rows;
 }
