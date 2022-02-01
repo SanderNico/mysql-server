@@ -22,7 +22,7 @@ std::vector<std::tuple<string, string, string, double>> GetSelectivitiesFromFile
             rows.emplace_back(std::make_tuple(line.substr(0,line.find(",")), 
                                 line.substr(1,line.find(",")),
                                 line.substr(2,line.find(",")),
-                                stod(line.substr(3,line.find(",")))));
+                                std::stod(line.substr(3,line.find(",")))));
         }
     }
     return rows;
