@@ -86,4 +86,4 @@ namespace inmemoryselectivitytable{
 
 }
 inmemoryselectivitytable::Table *InMemorySelectivityTable;
-InMemorySelectivityTable->SetTable(GetSelectivitiesFromFile("/home/jaasvest/selectivities.csv"));
+inmemoryselectivitytable::Table InMemorySelectivityTable->SetTable(GetSelectivitiesFromFile("/home/jaasvest/selectivities.csv"));
