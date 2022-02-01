@@ -19,8 +19,8 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA */
-#ifndef TUPLE_STRUCT_H
-#define TUPLE_STRUCT_H
+#ifndef SELECTIVITY_READER_H
+#define SELECTIVITY_READER_H
 
 #include <sys/types.h>
 #include <vector>
@@ -31,4 +31,4 @@ using std::string;
 void GetSelectivitiesFromFile(string Filepath);
 
 
-#endif /* TUPLE_STRUCT_H */
+#endif /* SELECTIVITY_READER_H */
