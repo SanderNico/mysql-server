@@ -86,4 +86,3 @@ namespace inmemoryselectivitytable{
 
 }
 inmemoryselectivitytable::Table *InMemorySelectivityTable;
-inmemoryselectivitytable::Table InMemorySelectivityTable->SetTable(GetSelectivitiesFromFile("/home/jaasvest/selectivities.csv"));
