@@ -44,7 +44,9 @@ namespace inmemoryselectivitytable{
   }
 
   void SetTable(std::vector<std::tuple<string, string, string, double>> rows){
-    Table::Rows = rows;
+    for(auto row : rows){
+      Table::AddRow(std::get<0>(row),std::get<1>(row),std::get<2>(row),std::get<3>(row));
+    }
   }
 
   double Table::GetSelectivityForCondition(Item *condition, string *trace){
