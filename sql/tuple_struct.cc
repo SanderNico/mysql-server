@@ -5,6 +5,7 @@
 #include <vector>
 #include "sql/tuple_struct.h"
 #include "sql/item.h"
+#include "sql/join_optimizer/print_utils.h"
 #include "sql/join_optimizer/selectivity_reader.h"
 
 using std::string;
