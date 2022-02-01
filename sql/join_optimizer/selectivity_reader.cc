@@ -18,10 +18,12 @@ void GetSelectivitiesFromFile(string Filepath){
         while(getline(file, line)){
             std::stringstream str(line);
 
-            InMemorySelectivityTable->AddRow(line.substr(0,line.find(",")), 
-                                                    line.substr(1,line.find(",")),
-                                                    line.substr(2,line.find(",")),
-                                                    stod(line.substr(3,line.find(","))));
+            // InMemorySelectivityTable->AddRow(line.substr(0,line.find(",")), 
+            //                                         line.substr(1,line.find(",")),
+            //                                         line.substr(2,line.find(",")),
+            //                                         stod(line.substr(3,line.find(","))));
+            InMemorySelectivityTable->AddRow("cn.country_code", "=", "'[de]'", 0.036);
         }
     }
+    InMemorySelectivityTable->AddRow("k.keyword", "=", "'character-name-in-title'", 0.00000423);
 }
