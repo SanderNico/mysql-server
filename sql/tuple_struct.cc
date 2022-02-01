@@ -28,7 +28,7 @@ namespace inmemoryselectivitytable{
    * Table
    */
 
-  Table::Table(){GetSelectivitiesFromFile("../../selectivities.csv");}
+  Table::Table(){GetSelectivitiesFromFile("../../../selectivities.csv");}
 
   std::vector<Row> Table::Rows;
 
