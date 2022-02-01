@@ -25,6 +25,7 @@
 #include <sys/types.h>
 #include <vector>
 #include <string>
+#include "sql/tuple_struct.h"
 
 
 using std::string;

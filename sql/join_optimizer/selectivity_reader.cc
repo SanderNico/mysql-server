@@ -6,7 +6,6 @@
 #include <vector>
 #include <tuple>
 #include "selectivity_reader.h"
-#include "sql/tuple_struct.h"
 
 using std::string;
 
