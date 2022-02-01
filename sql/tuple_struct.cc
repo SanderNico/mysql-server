@@ -52,7 +52,7 @@ namespace inmemoryselectivitytable{
       if (trace != nullptr) {
           *trace +=
               StringPrintf("TABLE::ROWS = %s",
-                           a.c_str());
+                           std::get<0>(Table::Rows.at(it).Get()).c_str());
       }
 
       if(a != string::npos && b != string::npos){
