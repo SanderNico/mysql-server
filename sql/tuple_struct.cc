@@ -38,7 +38,7 @@ namespace inmemoryselectivitytable{
   }
 
   void Table::AddRow(string a, string op, string b, double sel){
-    Row::Tuple.AddContent(a, op, b, sel);
+    Row::AddContent(a, op, b, sel);
     Table::AddRow(Row::Tuple);
   }
 
