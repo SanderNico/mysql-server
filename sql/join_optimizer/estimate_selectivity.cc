@@ -118,7 +118,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   if(condition->type() == Item::FUNC_ITEM){
     double selectivity = -1.0;
      
-    selectivity = InMemorySelectivityTable->GetSelectivityForCondition(condition, trace);
+    selectivity = InMemorySelectivityTable->GetSelectivityForCondition(condition);
 
     if (selectivity >= 0.0){
       if (trace != nullptr) {
