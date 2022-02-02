@@ -13,16 +13,28 @@ std::vector<std::tuple<string, string, string, double>> GetSelectivitiesFromFile
     string line, word, tuplestring;
 
     std::vector<std::tuple<string, string, string, double>> rows;
+    std::vector<string> row;
+
+    string a, op, b;
+    double sel;
 
     std::fstream file(Filepath, std::ios::in);
     if(file.is_open()){
-        while(getline(file, line)){
+        while(std::getline(file, line)){
+            row.clear()
+
             std::stringstream str(line);
 
-            rows.emplace_back(std::make_tuple(line.substr(0,line.find(",")), 
-                                line.substr(1,line.find(",")),
-                                line.substr(2,line.find(",")),
-                                std::stod(line.substr(3,line.find(",")))));
+            while(std::getline(str, word, ',')){
+                row.push_back(word);
+            }
+
+            a = row[0];
+            op = row[1];
+            b = row[2];
+            sel = std::stod(row[3]);
+
+            rows.emplace_back(std::make_tuple(a, op, b, sel));
         }
     }
     return rows;
