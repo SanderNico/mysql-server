@@ -21,7 +21,7 @@ std::vector<std::tuple<string, string, string, double>> GetSelectivitiesFromFile
     std::fstream file(Filepath, std::ios::in);
     if(file.is_open()){
         while(std::getline(file, line)){
-            row.clear()
+            row.clear();
 
             std::stringstream str(line);
 
