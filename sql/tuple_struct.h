@@ -32,7 +32,7 @@ using std::string;
 
 namespace inmemoryselectivitytable{
     struct Row {
-        static std::tuple<string, string, string, double> Tuple;
+        std::tuple<string, string, string, double> Tuple;
 
         static void AddContent(string a, string op, string b, double sel);
         static std::tuple<string, string, string, double> Get();
