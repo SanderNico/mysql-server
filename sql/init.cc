@@ -65,5 +65,5 @@ void unireg_init(ulong options) {
   (void)my_stpcpy(reg_ext, ".frm");
   reg_ext_length = 4;
   specialflag = options; /* Set options from argv */
-  InMemorySelectivityTable->SetTable(GetSelectivitiesFromFile("/home/jaasvest/selectivities.csv"));
+  InMemorySelectivityTable->SetTable(GetSelectivitiesFromFile("/home/jaasvest/fixed_selectivities.csv"));
 }
