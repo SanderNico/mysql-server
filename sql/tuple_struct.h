@@ -34,8 +34,8 @@ namespace inmemoryselectivitytable{
     struct Row {
         std::tuple<string, string, string, double> Tuple;
 
-        static void AddContent(string a, string op, string b, double sel);
-        static std::tuple<string, string, string, double> Get();
+        void AddContent(string a, string op, string b, double sel);
+        std::tuple<string, string, string, double> Get();
     };
 
     struct Table{

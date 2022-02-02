@@ -15,7 +15,7 @@ namespace inmemoryselectivitytable{
   /*
    * Row
    */
-  std::tuple<string, string, string, double> Row::Tuple;
+  // std::tuple<string, string, string, double> Row::Tuple;
 
   void Row::AddContent(string a, string op, string b, double sel){
     Row::Tuple = std::make_tuple(a, op, b, sel);
@@ -45,7 +45,7 @@ namespace inmemoryselectivitytable{
 
   void Table::AddRow(string a, string op, string b, double sel, string *trace){
     Row row;
-    row.Tuple = std::make_tuple(a, op, b, sel);
+    row.AddContent(a, op, b, sel);
     Table::AddRow(row, trace);
   }
 
