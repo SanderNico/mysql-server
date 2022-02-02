@@ -44,8 +44,8 @@ namespace inmemoryselectivitytable{
   }
 
   void Table::SetTable(std::vector<std::tuple<string, string, string, double>> rows){
-    for(auto row : rows){
-      Table::AddRow(std::get<0>(row),std::get<1>(row),std::get<2>(row),std::get<3>(row));
+    for(std::vector<std::tuple<string, string, string, double>>::size_type it = 0; it != rows.size(); it++){
+      Table::AddRow(std::get<0>(rows.at(it)),std::get<1>(rows.at(it)),std::get<2>(rows.at(it)),std::get<3>(rows.at(it)));
     }
   }
 
