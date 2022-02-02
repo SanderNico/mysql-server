@@ -38,8 +38,8 @@ namespace inmemoryselectivitytable{
   }
 
   void Table::AddRow(string a, string op, string b, double sel){
-    Row::AddContent(a, op, b, sel);
-    Table::AddRow(Row::Tuple);
+    Row row = std::make_tuple(a, op, b, sel);
+    Table::AddRow(row);
   }
 
   void Table::SetTable(std::vector<std::tuple<string, string, string, double>> rows){
