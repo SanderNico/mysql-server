@@ -34,7 +34,7 @@ namespace inmemoryselectivitytable{
   std::vector<Row> Table::Rows;
 
   void Table::AddRow(Row row){
-    Table::Rows.push_back(row);
+    Table::Rows.emplace_back(row);
   }
 
   void Table::AddRow(string a, string op, string b, double sel){
@@ -43,13 +43,13 @@ namespace inmemoryselectivitytable{
     Table::AddRow(row);
   }
 
-  void Table::SetTable(std::vector<std::tuple<string, string, string, double>> rows, string *trace){
+  void Table::SetTable(std::vector<std::tuple<string, string, string, double>> rows){
     for(std::vector<std::tuple<string, string, string, double>>::size_type it = 0; it != rows.size(); it++){
       Table::AddRow(std::get<0>(rows.at(it)),std::get<1>(rows.at(it)),std::get<2>(rows.at(it)),std::get<3>(rows.at(it)));
     }
   }
 
-  double Table::GetSelectivityForCondition(Item *condition, string *trace){
+  double Table::GetSelectivityForCondition(Item *condition){
     double selectivity = -1.0;
 
     for(std::vector<std::tuple<string, string, string, double>>::size_type it = 0; it != Table::Rows.size(); it++){
