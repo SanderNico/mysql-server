@@ -43,8 +43,11 @@ namespace inmemoryselectivitytable{
         static std::vector<Row> Rows;
 
         static void AddRow(Row row);
+        static void AddRow(Row row, string *trace);
         static void AddRow(string a, string op, string b, double sel);
+        static void AddRow(string a, string op, string b, double sel, string *trace);
         static void SetTable(std::vector<std::tuple<string, string, string, double>> rows);
+        static void SetTable(std::vector<std::tuple<string, string, string, double>> rows, string *trace);
         static double GetSelectivityForCondition(Item *condition);
         static double GetSelectivityForCondition(Item *condition, string *trace);
     };
