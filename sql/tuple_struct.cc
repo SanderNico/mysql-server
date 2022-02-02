@@ -34,7 +34,7 @@ namespace inmemoryselectivitytable{
   std::vector<Row> Table::Rows;
 
   void Table::AddRow(Row row){
-    Table::Rows.emplace_back(row);
+    Table::Rows.push_back(row);
   }
 
   void Table::AddRow(string a, string op, string b, double sel){
