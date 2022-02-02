@@ -55,13 +55,6 @@ namespace inmemoryselectivitytable{
     for(std::vector<std::tuple<string, string, string, double>>::size_type it = 0; it != Table::Rows.size(); it++){
       std::size_t a = ItemToString(condition).find(std::get<0>(Table::Rows.at(it).Get()));
       std::size_t b = ItemToString(condition).find(std::get<2>(Table::Rows.at(it).Get()));
-
-      if (trace != nullptr) {
-          *trace +=
-              StringPrintf("TABLE::ROWS = %s",
-                           std::get<0>(Table::Rows.at(it).Get()).c_str());
-      }
-
       if(a != string::npos && b != string::npos){
         selectivity = std::get<3>(Table::Rows.at(it).Get());
         return selectivity;
