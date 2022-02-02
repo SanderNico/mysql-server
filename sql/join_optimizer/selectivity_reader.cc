@@ -34,7 +34,7 @@ std::vector<std::tuple<string, string, string, double>> GetSelectivitiesFromFile
             b = row[2];
             sel = std::stod(row[3]);
 
-            rows.emplace_back(std::make_tuple(a, op, b, sel));
+            rows.push_back(std::make_tuple(a, op, b, sel));
         }
     }
     return rows;
