@@ -33,29 +33,23 @@ namespace inmemoryselectivitytable{
 
   std::vector<Row> Table::Rows;
 
-  void Table::AddRow(Row row, string *trace){
+  void Table::AddRow(Row row){
     Table::Rows.push_back(row);
-
-    if (trace != nullptr) {
-          *trace +=
-              StringPrintf("TABLE::ROW - %s\n",
-                           (std::get<0>(row.Get())).c_str());
-        }
   }
 
-  void Table::AddRow(string a, string op, string b, double sel, string *trace){
+  void Table::AddRow(string a, string op, string b, double sel){
     Row row;
     row.AddContent(a, op, b, sel);
-    Table::AddRow(row, trace);
+    Table::AddRow(row);
   }
 
-  void Table::SetTable(std::vector<std::tuple<string, string, string, double>> rows, string *trace){
+  void Table::SetTable(std::vector<std::tuple<string, string, string, double>> rows){
     for(std::vector<std::tuple<string, string, string, double>>::size_type it = 0; it != rows.size(); it++){
-      Table::AddRow(std::get<0>(rows.at(it)),std::get<1>(rows.at(it)),std::get<2>(rows.at(it)),std::get<3>(rows.at(it)), trace);
+      Table::AddRow(std::get<0>(rows.at(it)),std::get<1>(rows.at(it)),std::get<2>(rows.at(it)),std::get<3>(rows.at(it)));
     }
   }
 
-  double Table::GetSelectivityForCondition(Item *condition, string *trace){
+  double Table::GetSelectivityForCondition(Item *condition){
     double selectivity = -1.0;
 
     for(std::vector<std::tuple<string, string, string, double>>::size_type it = 0; it != Table::Rows.size(); it++){
