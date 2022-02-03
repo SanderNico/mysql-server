@@ -25,7 +25,7 @@ std::vector<std::tuple<string, string, string, double>> GetSelectivitiesFromFile
 
             std::stringstream str(line);
 
-            while(std::getline(str, word, ',')){
+            while(std::getline(str, word, ';')){
                 row.push_back(word);
             }
 
