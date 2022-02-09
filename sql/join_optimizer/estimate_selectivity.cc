@@ -114,6 +114,12 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     return (condition->val_int() != 0) ? 1.0 : 0.0;
   }
 
+  if (trace != nullptr) {
+          *trace +=
+              StringPrintf(" CONDITION TYPE: %s\n",
+                           ItemToString(condition->type()).c_str());
+        }
+
   //Check if conditions are part of the JOB query
   if(condition->type() == Item::FUNC_ITEM){
     double selectivity = -1.0;
