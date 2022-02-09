@@ -106,7 +106,7 @@ static double EstimateFieldSelectivity(Field *field, string *trace) {
   TODO(sgunders): In some cases, composite indexes might allow us to do better
   for joins with multiple predicates.
  */
-double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
+double EstimateSelectivity(THD *thd, Item *condition) {
   // If the item is a true constant, we can say immediately whether it passes
   // or filters all rows. (Actually, calling get_filtering_effect() below
   // would crash if used_tables() is zero, which it is for const items.)
