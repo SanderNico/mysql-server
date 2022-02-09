@@ -121,7 +121,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         }
 
   //Check if conditions are part of the JOB query
-  if(condition->type() == Item::FUNC_ITEM){
+  if(condition->type() == Item::FUNC_ITEM || condition->type() == Item::COND_ITEM){
     double selectivity = -1.0;
      
     selectivity = InMemorySelectivityTable->GetSelectivityForCondition(condition, trace);
