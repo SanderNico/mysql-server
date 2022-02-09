@@ -116,7 +116,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
   if (trace != nullptr) {
           *trace +=
-              StringPrintf(" CONDITION TYPE: %s\n",
+              StringPrintf(" CONDITION TYPE: %d\n",
                            condition->type());
         }
 
