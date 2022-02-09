@@ -49,12 +49,18 @@ namespace inmemoryselectivitytable{
     }
   }
 
-  double Table::GetSelectivityForCondition(Item *condition){
+  double Table::GetSelectivityForCondition(Item *condition, string *trace){
     double selectivity = -1.0;
 
     for(std::vector<std::tuple<string, string, string, double>>::size_type it = 0; it != Table::Rows.size(); it++){
       std::size_t a = ItemToString(condition).find(std::get<0>(Table::Rows.at(it).Get()));
       std::size_t b = ItemToString(condition).find(std::get<2>(Table::Rows.at(it).Get()));
+
+      if (trace != nullptr) {
+          *trace +=
+              StringPrintf(" - GET<0>: %s, GET<2>: %s\n",
+                           std::get<0>(Table::Rows.at(it).Get()), std::get<2>(Table::Rows.at(it).Get()));
+        }
 
       if(a != string::npos && b != string::npos){
         selectivity = std::get<3>(Table::Rows.at(it).Get());
