@@ -117,7 +117,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   if (trace != nullptr) {
           *trace +=
               StringPrintf(" CONDITION TYPE: %s\n",
-                           ItemToString(condition->type()).c_str());
+                           (condition->type()).c_str());
         }
 
   //Check if conditions are part of the JOB query
