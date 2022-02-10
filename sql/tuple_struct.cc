@@ -57,11 +57,11 @@ namespace inmemoryselectivitytable{
       std::size_t op = ItemToString(condition).find(std::get<1>(Table::Rows.at(it).Get()));
       std::size_t b = ItemToString(condition).find(std::get<2>(Table::Rows.at(it).Get()));
 
-      if (trace != nullptr) {
-          *trace +=
-              StringPrintf(" - GET<0>: %s, GET<1>: %s, GET<2>: %s\n",
-                           std::get<0>(Table::Rows.at(it).Get()).c_str(), std::get<1>(Table::Rows.at(it).Get()).c_str(), std::get<2>(Table::Rows.at(it).Get()).c_str());
-        }
+      // if (trace != nullptr) {
+      //     *trace +=
+      //         StringPrintf(" - GET<0>: %s, GET<1>: %s, GET<2>: %s\n",
+      //                      std::get<0>(Table::Rows.at(it).Get()).c_str(), std::get<1>(Table::Rows.at(it).Get()).c_str(), std::get<2>(Table::Rows.at(it).Get()).c_str());
+      //   }
 
       if(a != string::npos && op != string::npos && b != string::npos){
         selectivity = std::get<3>(Table::Rows.at(it).Get());
