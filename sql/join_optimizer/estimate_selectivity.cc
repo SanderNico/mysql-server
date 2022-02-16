@@ -114,27 +114,34 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     return (condition->val_int() != 0) ? 1.0 : 0.0;
   }
 
-  if (trace != nullptr) {
-          *trace +=
-              StringPrintf(" CONDITION TYPE: %d\n",
-                           condition->type());
-        }
+  const bool current_auto_statistics =
+      thd->optimizer_switch_flag(OPTIMIZER_SWITCH_AUTO_STATISTICS);
+  
+  if(current_auto_statistics){
+    if (trace != nullptr) {
+              *trace +=
+                  StringPrintf(" CONDITION TYPE: %d\n",
+                              condition->type());
+            }
 
-  //Check if conditions are part of the JOB query
-  if(condition->type() == Item::FUNC_ITEM || condition->type() == Item::COND_ITEM){
-    double selectivity = -1.0;
-     
-    selectivity = InMemorySelectivityTable->GetSelectivityForCondition(condition, trace);
+      //Check if conditions are part of the JOB query
+      if(condition->type() == Item::FUNC_ITEM || condition->type() == Item::COND_ITEM){
+        double selectivity = -1.0;
+        
+        selectivity = InMemorySelectivityTable->GetSelectivityForCondition(condition, trace);
 
-    if (selectivity >= 0.0){
-      if (trace != nullptr) {
-          *trace +=
-              StringPrintf(" - used hardcoded selectivity for %s, selectivity = %.3f\n",
-                           ItemToString(condition).c_str(), selectivity);
-        }
-        return selectivity;
+        if (selectivity >= 0.0){
+          if (trace != nullptr) {
+              *trace +=
+                  StringPrintf(" - used hardcoded selectivity for %s, selectivity = %.3f\n",
+                              ItemToString(condition).c_str(), selectivity);
+            }
+            return selectivity;
+          }
       }
   }
+
+  
 
   // For field = field (e.g. t1.x = t2.y), we try to use index information
   // to find a better selectivity estimate. We look for indexes on both
