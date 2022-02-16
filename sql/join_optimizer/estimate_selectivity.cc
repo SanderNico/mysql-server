@@ -44,6 +44,7 @@
 #include "template_utils.h"
 #include "sql/tuple_struct.h"
 #include "sql/join_optimizer/selectivity_reader.h"
+#include "sql/sql_class.h"
 
 using std::string;
 
