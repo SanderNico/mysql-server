@@ -230,7 +230,7 @@ int TableScanIterator::Read() {
 
   char *message_text = (char *) &m_record;
   push_warning(current_thd, Sql_condition::SL_WARNING, ER_WARN_DEPRECATED_SYNTAX,
-                m_record);
+                message_text);
 
   if (m_examined_rows != nullptr) {
     ++*m_examined_rows;
