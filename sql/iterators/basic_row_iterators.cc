@@ -220,7 +220,7 @@ int TableScanIterator::Read() {
   int tmp;
   while ((tmp = table()->file->ha_rnd_next(m_record))) {
 
-    const char *message_text = m_record;
+    char *message_text = m_record;
 
     push_warning(current_thd, Sql_condition::SL_WARNING, ER_WARN_DEPRECATED_SYNTAX,
                 message_text);
