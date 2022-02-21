@@ -225,7 +225,7 @@ int TableScanIterator::Read() {
     char *message_text = (char *) &m_record;
 
     push_warning(current_thd, Sql_condition::SL_WARNING, ER_WARN_DEPRECATED_SYNTAX,
-                static_cast<char*>(i));
+                static_cast<char>(i));
 
     i++;
     /*
