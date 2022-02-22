@@ -228,7 +228,7 @@ int TableScanIterator::Read() {
   }
   for(unsigned int i = 0; i < table()->s->fields; i++){
     Field *field = table()->field[i];
-    printf("%s\n", field->field_name)
+    printf("%s\n", field->field_name);
     if(bitmap_is_set(table()->read_set, field->field_index())){
       if(field->is_real_null()){
         printf("NULL");
