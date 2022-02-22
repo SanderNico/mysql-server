@@ -228,9 +228,11 @@ int TableScanIterator::Read() {
     return HandleError(tmp);
   }
 
-  char *message_text = (char *) &m_record;
-  push_warning(current_thd, Sql_condition::SL_WARNING, ER_WARN_DEPRECATED_SYNTAX,
+  char *message_text = (char *) &m_record; 
+  if(m_record == 'movie'){
+    push_warning(current_thd, Sql_condition::SL_WARNING, ER_WARN_DEPRECATED_SYNTAX,
                 message_text);
+  }
 
   if (m_examined_rows != nullptr) {
     ++*m_examined_rows;
