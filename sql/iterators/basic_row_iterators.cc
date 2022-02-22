@@ -233,7 +233,7 @@ int TableScanIterator::Read() {
       if(field->is_real_null()){
         printf("NULL");
       }else{
-        String buf;
+        String str;
         String *res = field->val_str(&str);
         printf("%s\n", res->c_ptr_safe());
       }
