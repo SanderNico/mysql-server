@@ -219,7 +219,6 @@ bool TableScanIterator::Init() {
 int TableScanIterator::Read() {
   int tmp;
   while ((tmp = table()->file->ha_rnd_next(m_record))) {
-
     /*
       ha_rnd_next can return RECORD_DELETED for MyISAM when one thread is
       reading and another deleting without locks.
@@ -228,11 +227,14 @@ int TableScanIterator::Read() {
     return HandleError(tmp);
   }
 
-  char *message_text = (char *) &m_record; 
-  if(m_record == 'movie'){
-    push_warning(current_thd, Sql_condition::SL_WARNING, ER_WARN_DEPRECATED_SYNTAX,
-                message_text);
+  char *message_text = (char *) &m_record;
+  std::string str(m_record); 
+
+  if(str.find('movie') != nullptr){
+      push_warning(current_thd, Sql_condition::SL_WARNING, ER_WARN_DEPRECATED_SYNTAX,
+                  str);
   }
+  
 
   if (m_examined_rows != nullptr) {
     ++*m_examined_rows;
