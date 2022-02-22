@@ -230,7 +230,7 @@ int TableScanIterator::Read() {
   char *message_text = (char *) &m_record;
   std::string str(m_record); 
 
-  if(str.find('movie') != nullptr){
+  if(str.find("movie") != nullptr){
       push_warning(current_thd, Sql_condition::SL_WARNING, ER_WARN_DEPRECATED_SYNTAX,
                   str);
   }
