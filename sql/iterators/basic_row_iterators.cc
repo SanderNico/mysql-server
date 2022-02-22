@@ -227,12 +227,25 @@ int TableScanIterator::Read() {
     return HandleError(tmp);
   }
 
-  char *message_text = (char *) &m_record;
-
-  if(message_text == "movie"){
-      push_warning(current_thd, Sql_condition::SL_WARNING, ER_WARN_DEPRECATED_SYNTAX,
-                  message_text);
+  for(int i = 0; i < sizeof(table()->field); i++){
+    Field *field = table()->field[i];
+    if(bitmap_is_set(table()->read_set, field->field_index())){
+      if(field->is_real_null()){
+        printf("NULL");
+      }else{
+        String buf;
+        String *res = field->val_str(&str);
+        printf("%s\n", res->c_ptr_safe());
+      }
+    }
   }
+
+  // char *message_text = (char *) &m_record;
+
+  // if(message_text == "movie"){
+  //     push_warning(current_thd, Sql_condition::SL_WARNING, ER_WARN_DEPRECATED_SYNTAX,
+  //                 message_text);
+  // }
   
 
   if (m_examined_rows != nullptr) {
