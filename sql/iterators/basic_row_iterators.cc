@@ -229,7 +229,7 @@ int TableScanIterator::Read() {
 
   char *message_text = (char *) &m_record;
 
-  if(m_record == "movie"){
+  if(message_text == "movie"){
       push_warning(current_thd, Sql_condition::SL_WARNING, ER_WARN_DEPRECATED_SYNTAX,
                   message_text);
   }
