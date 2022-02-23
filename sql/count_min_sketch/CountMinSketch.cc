@@ -3,7 +3,7 @@
 # include <cstdlib>
 # include <ctime>
 # include <limits>
-# include "CountMinSketch.h"
+# include "sql/count_min_sketch/CountMinSketch.h"
 
 /**
    Class definition for CountMinSketch.
