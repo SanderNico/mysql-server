@@ -54,6 +54,7 @@
 #include "sql/sql_tmp_table.h"
 #include "sql/system_variables.h"
 #include "sql/table.h"
+#include "sql/count_min_sketch/CountMinSketch.h"
 
 struct POSITION;
 
@@ -239,6 +240,12 @@ int TableScanIterator::Read() {
       }
     }
   }
+
+  ContMinSketch c(0.01, 0.1);
+  c.update("test", 2);
+  c.update(20, 1);
+
+  printf("%d\n", c.estimate("test"));
 
   // char *message_text = (char *) &m_record;
 
