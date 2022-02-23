@@ -21,7 +21,7 @@
 // ep -> error 0.01 < ep < 1 (the smaller the better)
 // gamma -> probability for error (the smaller the better) 0 < gamm < 1
 CountMinSketch::CountMinSketch(float ep, float gamm) {
-  CountMinSketch::epsilon = ep;
+  epsilon = ep;
   CountMinSketch::gamma = gamm;
   CountMinSketch::width = ceil(exp(1)/epsilon);
   CountMinSketch::depth = ceil(log(1/gamma));
