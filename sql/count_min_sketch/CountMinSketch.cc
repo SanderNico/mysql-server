@@ -21,26 +21,26 @@
 // ep -> error 0.01 < ep < 1 (the smaller the better)
 // gamma -> probability for error (the smaller the better) 0 < gamm < 1
 CountMinSketch::CountMinSketch(float ep, float gamm) {
-  epsilon = ep;
-  gamma = gamm;
-  width = ceil(exp(1)/epsilon);
-  depth = ceil(log(1/gamma));
-  total = 0;
+  CountMinSketch::epsilon = ep;
+  CountMinSketch::gamma = gamm;
+  CountMinSketch::width = ceil(exp(1)/epsilon);
+  CountMinSketch::depth = ceil(log(1/gamma));
+  CountMinSketch::total = 0;
   // initialize counter array of arrays, C
-  C = new int *[depth];
+  CountMinSketch::C = new int *[depth];
   unsigned int i, j;
-  for (i = 0; i < depth; i++) {
-    C[i] = new int[width];
-    for (j = 0; j < width; j++) {
-      C[i][j] = 0;
+  for (i = 0; i < CountMinSketch::depth; i++) {
+    CountMinSketch::C[i] = new int[width];
+    for (j = 0; j < CountMinSketch::width; j++) {
+      CountMinSketch::C[i][j] = 0;
     }
   }
   // initialize d pairwise independent hashes
   srand(time(NULL));
-  hashes = new int* [depth];
-  for (i = 0; i < depth; i++) {
-    hashes[i] = new int[2];
-    genajbj(hashes, i);
+  CountMinSketch::hashes = new int* [depth];
+  for (i = 0; i < CountMinSketch::depth; i++) {
+    CountMinSketch::hashes[i] = new int[2];
+    CountMinSketch::genajbj(hashes, i);
   }
 }
 
@@ -48,16 +48,16 @@ CountMinSketch::CountMinSketch(float ep, float gamm) {
 CountMinSketch::~CountMinSketch() {
   // free array of counters, C
   unsigned int i;
-  for (i = 0; i < depth; i++) {
-    delete[] C[i];
+  for (i = 0; i < CountMinSketch::depth; i++) {
+    delete[] CountMinSketch::C[i];
   }
-  delete[] C;
+  delete[] CountMinSketch::C;
   
   // free array of hash values
-  for (i = 0; i < depth; i++) {
-    delete[] hashes[i];
+  for (i = 0; i < CountMinSketch::depth; i++) {
+    delete[] CountMinSketch::hashes[i];
   }
-  delete[] hashes;
+  delete[] CountMinSketch::hashes;
 }
 
 // CountMinSketch totalcount returns the
@@ -68,11 +68,11 @@ unsigned int CountMinSketch::totalcount() {
 
 // countMinSketch update item count (int)
 void CountMinSketch::update(int item, int c) {
-  total = total + c;
+  CountMinSketch::total = total + c;
   unsigned int hashval = 0;
-  for (unsigned int j = 0; j < depth; j++) {
-    hashval = ((long)hashes[j][0]*item+hashes[j][1])%LONG_PRIME%width;
-    C[j][hashval] = C[j][hashval] + c;
+  for (unsigned int j = 0; j < CountMinSketch::depth; j++) {
+    hashval = ((long)CountMinSketch::hashes[j][0]*item+CountMinSketch::hashes[j][1])%LONG_PRIME%width;
+    CountMinSketch::C[j][hashval] = CountMinSketch::C[j][hashval] + c;
   }
 }
 
@@ -86,8 +86,8 @@ void CountMinSketch::update(const char *str, int c) {
 unsigned int CountMinSketch::estimate(int item) {
   int minval = std::numeric_limits<int>::max();
   unsigned int hashval = 0;
-  for (unsigned int j = 0; j < depth; j++) {
-    hashval = ((long)hashes[j][0]*item+hashes[j][1])%LONG_PRIME%width;
+  for (unsigned int j = 0; j < CountMinSketch::depth; j++) {
+    hashval = ((long)CountMinSketch::hashes[j][0]*item+CountMinSketch::hashes[j][1])%LONG_PRIME%width;
     minval = MIN(minval, C[j][hashval]);
   }
   return minval;
