@@ -244,7 +244,7 @@ int TableScanIterator::Read() {
 
   CountMinSketch c(0.01, 0.1);
   c.update("test", 2);
-  c.update(20, 1);
+  //c.update(20, 1);
 
   printf("%d\n", c.estimate("test"));
 
