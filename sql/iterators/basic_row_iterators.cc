@@ -62,6 +62,8 @@ struct POSITION;
 using std::string;
 using std::vector;
 
+CountMinSketch c(0.01, 0.1);
+
 template <bool Reverse>
 IndexScanIterator<Reverse>::IndexScanIterator(THD *thd, TABLE *table, int idx,
                                               bool use_order,
@@ -242,11 +244,10 @@ int TableScanIterator::Read() {
     }
   }
 
-  CountMinSketch c(0.01, 0.1);
   c.update("test", 2);
   //c.update(20, 1);
 
-  printf("%d\n", c.estimate("test"));
+  printf("C ESTIMATE TEST: %d\n", c.estimate("test"));
 
   // char *message_text = (char *) &m_record;
 
