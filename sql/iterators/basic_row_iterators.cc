@@ -231,8 +231,9 @@ int TableScanIterator::Read() {
     return HandleError(tmp);
   }
 
+  const char * TableName = table()->s->table_name.str;
 
-  if(is_user_table(table())){
+  if(table()->s->table_category == TABLE_CATEGORY_USER && (strcmp(TableName, "server_cost") != 0) && (strcmp(TableName, "engine_cost") != 0)){
     for(unsigned int i = 0; i < table()->s->fields; i++){
       Field *field = table()->field[i];
       printf("%s\n", field->field_name);
