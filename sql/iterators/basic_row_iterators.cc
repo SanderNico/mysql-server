@@ -231,7 +231,8 @@ int TableScanIterator::Read() {
     return HandleError(tmp);
   }
 
-  if(table()->s->table_category == TABLE_CATEGORY_USER){
+
+  if(is_user_table(table())){
     for(unsigned int i = 0; i < table()->s->fields; i++){
       Field *field = table()->field[i];
       printf("%s\n", field->field_name);
