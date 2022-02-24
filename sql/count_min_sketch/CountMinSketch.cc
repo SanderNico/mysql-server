@@ -68,13 +68,12 @@ unsigned int CountMinSketch::totalcount() {
 
 // countMinSketch update item count (int)
 void CountMinSketch::update(int item, int c) {
-  // total = total + c;
-  // unsigned int hashval = 0;
-  // for (unsigned int j = 0; j < depth; j++) {
-  //   hashval = ((long)hashes[j][0]*item+hashes[j][1])%LONG_PRIME%width;
-  //   C[j][hashval] = C[j][hashval] + c;
-  // }
-  C[2][3] = 2;
+  total = total + c;
+  unsigned int hashval = 0;
+  for (unsigned int j = 0; j < depth; j++) {
+    hashval = (hashes[j][0]*item+hashes[j][1])%LONG_PRIME%width;
+    C[j][hashval] = C[j][hashval] + c;
+  }
 }
 
 // countMinSketch update item count (string)

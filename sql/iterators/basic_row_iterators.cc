@@ -245,7 +245,7 @@ int TableScanIterator::Read() {
   }
 
   c.update("test", 2);
-  // c.update(20, 1);
+  c.update(20, 1);
 
   printf("C ESTIMATE TEST: %d\n", c.estimate("test"));
 
