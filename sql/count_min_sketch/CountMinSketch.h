@@ -1,4 +1,4 @@
-# define LONG_PRIME 32993
+# define LONG_PRIME 4294967311l
 # define MIN(a,b)  (a < b ? a : b)
 
 /** CountMinSketch class definition here **/
