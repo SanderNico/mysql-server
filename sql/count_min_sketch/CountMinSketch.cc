@@ -113,5 +113,5 @@ unsigned int CountMinSketch::hashstr(const char *str) {
   while ( (c = *str++) ) {
     hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
   }
-  return hash;
+  return hash%std::numeric_limits<int>::max();
 }
