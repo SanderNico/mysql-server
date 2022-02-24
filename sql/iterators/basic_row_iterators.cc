@@ -239,7 +239,7 @@ int TableScanIterator::Read() {
       }else{
         String str;
         String *res = field->val_str(&str);
-        printf("%s\n", res->c_ptr_safe());
+        printf("TABLE NAME: %s,   VALUE/FIELD: %s\n", table()->s->table_name, res->c_ptr_safe());
       }
     }
   }
