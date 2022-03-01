@@ -62,5 +62,5 @@ public:
   ~CountMinSketch();
 };
 
-extern std::map<std::pair<std::string, std::string>, CountMinSketch> *Dictionary;
+extern std::map<std::pair<std::string, std::string>, CountMinSketch> *Dictionary = {};
 #endif /* COUNTMINSKETCH */
