@@ -245,7 +245,7 @@ int TableScanIterator::Read() {
           String str;
           String *res = field->val_str(&str);
           auto key = std::pair<string, string>(tableName, columnName);
-          Dictionary->insert(std::pair<std::pair<string, string>, CountMinSketch>(key, c));
+          Dictionary->insert(std::pair<std::pair, CountMinSketch>(key, c));
           // printf("3");
           // auto c_it = Dictionary->find(std::make_pair(tableName, columnName));
           // printf("4");
