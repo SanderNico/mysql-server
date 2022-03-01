@@ -244,7 +244,8 @@ int TableScanIterator::Read() {
         }else{
           String str;
           String *res = field->val_str(&str);
-          Dictionary->insert(std::make_pair(tableName, columnName), c);
+          auto pair = std::make_pair(tableName, columnName);
+          Dictionary->insert(pair, c);
           // printf("3");
           // auto c_it = Dictionary->find(std::make_pair(tableName, columnName));
           // printf("4");
