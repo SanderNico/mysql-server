@@ -232,8 +232,11 @@ int TableScanIterator::Read() {
   const char * TableName = table()->s->table_name.str;
   
   if(table()->s->table_category == TABLE_CATEGORY_USER && (strcmp(TableName, "server_cost") != 0) && (strcmp(TableName, "engine_cost") != 0)){
+    printf("-2");
     CountMinSketch c(0.01, 0.1);
+    printf("-1");
     std::string tableName = table()->s->table_name.str;
+    printf("0");
     std::string columnName;
     for(unsigned int i = 0; i < table()->s->fields; i++){
       Field *field = table()->field[i];
