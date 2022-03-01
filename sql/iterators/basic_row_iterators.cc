@@ -232,11 +232,8 @@ int TableScanIterator::Read() {
   const char * TableName = table()->s->table_name.str;
   
   if(table()->s->table_category == TABLE_CATEGORY_USER && (strcmp(TableName, "server_cost") != 0) && (strcmp(TableName, "engine_cost") != 0)){
-    printf("-2");
     CountMinSketch c(0.01, 0.1);
-    printf("-1");
     std::string tableName = table()->s->table_name.str;
-    printf("0");
     std::string columnName;
     for(unsigned int i = 0; i < table()->s->fields; i++){
       Field *field = table()->field[i];
@@ -245,16 +242,13 @@ int TableScanIterator::Read() {
         if(field->is_real_null()){
           printf("NULL");
         }else{
-          // String str;
-          // printf("1");
-          // String *res = field->val_str(&str);
-          // printf("2");
-          // Dictionary->emplace(std::make_pair(tableName, columnName), c);
+          String str;
+          String *res = field->val_str(&str);
+          Dictionary->emplace(std::make_pair(tableName, columnName), c);
           // printf("3");
           // auto c_it = Dictionary->find(std::make_pair(tableName, columnName));
           // printf("4");
           // c_it->second.update(res->c_ptr(), 1);
-          printf("5");
         }
       }
     }
