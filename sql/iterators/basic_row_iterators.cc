@@ -232,7 +232,6 @@ int TableScanIterator::Read() {
   const char * TableName = table()->s->table_name.str;
   
   if(table()->s->table_category == TABLE_CATEGORY_USER && (strcmp(TableName, "server_cost") != 0) && (strcmp(TableName, "engine_cost") != 0)){
-    CountMinSketch c(0.01, 0.1);
     std::string tableName = table()->s->table_name.str;
     std::string columnName;
     for(unsigned int i = 0; i < table()->s->fields; i++){
@@ -242,6 +241,7 @@ int TableScanIterator::Read() {
         if(field->is_real_null()){
           printf("NULL");
         }else{
+          CountMinSketch c(0.01, 0.1);
           String str;
           String *res = field->val_str(&str);
           auto key = std::pair<string, string>(tableName, columnName);
