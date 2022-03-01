@@ -243,10 +243,15 @@ int TableScanIterator::Read() {
           printf("NULL");
         }else{
           String str;
+          printf("1");
           String *res = field->val_str(&str);
+          printf("2");
           Dictionary->emplace(std::make_pair(tableName, columnName), c);
+          printf("3");
           auto c_it = Dictionary->find(std::make_pair(tableName, columnName));
+          printf("4");
           c_it->second.update(res->c_ptr(), 1);
+          printf("5");
         }
       }
     }
