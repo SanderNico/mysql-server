@@ -62,8 +62,6 @@ struct POSITION;
 using std::string;
 using std::vector;
 
-CountMinSketch c(0.01, 0.1);
-
 template <bool Reverse>
 IndexScanIterator<Reverse>::IndexScanIterator(THD *thd, TABLE *table, int idx,
                                               bool use_order,
@@ -232,27 +230,27 @@ int TableScanIterator::Read() {
   }
 
   const char * TableName = table()->s->table_name.str;
-
+  
   if(table()->s->table_category == TABLE_CATEGORY_USER && (strcmp(TableName, "server_cost") != 0) && (strcmp(TableName, "engine_cost") != 0)){
+    CountMinSketch c(0.01, 0.1);
+    std::string tableName = std::string str(table()->s->table_name.str);
+    std::string columnName;
     for(unsigned int i = 0; i < table()->s->fields; i++){
       Field *field = table()->field[i];
-      printf("%s\n", field->field_name);
+      columnName = std::string str(field->field_name);
       if(bitmap_is_set(table()->read_set, field->field_index())){
         if(field->is_real_null()){
           printf("NULL");
         }else{
           String str;
           String *res = field->val_str(&str);
-          printf("TABLE NAME: %s,   VALUE/FIELD: %s\n", table()->s->table_name.str, res->c_ptr_safe());
+          Dictionary->emplace(std::pair<tableName, columnName>, c);
+          CountMinSketch *c_ptr = Dictionary->find(std::pair<tableName, columnName>);
+          c_ptr->update(res);
         }
       }
     }
   }
-
-  // c.update("test", 2);
-  c.update(20, 1);
-
-  printf("C ESTIMATE TEST: %d\n", c.estimate(20));
 
   // char *message_text = (char *) &m_record;
 

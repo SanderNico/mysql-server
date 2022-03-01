@@ -1,3 +1,9 @@
+#include <map>
+#include <string>
+
+#ifndef COUNTMINSKETCH
+#define COUNTMINSKETCH
+
 # define LONG_PRIME 4294967311l
 # define MIN(a,b)  (a < b ? a : b)
 
@@ -55,3 +61,6 @@ public:
   // destructor
   ~CountMinSketch();
 };
+
+extern std::map<std::pair<std::string, std::string>, CountMinSketch> *Dictionary;
+#endif /* COUNTMINSKETCH */
