@@ -233,11 +233,11 @@ int TableScanIterator::Read() {
   
   if(table()->s->table_category == TABLE_CATEGORY_USER && (strcmp(TableName, "server_cost") != 0) && (strcmp(TableName, "engine_cost") != 0)){
     CountMinSketch c(0.01, 0.1);
-    std::string tableName = std::string str(table()->s->table_name.str);
+    std::string tableName = table()->s->table_name.str;
     std::string columnName;
     for(unsigned int i = 0; i < table()->s->fields; i++){
       Field *field = table()->field[i];
-      columnName = std::string str(field->field_name);
+      columnName = field->field_name;
       if(bitmap_is_set(table()->read_set, field->field_index())){
         if(field->is_real_null()){
           printf("NULL");
