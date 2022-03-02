@@ -239,7 +239,7 @@ int TableScanIterator::Read() {
       columnName = field->field_name;
       const auto it = Dictionary.find(std::make_pair(tableName, columnName));
       if(it != Dictionary.end()){
-        if(it->second.totalcount >= 9)
+        if(it->second.totalcount() >= 9)
           break;
       }
       if(bitmap_is_set(table()->read_set, field->field_index())){
