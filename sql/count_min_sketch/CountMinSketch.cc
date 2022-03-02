@@ -115,4 +115,4 @@ unsigned int CountMinSketch::hashstr(const char *str) {
   }
   return hash;
 }
-std::map<std::string, std::string> *Dictionary;
+std::map<std::string, std::string> Dictionary;
