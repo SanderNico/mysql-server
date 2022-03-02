@@ -234,12 +234,14 @@ int TableScanIterator::Read() {
   if(table()->s->table_category == TABLE_CATEGORY_USER && (strcmp(TableName, "server_cost") != 0) && (strcmp(TableName, "engine_cost") != 0)){
     std::string tableName = table()->s->table_name.str;
     std::string columnName;
+    
     for(unsigned int i = 0; i < table()->s->fields; i++){
       Field *field = table()->field[i];
       columnName = field->field_name;
-      const auto it = Dictionary.find(std::make_pair(tableName, columnName));
-      if(it != Dictionary.end()){
-        if(it->second.totalcount() >= 9)
+      const auto it_dict = Dictionary.find(std::make_pair(tableName, columnName));
+      if(it_dict != Dictionary.end()){
+        const auto it_tab = Tables.find(tableName);
+        if(it_dict->second.totalcount() >= it_tab->second)
           break;
       }
       if(bitmap_is_set(table()->read_set, field->field_index())){
