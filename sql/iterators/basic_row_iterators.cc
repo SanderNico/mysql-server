@@ -237,6 +237,11 @@ int TableScanIterator::Read() {
     for(unsigned int i = 0; i < table()->s->fields; i++){
       Field *field = table()->field[i];
       columnName = field->field_name;
+      const auto it = Dictionary.find(std::make_pair(tableName, columnName));
+      if(it != Dictionary.end()){
+        if(it->second.totalcount >= 9)
+          break;
+      }
       if(bitmap_is_set(table()->read_set, field->field_index())){
         if(field->is_real_null()){
           printf("NULL");
