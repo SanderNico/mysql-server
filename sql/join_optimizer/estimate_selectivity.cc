@@ -118,6 +118,25 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   const bool current_auto_statistics =
       thd->optimizer_switch_flag(OPTIMIZER_SWITCH_AUTO_STATISTICS);
   
+
+  if (condition->type() == Item::FUNC_ITEM &&
+        down_cast<Item_func *>(condition)->functype() == Item_func::EQ_FUNC) {
+      Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
+      Item *left = eq->arguments()[0];
+      Item *right = eq->arguments()[1];
+      if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
+        double selectivity = -1.0;
+        for (Field *field : {down_cast<Item_field *>(left)->field,
+                            down_cast<Item_field *>(right)->field}) {
+          std::string tableName = field->table_name;
+          std::string fieldName = field->field_name;
+
+          printf("tableNAME: %s, fieldNAME: %s" , tableName, fieldName);
+        }
+      }
+    }
+
+  
   if(current_auto_statistics){
     if (trace != nullptr) {
               *trace +=
