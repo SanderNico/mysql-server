@@ -128,7 +128,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         double selectivity = -1.0;
         for (Field *field : {down_cast<Item_field *>(left)->field,
                             down_cast<Item_field *>(right)->field}) {
-          const char * tableName = field->table_name;
+          const char * tableName = &field->table_name;
           const char * fieldName = field->field_name;
 
           printf("tableNAME: %s, fieldNAME: %s" , tableName, fieldName);
