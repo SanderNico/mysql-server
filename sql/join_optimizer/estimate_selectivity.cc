@@ -45,6 +45,7 @@
 #include "sql/tuple_struct.h"
 #include "sql/join_optimizer/selectivity_reader.h"
 #include "sql/sql_class.h"
+#include "sql/count_min_sketch/CountMinSketch.h"
 
 using std::string;
 
@@ -134,10 +135,12 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         }
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){
-          const char * tableName = field->table_name[0];
-          const char * fieldName = field->field_name;
-
-          printf("tableNAME: %s, fieldNAME: %s\n" , tableName, fieldName);
+          auto dict_it Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
+          if(dict_it != Dictionary.end()){
+            double estimatedRows = (double)dict_it->second.estimate(ItemToString(right));
+            double totalRows = (double)dict_it->second.totalcount();
+            return estimatedRows/totalRows;
+          }
         }
       }
     }
