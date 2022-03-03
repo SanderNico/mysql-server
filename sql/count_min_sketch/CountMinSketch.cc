@@ -82,6 +82,10 @@ void CountMinSketch::update(const char *str, int c) {
   update(hashval, c);
 }
 
+void CountMinSketch::updateTotalCount(){
+  total++;
+}
+
 // CountMinSketch estimate item count (int)
 unsigned int CountMinSketch::estimate(int item) {
   int minval = std::numeric_limits<int>::max();

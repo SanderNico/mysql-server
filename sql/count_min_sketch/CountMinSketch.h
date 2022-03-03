@@ -53,6 +53,7 @@ public:
 
   // return total count
   unsigned int totalcount();
+  void updateTotalCount();
 
   // generates a hash value for a string
   // same as djb2 hash function
