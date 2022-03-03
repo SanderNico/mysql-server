@@ -141,7 +141,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           if(dict_it != Dictionary.end()){
             double estimatedRows = (double)dict_it->second.estimate(ItemToString(right).c_str());
             double totalRows = (double)dict_it->second.totalcount();
-            printf("Estimated rows: %d, total rows: %d", estimatedRows, totalRows);
+            printf("Estimated rows: %f, total rows: %f\n", estimatedRows, totalRows);
             selectivity = estimatedRows/totalRows;
           }
         }
