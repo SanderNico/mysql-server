@@ -118,12 +118,16 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
   const bool current_auto_statistics =
       thd->optimizer_switch_flag(OPTIMIZER_SWITCH_AUTO_STATISTICS);
+  const bool current_job_selectivities =
+      thd->optimizer_switch_flag(OPTIMIZER_SWITCH_JOB_SELECTIVITIES);
   
 
-  if (condition->type() == Item::FUNC_ITEM) {
+  if(current_auto_statistics){
+    if (condition->type() == Item::FUNC_ITEM) {
       Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
       Item *left = eq->arguments()[0];
       Item *right = eq->arguments()[1];
+      double selectivity = -1;
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
         for (Field *field : {down_cast<Item_field *>(left)->field,
                             down_cast<Item_field *>(right)->field}) {
@@ -139,14 +143,22 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           if(dict_it != Dictionary.end()){
             double estimatedRows = (double)dict_it->second.estimate(ItemToString(right).c_str());
             double totalRows = (double)dict_it->second.totalcount();
-            return estimatedRows/totalRows;
+            selectivity = estimatedRows/totalRows;
           }
         }
       }
+      if (selectivity >= 0.0){
+        if (trace != nullptr) {
+          *trace +=
+            StringPrintf(" - used estimated selectivity for %s, selectivity = %.6f\n",
+                        ItemToString(condition).c_str(), selectivity);
+        }
+        return selectivity;
+      }
     }
-
+  }
   
-  if(current_auto_statistics){
+  if(current_job_selectivities){
     if (trace != nullptr) {
               *trace +=
                   StringPrintf(" CONDITION TYPE: %d\n",
