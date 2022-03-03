@@ -125,7 +125,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       Item *left = eq->arguments()[0];
       Item *right = eq->arguments()[1];
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
-        double selectivity = -1.0;
         for (Field *field : {down_cast<Item_field *>(left)->field,
                             down_cast<Item_field *>(right)->field}) {
           
