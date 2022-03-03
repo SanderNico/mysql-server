@@ -245,9 +245,7 @@ int TableScanIterator::Read() {
           break;
       }
       if(bitmap_is_set(table()->read_set, field->field_index())){
-        if(field->is_real_null()){
-          printf("NULL");
-        }else{
+        if(!field->is_real_null()){
           CountMinSketch c(0.001, 0.001);
           String str;
           String *res = field->val_str(&str);

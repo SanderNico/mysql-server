@@ -134,8 +134,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           
           const char * tableName = field->table_name[0];
           const char * fieldName = field->field_name;
-
-          printf("tableNAME: %s, fieldNAME: %s\n" , tableName, fieldName);
         }
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){
