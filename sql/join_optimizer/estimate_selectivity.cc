@@ -135,7 +135,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         }
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){
-          auto dict_it Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
+          auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
             double estimatedRows = (double)dict_it->second.estimate(ItemToString(right));
             double totalRows = (double)dict_it->second.totalcount();
