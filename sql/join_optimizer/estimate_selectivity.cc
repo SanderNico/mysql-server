@@ -118,7 +118,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   const bool current_auto_statistics =
       thd->optimizer_switch_flag(OPTIMIZER_SWITCH_AUTO_STATISTICS);
   
-
+  printf("Test\n");
   if (condition->type() == Item::FUNC_ITEM &&
         down_cast<Item_func *>(condition)->functype() == Item_func::EQ_FUNC) {
       Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
