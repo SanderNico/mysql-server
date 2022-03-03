@@ -123,6 +123,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
       Item *left = eq->arguments()[0];
       Item *right = eq->arguments()[1];
+      printf("Test2\n");
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
         for (Field *field : {down_cast<Item_field *>(left)->field,
                             down_cast<Item_field *>(right)->field}) {
