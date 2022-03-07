@@ -132,8 +132,8 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         for (Field *field : {down_cast<Item_field *>(left)->field,
                             down_cast<Item_field *>(right)->field}) {
           
-          const char * tableName = field->table_name[0];
-          const char * fieldName = field->field_name;
+          // const char * tableName = field->table_name[0];
+          // const char * fieldName = field->field_name;
         }
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){
@@ -145,6 +145,8 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             printf("Estimated rows: %f, total rows: %f, predicate(tostring): %s, hardcodedPredicate: %f\n", 
             estimatedRows, totalRows, ItemToString(right).c_str(), estimateHardcodeRows);
             selectivity = estimatedRows/totalRows;
+
+            printf("selctivity: %f, selectivityEstimateHardcode: %f", selectivity, estimateHardcodeRows/totalRows);
           }
         }
       }
