@@ -247,7 +247,7 @@ int TableScanIterator::Read() {
       if(bitmap_is_set(table()->read_set, field->field_index())){
         if(field->is_real_null()){
           if(it_dict != Dictionary.end()){
-            it_dict->second.updateTotalCount();
+            //it_dict->second.updateTotalCount();
           }
         }else{
           CountMinSketch c(0.001, 0.001);
