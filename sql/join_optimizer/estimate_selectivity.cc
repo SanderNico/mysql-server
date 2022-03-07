@@ -139,7 +139,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         for(Field *field : {down_cast<Item_field *>(left)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
-            double estimatedRows = (double)dict_it->second.estimate(ItemToString(right).c_str());
+            double estimatedRows = (double)dict_it->second.estimate("'[nl]'");
             double totalRows = (double)dict_it->second.totalcount();
             printf("Estimated rows: %f, total rows: %f\n", estimatedRows, totalRows);
             selectivity = estimatedRows/totalRows;
