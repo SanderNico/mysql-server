@@ -139,16 +139,16 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         for(Field *field : {down_cast<Item_field *>(left)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
-            std::string predicate = ItemToString(right);
-            predicate.erase(remove(predicate.begin(), predicate.end(), '\''), predicate.end());
-            double estimatedRows = (double)dict_it->second.estimate(predicate.c_str());
-            double estimateHardcodeRows = (double)dict_it->second.estimate("'[nl]'");
-            double totalRows = (double)dict_it->second.totalcount();
-            printf("Estimated rows: %f, total rows: %f, predicate(tostring): %s, hardcodedPredicate: %f\n", 
-            estimatedRows, totalRows, ItemToString(right).c_str(), estimateHardcodeRows);
-            selectivity = estimatedRows/totalRows;
+            // Parsing the predicate, removing '
+            std::string parsedPredicate = ItemToString(right);
+            parsedPredicate.erase(remove(parsedPredicate.begin(), parsedPredicate.end(), '\''), parsedPredicate.end());
 
-            printf("selctivity: %f, selectivityEstimateHardcode: %f\n", selectivity, estimateHardcodeRows/totalRows);
+            // Estimate selectivity using countminsketch
+            double estimatedRows = (double)dict_it->second.estimate(parsedPredicate.c_str());
+            double totalRows = (double)dict_it->second.totalcount();
+            printf("Estimated rows: %f, total rows: %f, predicate(tostring): %s\n", 
+            estimatedRows, totalRows, parsedPredicate);
+            selectivity = estimatedRows/totalRows;
           }
         }
       }
