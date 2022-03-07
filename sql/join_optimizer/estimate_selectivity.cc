@@ -146,7 +146,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             estimatedRows, totalRows, ItemToString(right).c_str(), estimateHardcodeRows);
             selectivity = estimatedRows/totalRows;
 
-            printf("selctivity: %f, selectivityEstimateHardcode: %f", selectivity, estimateHardcodeRows/totalRows);
+            printf("selctivity: %f, selectivityEstimateHardcode: %f\n", selectivity, estimateHardcodeRows/totalRows);
           }
         }
       }
