@@ -255,9 +255,9 @@ int TableScanIterator::Read() {
           String *res = field->val_str(&str);
           const auto [c_it, success] = Dictionary.emplace(std::make_pair(tableName, columnName), c);
           //printf("Updating tn: %s, cn: %s\n", tableName, columnName);
-          c_it->second.update(res->c_ptr_safe(), 1);
+          c_it->second.update(res->c_ptr(), 1);
           //int result = c_it->second.estimate(res->c_ptr());
-          //printf("%d, %s\n", result, res->c_ptr());
+          printf("%d, %s\n", result, res->c_ptr());
         }
       }
     }
