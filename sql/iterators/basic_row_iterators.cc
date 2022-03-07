@@ -247,10 +247,10 @@ int TableScanIterator::Read() {
       if(bitmap_is_set(table()->read_set, field->field_index())){
         if(field->is_real_null()){
           if(it_dict != Dictionary.end()){
-            //it_dict->second.updateTotalCount();
+            it_dict->second.updateTotalCount();
           }
         }else{
-          CountMinSketch c(0.1, 0.1);
+          CountMinSketch c(0.01, 0.001);
           String str;
           String *res = field->val_str(&str);
           const auto [c_it, success] = Dictionary.emplace(std::make_pair(tableName, columnName), c);
