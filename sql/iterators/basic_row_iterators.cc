@@ -264,7 +264,7 @@ int TableScanIterator::Read() {
           }else{
             // Inserts into CountMinSketch
 
-            CountMinSketch c(0.01, 0.001);
+            CountMinSketch c(0.01, 0.01);
             String str;
             String *res = field->val_str(&str);
             const auto [c_it, success] = Dictionary.emplace(std::make_pair(tableName, columnName), c);

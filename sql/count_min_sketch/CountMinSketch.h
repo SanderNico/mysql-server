@@ -62,6 +62,6 @@ public:
   // destructor
   // ~CountMinSketch();
 };
-extern std::map<std::string, int> Tables;
+extern std::map<std::string, unsigned int> Tables;
 extern std::map<std::pair<std::string, std::string>, CountMinSketch> Dictionary;
 #endif /* COUNTMINSKETCH */
