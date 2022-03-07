@@ -250,7 +250,7 @@ int TableScanIterator::Read() {
             //it_dict->second.updateTotalCount();
           }
         }else{
-          CountMinSketch c(0.001, 0.001);
+          CountMinSketch c(0.1, 0.1);
           String str;
           String *res = field->val_str(&str);
           const auto [c_it, success] = Dictionary.emplace(std::make_pair(tableName, columnName), c);
