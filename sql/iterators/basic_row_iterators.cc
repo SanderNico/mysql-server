@@ -231,7 +231,7 @@ int TableScanIterator::Read() {
 
   const char * TableName = table()->s->table_name.str;
 
-  const bool current_auto_statistics = thd->optimizer_switch_flag(OPTIMIZER_SWITCH_AUTO_STATISTICS);
+  const bool current_auto_statistics = thd()->optimizer_switch_flag(OPTIMIZER_SWITCH_AUTO_STATISTICS);
 
   // Creates CountMinSketches
   if(current_auto_statistics){
