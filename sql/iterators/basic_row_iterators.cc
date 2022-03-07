@@ -230,41 +230,46 @@ int TableScanIterator::Read() {
   }
 
   const char * TableName = table()->s->table_name.str;
+
+  const bool current_auto_statistics = thd->optimizer_switch_flag(OPTIMIZER_SWITCH_AUTO_STATISTICS);
+
+  // Creates CountMinSketches
+  if(current_auto_statistics){
   
-  // Checks if the table is user-created
-
-  if(table()->s->table_category == TABLE_CATEGORY_USER && (strcmp(TableName, "server_cost") != 0) && (strcmp(TableName, "engine_cost") != 0)){
-    std::string tableName = table()->s->table_name.str;
-    std::string columnName;
-    
-    // Loops through all columns for table
-    for(unsigned int i = 0; i < table()->s->fields; i++){
-      Field *field = table()->field[i];
-      columnName = field->field_name;
-      const auto it_dict = Dictionary.find(std::make_pair(tableName, columnName));
-
-      // Don't insert into dictionary if already table-scanned
-      if(it_dict != Dictionary.end()){
-        const auto it_tab = Tables.find(tableName);
-        if(it_dict->second.totalcount() >= it_tab->second)
-          break;
-      }
-
+    // Checks if the table is user-created
+    if(table()->s->table_category == TABLE_CATEGORY_USER && (strcmp(TableName, "server_cost") != 0) && (strcmp(TableName, "engine_cost") != 0)){
+      std::string tableName = table()->s->table_name.str;
+      std::string columnName;
       
-      if(bitmap_is_set(table()->read_set, field->field_index())){
-        // Update totalcount if NULL-value
-        if(field->is_real_null()){
-          if(it_dict != Dictionary.end()){
-            it_dict->second.updateTotalCount();
-          }
-        }else{
-          // Inserts into CountMinSketch
+      // Loops through all columns for table
+      for(unsigned int i = 0; i < table()->s->fields; i++){
+        Field *field = table()->field[i];
+        columnName = field->field_name;
+        const auto it_dict = Dictionary.find(std::make_pair(tableName, columnName));
 
-          CountMinSketch c(0.01, 0.001);
-          String str;
-          String *res = field->val_str(&str);
-          const auto [c_it, success] = Dictionary.emplace(std::make_pair(tableName, columnName), c);
-          c_it->second.update(res->c_ptr(), 1);
+        // Don't insert into dictionary if already table-scanned
+        if(it_dict != Dictionary.end()){
+          const auto it_tab = Tables.find(tableName);
+          if(it_dict->second.totalcount() >= it_tab->second)
+            break;
+        }
+
+        
+        if(bitmap_is_set(table()->read_set, field->field_index())){
+          // Update totalcount if NULL-value
+          if(field->is_real_null()){
+            if(it_dict != Dictionary.end()){
+              it_dict->second.updateTotalCount();
+            }
+          }else{
+            // Inserts into CountMinSketch
+
+            CountMinSketch c(0.01, 0.001);
+            String str;
+            String *res = field->val_str(&str);
+            const auto [c_it, success] = Dictionary.emplace(std::make_pair(tableName, columnName), c);
+            c_it->second.update(res->c_ptr(), 1);
+          }
         }
       }
     }
