@@ -140,7 +140,8 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
             std::string predicate = ItemToString(right);
-            double estimatedRows = (double)dict_it->second.estimate(predicate.erase(remove(predicate.begin(), predicate.end(), '\''), predicate.end().c_str()));
+            predicate.erase(remove(predicate.begin(), predicate.end(), '\''), predicate.end());
+            double estimatedRows = (double)dict_it->second.estimate(predicate.c_str());
             double estimateHardcodeRows = (double)dict_it->second.estimate("'[nl]'");
             double totalRows = (double)dict_it->second.totalcount();
             printf("Estimated rows: %f, total rows: %f, predicate(tostring): %s, hardcodedPredicate: %f\n", 
