@@ -131,9 +131,12 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
         for (Field *field : {down_cast<Item_field *>(left)->field,
                             down_cast<Item_field *>(right)->field}) {
-          
-          // const char * tableName = field->table_name[0];
-          // const char * fieldName = field->field_name;
+          auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
+          if(dict_it != Dictionary.end()){
+            String temp = field->val_str();
+            printf("%s\n",temp.c_ptr());
+            double estimatedRows = (double)dict_it->second.estimate(temp.c_ptr());
+          }
         }
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){

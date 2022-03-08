@@ -60,7 +60,7 @@ public:
   unsigned int hashstr(const char *str);
 
   // destructor
-  ~CountMinSketch();
+  // ~CountMinSketch();
 };
 extern std::map<std::string, unsigned int> Tables;
 extern std::map<std::pair<std::string, std::string>, CountMinSketch> Dictionary;
