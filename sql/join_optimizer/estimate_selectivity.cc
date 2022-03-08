@@ -131,7 +131,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
         string leftString;
         string rightString;
-        string delimiter = "."
+        string delimiter = ".";
         double estimatedRowsLeft;
         double estimatedRowsRight;
         for (Field *field : {down_cast<Item_field *>(left)->field}) {
