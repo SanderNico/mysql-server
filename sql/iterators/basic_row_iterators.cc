@@ -263,7 +263,6 @@ int TableScanIterator::Read() {
             }
           }else{
             // Inserts into CountMinSketch
-
             CountMinSketch c(0.01, 0.01);
             String str;
             String *res = field->val_str(&str);

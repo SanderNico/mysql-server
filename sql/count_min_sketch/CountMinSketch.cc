@@ -45,20 +45,20 @@ CountMinSketch::CountMinSketch(float ep, float gamm) {
 }
 
 // CountMinSkectch destructor
-// CountMinSketch::~CountMinSketch() {
-//   // free array of counters, C
-//   unsigned int i;
-//   for (i = 0; i < depth; i++) {
-//     delete[] C[i];
-//   }
-//   delete[] C;
+CountMinSketch::~CountMinSketch() {
+  // free array of counters, C
+  unsigned int i;
+  for (i = 0; i < depth; i++) {
+    delete[] C[i];
+  }
+  delete[] C;
   
-//   // free array of hash values
-//   for (i = 0; i < depth; i++) {
-//     delete[] hashes[i];
-//   }
-//   delete[] hashes;
-// }
+  // free array of hash values
+  for (i = 0; i < depth; i++) {
+    delete[] hashes[i];
+  }
+  delete[] hashes;
+}
 
 // CountMinSketch totalcount returns the
 // total count of all items in the sketch
