@@ -46,18 +46,23 @@ CountMinSketch::CountMinSketch(float ep, float gamm) {
 
 // CountMinSkectch destructor
 CountMinSketch::~CountMinSketch() {
+  printf("Destroyed1\n");
   // free array of counters, C
   unsigned int i;
   for (i = 0; i < depth; i++) {
     delete[] C[i];
   }
   delete[] C;
+
+  printf("Destroyed2\n");
   
   // free array of hash values
   for (i = 0; i < depth; i++) {
     delete[] hashes[i];
   }
+  printf("Destroyed3\n");
   delete[] hashes;
+  printf("Destroyed4\n");
 }
 
 // CountMinSketch totalcount returns the
