@@ -129,15 +129,21 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       Item *right = eq->arguments()[1];
       double selectivity = -1;
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
-        for (Field *field : {down_cast<Item_field *>(left)->field,
-                            down_cast<Item_field *>(right)->field}) {
+        double estimatedRowsLeft;
+        double estimatedRowsRight;
+        for (Field *field : {down_cast<Item_field *>(left)->field}) {
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
-            String temp = field->val_str;
-            printf("%s\n",temp.c_ptr());
-            double estimatedRows = (double)dict_it->second.estimate(temp.c_ptr());
+            estimatedRowsLeft = (double)dict_it->second.estimate(ItemToString(left).c_str());
           }
         }
+        for(Field *field : {down_cast<Item_field *>(right)->field}){
+           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
+          if(dict_it != Dictionary.end()){
+            estimatedRowsRight = (double)dict_it->second.estimate(ItemToString(right).c_str());
+          }
+        }
+        printf("LEFT: %s, %f,\n RIGHT: %s, %f\n", ItemToString(left).c_str(), estimatedRowsLeft, ItemToString(right).c_str(), estimatedRowsRight);
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
