@@ -129,26 +129,22 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       Item *right = eq->arguments()[1];
       double selectivity = -1;
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
-        string leftString;
-        string rightString;
-        string delimiter = ".";
+
         double estimatedRowsLeft;
         double estimatedRowsRight;
         for (Field *field : {down_cast<Item_field *>(left)->field}) {
-          leftString = ItemToString(left).erase(0, ItemToString(left).find(delimiter) + delimiter.length());
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
-            estimatedRowsLeft = (double)dict_it->second.estimate(leftString.c_str());
+            estimatedRowsLeft = (double)dict_it->second.totalcount();
           }
         }
         for(Field *field : {down_cast<Item_field *>(right)->field}){
-          rightString = ItemToString(right).erase(0, ItemToString(right).find(delimiter) + delimiter.length());
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
-            estimatedRowsRight = (double)dict_it->second.estimate(rightString.c_str());
+            estimatedRowsRight = (double)dict_it->second.totalcount();
           }
         }
-        printf("LEFT: %s, %f,\n RIGHT: %s, %f\n", leftString.c_str(), estimatedRowsLeft, rightString.c_str(), estimatedRowsRight);
+        selectivity = std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight);
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
