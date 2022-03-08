@@ -131,17 +131,18 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
         string leftString;
         string rightString;
+        string delimiter = "."
         double estimatedRowsLeft;
         double estimatedRowsRight;
         for (Field *field : {down_cast<Item_field *>(left)->field}) {
-          leftString = ItemToString(left).substr(1, ItemToString(left).find('.'));
+          leftString = ItemToString(left).erase(0, ItemToString(left).find(delimiter) + delimiter.length());
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
             estimatedRowsLeft = (double)dict_it->second.estimate(leftString.c_str());
           }
         }
         for(Field *field : {down_cast<Item_field *>(right)->field}){
-          rightString = ItemToString(right).substr(1, ItemToString(right).find('.'));
+          rightString = ItemToString(right).substr(0, ItemToString(right).find(delimiter) + delimiter.length());
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
             estimatedRowsRight = (double)dict_it->second.estimate(rightString.c_str());
