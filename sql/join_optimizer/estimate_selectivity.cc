@@ -123,30 +123,31 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   
 
   if(current_auto_statistics){
-    printf(" CONDITION TYPE: %d\n",condition->type());
     if (condition->type() == Item::FUNC_ITEM) {
       Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
       Item *left = eq->arguments()[0];
       Item *right = eq->arguments()[1];
       double selectivity = -1;
-      printf("RIGHT BEFORE LEFT/RIGHT\n");
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
-        printf("GOING INTO LEFT/RIGHT\n");
+        string leftString;
+        string rightString;
         double estimatedRowsLeft;
         double estimatedRowsRight;
         for (Field *field : {down_cast<Item_field *>(left)->field}) {
+          leftString = ItemToString(left).substr(1, ItemToString(left).find('.'));
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
-            estimatedRowsLeft = (double)dict_it->second.estimate(ItemToString(left).c_str());
+            estimatedRowsLeft = (double)dict_it->second.estimate(leftString.c_str());
           }
         }
         for(Field *field : {down_cast<Item_field *>(right)->field}){
-           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
+          rightString = ItemToString(right).substr(1, ItemToString(right).find('.'));
+          auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
-            estimatedRowsRight = (double)dict_it->second.estimate(ItemToString(right).c_str());
+            estimatedRowsRight = (double)dict_it->second.estimate(rightString.c_str());
           }
         }
-        printf("LEFT: %s, %f,\n RIGHT: %s, %f\n", ItemToString(left).c_str(), estimatedRowsLeft, ItemToString(right).c_str(), estimatedRowsRight);
+        printf("LEFT: %s, %f,\n RIGHT: %s, %f\n", leftString.c_str(), estimatedRowsLeft, rightString.c_str(), estimatedRowsRight);
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
