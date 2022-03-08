@@ -133,7 +133,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
                             down_cast<Item_field *>(right)->field}) {
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
-            String temp = field->val_str();
+            String temp = field->val_str;
             printf("%s\n",temp.c_ptr());
             double estimatedRows = (double)dict_it->second.estimate(temp.c_ptr());
           }
