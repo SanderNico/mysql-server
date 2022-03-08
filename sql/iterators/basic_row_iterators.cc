@@ -240,7 +240,7 @@ int TableScanIterator::Read() {
     if(table()->s->table_category == TABLE_CATEGORY_USER && (strcmp(TableName, "server_cost") != 0) && (strcmp(TableName, "engine_cost") != 0)){
       std::string tableName = table()->s->table_name.str;
       std::string columnName;
-      
+      CountMinSketch c(0.01, 0.01);
       // Loops through all columns for table
       for(unsigned int i = 0; i < table()->s->fields; i++){
         Field *field = table()->field[i];
@@ -263,7 +263,6 @@ int TableScanIterator::Read() {
             }
           }else{
             // Inserts into CountMinSketch
-            CountMinSketch c(0.01, 0.01);
             printf("Created CountMinSketch for table %s on column %s+\n", tableName.c_str(), columnName.c_str());
             String str;
             String *res = field->val_str(&str);
