@@ -129,22 +129,25 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       Item *right = eq->arguments()[1];
       double selectivity = -1;
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
-
-        double estimatedRowsLeft;
-        double estimatedRowsRight;
+        printf("1\n");
+        double estimatedRowsLeft = -1;
+        double estimatedRowsRight = -1;
         for (Field *field : {down_cast<Item_field *>(left)->field}) {
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
             estimatedRowsLeft = (double)dict_it->second.totalcount();
           }
         }
+        printf("2\n");
         for(Field *field : {down_cast<Item_field *>(right)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
             estimatedRowsRight = (double)dict_it->second.totalcount();
           }
         }
-        selectivity = std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight);
+        printf("3\n");
+        selectivity = std::max(-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
+        printf("4\n");
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
