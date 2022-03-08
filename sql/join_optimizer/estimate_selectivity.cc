@@ -128,7 +128,9 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       Item *left = eq->arguments()[0];
       Item *right = eq->arguments()[1];
       double selectivity = -1;
+      printf("RIGHT BEFORE LEFT/RIGHT\n");
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
+        printf("GOING INTO LEFT/RIGHT\n");
         double estimatedRowsLeft;
         double estimatedRowsRight;
         for (Field *field : {down_cast<Item_field *>(left)->field}) {
