@@ -147,7 +147,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         }
         printf("3\n");
         selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
-        printf("4\n");
+        printf("4, %f\n", selectivity);
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
