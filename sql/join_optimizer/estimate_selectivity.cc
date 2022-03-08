@@ -142,7 +142,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           }
         }
         for(Field *field : {down_cast<Item_field *>(right)->field}){
-          rightString = ItemToString(right).substr(0, ItemToString(right).find(delimiter) + delimiter.length());
+          rightString = ItemToString(right).erase(0, ItemToString(right).find(delimiter) + delimiter.length());
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
             estimatedRowsRight = (double)dict_it->second.estimate(rightString.c_str());
