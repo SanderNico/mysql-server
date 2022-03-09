@@ -122,56 +122,56 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       thd->optimizer_switch_flag(OPTIMIZER_SWITCH_JOB_SELECTIVITIES);
   
 
-  // if(current_auto_statistics){
-  //   if (condition->type() == Item::FUNC_ITEM) {
-  //     Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
-  //     Item *left = eq->arguments()[0];
-  //     Item *right = eq->arguments()[1];
-  //     double selectivity = -1;
-  //     if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
-  //       double estimatedRowsLeft = -1;
-  //       double estimatedRowsRight = -1;
-  //       for (Field *field : {down_cast<Item_field *>(left)->field}) {
-  //         auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
-  //         if(dict_it != Dictionary.end()){
-  //           estimatedRowsLeft = (double)dict_it->second.totalcount();
-  //         }
-  //       }
-  //       for(Field *field : {down_cast<Item_field *>(right)->field}){
-  //         auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
-  //         if(dict_it != Dictionary.end()){
-  //           estimatedRowsRight = (double)dict_it->second.totalcount();
-  //         }
-  //       }
-  //       selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
-  //       printf("4, %f\n", selectivity);
-  //     }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
-  //       for(Field *field : {down_cast<Item_field *>(left)->field}){
-  //         auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
-  //         if(dict_it != Dictionary.end()){
-  //           // Parsing the predicate, removing '
-  //           std::string parsedPredicate = ItemToString(right);
-  //           parsedPredicate.erase(remove(parsedPredicate.begin(), parsedPredicate.end(), '\''), parsedPredicate.end());
+  if(current_auto_statistics){
+    if (condition->type() == Item::FUNC_ITEM) {
+      Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
+      Item *left = eq->arguments()[0];
+      Item *right = eq->arguments()[1];
+      double selectivity = -1;
+      if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
+        double estimatedRowsLeft = -1;
+        double estimatedRowsRight = -1;
+        for (Field *field : {down_cast<Item_field *>(left)->field}) {
+          auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
+          if(dict_it != Dictionary.end()){
+            estimatedRowsLeft = (double)dict_it->second.totalcount();
+          }
+        }
+        for(Field *field : {down_cast<Item_field *>(right)->field}){
+          auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
+          if(dict_it != Dictionary.end()){
+            estimatedRowsRight = (double)dict_it->second.totalcount();
+          }
+        }
+        selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
+        printf("4, %f\n", selectivity);
+      }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
+        for(Field *field : {down_cast<Item_field *>(left)->field}){
+          auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
+          if(dict_it != Dictionary.end()){
+            // Parsing the predicate, removing '
+            std::string parsedPredicate = ItemToString(right);
+            parsedPredicate.erase(remove(parsedPredicate.begin(), parsedPredicate.end(), '\''), parsedPredicate.end());
 
-  //           // Estimate selectivity using countminsketch
-  //           double estimatedRows = (double)dict_it->second.estimate(parsedPredicate.c_str());
-  //           double totalRows = (double)dict_it->second.totalcount();
-  //           printf("Estimated rows: %f, total rows: %f, predicate(tostring): %s\n", 
-  //           estimatedRows, totalRows, parsedPredicate.c_str());
-  //           selectivity = estimatedRows/totalRows;
-  //         }
-  //       }
-  //     }
-  //     if (selectivity >= 0.0){
-  //       if (trace != nullptr) {
-  //         *trace +=
-  //           StringPrintf(" - used estimated selectivity for %s, selectivity = %.6f\n",
-  //                       ItemToString(condition).c_str(), selectivity);
-  //       }
-  //       return selectivity;
-  //     }
-  //   }
-  // }
+            // Estimate selectivity using countminsketch
+            double estimatedRows = (double)dict_it->second.estimate(parsedPredicate.c_str());
+            double totalRows = (double)dict_it->second.totalcount();
+            printf("Estimated rows: %f, total rows: %f, predicate(tostring): %s\n", 
+            estimatedRows, totalRows, parsedPredicate.c_str());
+            selectivity = estimatedRows/totalRows;
+          }
+        }
+      }
+      if (selectivity >= 0.0){
+        if (trace != nullptr) {
+          *trace +=
+            StringPrintf(" - used estimated selectivity for %s, selectivity = %.6f\n",
+                        ItemToString(condition).c_str(), selectivity);
+        }
+        return selectivity;
+      }
+    }
+  }
   
   if(current_job_selectivities){
     if (trace != nullptr) {
@@ -214,7 +214,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       double selectivity = -1.0;
       for (Field *field : {down_cast<Item_field *>(left)->field,
                            down_cast<Item_field *>(right)->field}) {
-                             printf("forloop\n");
+                             printf("forloop, tablename: %s, columnName: %s\n", field->table_name[0], field->field_name);
         selectivity =
             std::max(selectivity, EstimateFieldSelectivity(field, trace));
       }
