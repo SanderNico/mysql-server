@@ -220,7 +220,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       }
       printf("3\n");
       if (selectivity >= 0.0) {
-        printf("4\n");
+        printf("4, %f\n", selectivity);
         if (trace != nullptr) {
           *trace +=
               StringPrintf(" - used an index for %s, selectivity = %.3f\n",
