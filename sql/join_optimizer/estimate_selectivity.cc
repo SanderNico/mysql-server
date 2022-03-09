@@ -225,7 +225,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
               StringPrintf(" - used an index for %s, selectivity = %.3f\n",
                            ItemToString(condition).c_str(), selectivity);
         }
-        return 0.002;
+        return (double)std::rand()/(double)RAND_MAX;
       }
     }
   }
