@@ -270,7 +270,7 @@ int TableScanIterator::Read() {
               const auto [c_it, success] = Dictionary.emplace(std::make_pair(tableName, columnName), c);
               c_it->second.update(res->c_ptr(), 1);
             }
-          }  
+          } 
         }
       }
     }

@@ -165,6 +165,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           }
         }
       }
+      printf("5\n");
       if (selectivity >= 0.0){
         if (trace != nullptr) {
           *trace +=
@@ -176,6 +177,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     }
   }
   
+  printf("6\n");
   if(current_job_selectivities){
     if (trace != nullptr) {
               *trace +=
@@ -206,8 +208,10 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   // to find a better selectivity estimate. We look for indexes on both
   // fields, and pick the least selective (see EstimateFieldSelectivity()
   // for why).
+  printf("7\n");
   if (condition->type() == Item::FUNC_ITEM &&
       down_cast<Item_func *>(condition)->functype() == Item_func::EQ_FUNC) {
+        printf("8\n");
     Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
     Item *left = eq->arguments()[0];
     Item *right = eq->arguments()[1];
@@ -259,6 +263,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   // If we get more sophisticated cardinality estimation, e.g. by histograms
   // or the likes, we need to revisit this assumption, and potentially adjust
   // our model here.
+  printf("9\n");
   if (condition->type() == Item::FUNC_ITEM &&
       down_cast<Item_func *>(condition)->functype() ==
           Item_func::MULT_EQUAL_FUNC) {
@@ -292,6 +297,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   // equalities would also be resolved through this mechanism. In the hypergraph
   // optimizer, we no longer have a chain, and always estimate selectivity for
   // applicable conditions only; thus, we need to fake that chain for the API.
+  printf("10\n");
   table_map used_tables = condition->used_tables() & ~PSEUDO_TABLE_BITS;
   table_map this_table = IsolateLowestBit(used_tables);
   MY_BITMAP empty;
@@ -306,5 +312,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     *trace += StringPrintf(" - fallback selectivity for %s = %.3f\n",
                            ItemToString(condition).c_str(), selectivity);
   }
+  printf("11\n");
   return selectivity;
 }
