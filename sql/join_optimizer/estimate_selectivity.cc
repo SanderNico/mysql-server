@@ -210,9 +210,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
     Item *left = eq->arguments()[0];
     Item *right = eq->arguments()[1];
-    printf("1\n");
     if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
-      printf("2\n");
       double selectivity = -1.0;
       for (Field *field : {down_cast<Item_field *>(left)->field,
                            down_cast<Item_field *>(right)->field}) {
@@ -220,7 +218,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         selectivity =
             std::max(selectivity, EstimateFieldSelectivity(field, trace));
       }
-      printf("3\n");
       if (selectivity >= 0.0) {
         printf("4, %f\n", selectivity);
         if (trace != nullptr) {
@@ -228,11 +225,9 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
               StringPrintf(" - used an index for %s, selectivity = %.3f\n",
                            ItemToString(condition).c_str(), selectivity);
         }
-        printf("5\n");
         return selectivity;
       }
     }
-    printf("6\n");
   }
 
   // For multi-equalities, we do the same thing. This is maybe surprising;
