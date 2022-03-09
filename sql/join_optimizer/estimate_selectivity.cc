@@ -132,12 +132,14 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         double estimatedRowsLeft = -1;
         double estimatedRowsRight = -1;
         for (Field *field : {down_cast<Item_field *>(left)->field}) {
+          printf("autoStatistics left FORloop, tablename: %s, columnName: %s\n", field->table_name[0], field->field_name);
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
             estimatedRowsLeft = (double)dict_it->second.totalcount();
           }
         }
         for(Field *field : {down_cast<Item_field *>(right)->field}){
+          printf("autoStatistics right FORloop, tablename: %s, columnName: %s\n", field->table_name[0], field->field_name);
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
             estimatedRowsRight = (double)dict_it->second.totalcount();
