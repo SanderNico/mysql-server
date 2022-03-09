@@ -228,9 +228,11 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
               StringPrintf(" - used an index for %s, selectivity = %.3f\n",
                            ItemToString(condition).c_str(), selectivity);
         }
+        printf("5\n");
         return selectivity;
       }
     }
+    printf("6\n");
   }
 
   // For multi-equalities, we do the same thing. This is maybe surprising;
