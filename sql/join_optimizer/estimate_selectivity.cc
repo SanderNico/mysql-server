@@ -109,6 +109,7 @@ static double EstimateFieldSelectivity(Field *field, string *trace) {
   for joins with multiple predicates.
  */
 double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
+  printf("ESTIMATE: START\n");
   // If the item is a true constant, we can say immediately whether it passes
   // or filters all rows. (Actually, calling get_filtering_effect() below
   // would crash if used_tables() is zero, which it is for const items.)
@@ -170,6 +171,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             StringPrintf(" - used estimated selectivity for %s, selectivity = %.6f\n",
                         ItemToString(condition).c_str(), selectivity);
         }
+        printf("AUTO\n");
         return selectivity;
       }
     }
@@ -194,6 +196,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
                   StringPrintf(" - used hardcoded selectivity for %s, selectivity = %.3f\n",
                               ItemToString(condition).c_str(), selectivity);
             }
+            printf("JOB\n");
             return selectivity;
           }
       }
@@ -225,7 +228,8 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
               StringPrintf(" - used an index for %s, selectivity = %.3f\n",
                            ItemToString(condition).c_str(), selectivity);
         }
-        return (double)std::rand()/(double)RAND_MAX;
+        printf("INDEX\n");
+        return selectivity;
       }
     }
   }
@@ -278,6 +282,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         *trace += StringPrintf(" - used an index for %s, selectivity = %.3f\n",
                                ItemToString(condition).c_str(), selectivity);
       }
+      printf("MULTI-EQUALITIES\n");
       return selectivity;
     }
   }
@@ -293,7 +298,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   // equalities would also be resolved through this mechanism. In the hypergraph
   // optimizer, we no longer have a chain, and always estimate selectivity for
   // applicable conditions only; thus, we need to fake that chain for the API.
-  printf("10\n");
   table_map used_tables = condition->used_tables() & ~PSEUDO_TABLE_BITS;
   table_map this_table = IsolateLowestBit(used_tables);
   MY_BITMAP empty;
@@ -308,6 +312,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     *trace += StringPrintf(" - fallback selectivity for %s = %.3f\n",
                            ItemToString(condition).c_str(), selectivity);
   }
-  printf("11\n");
+  printf("FALLBACK\n");
   return selectivity;
 }
