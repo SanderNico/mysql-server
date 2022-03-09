@@ -133,6 +133,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
         double estimatedRowsLeft = -1;
         double estimatedRowsRight = -1;
+        printf("RIGHT ABOVE FOR-LOOP\n");
         for (Field *field : {down_cast<Item_field *>(left)->field}) {
           printf("autoStatistics left FORloop, tablename: %s, columnName: %s\n", field->table_name[0], field->field_name);
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
@@ -150,6 +151,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
         printf("4, %f\n", selectivity);
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
+        printf("ELSE-IF\n");
         for(Field *field : {down_cast<Item_field *>(left)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
@@ -166,6 +168,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           }
         }
       }
+      printf("SELECTIVITY RIGHT ABOVE TRACE: %f\n", selectivity);
       if (selectivity >= 0.0){
         if (trace != nullptr) {
           *trace +=
