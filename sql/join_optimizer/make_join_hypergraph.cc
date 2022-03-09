@@ -3160,7 +3160,7 @@ bool MakeJoinHypergraph(THD *thd, string *trace, JoinHypergraph *graph) {
       std::unique(multiple_equalities.begin(), multiple_equalities.end()),
       multiple_equalities.end());
   CompleteFullMeshForMultipleEqualities(thd, multiple_equalities, graph, trace);
-  prinf("Reached here\n");
+  printf("Reached here\n");
   if (graph->graph.edges.size() != old_graph_edges) {
     // We added at least one cycle-inducing edge.
     PromoteCycleJoinPredicates(thd, root, multiple_equalities, graph, trace);
