@@ -260,7 +260,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   // If we get more sophisticated cardinality estimation, e.g. by histograms
   // or the likes, we need to revisit this assumption, and potentially adjust
   // our model here.
-  printf("9\n");
   if (condition->type() == Item::FUNC_ITEM &&
       down_cast<Item_func *>(condition)->functype() ==
           Item_func::MULT_EQUAL_FUNC) {

@@ -3021,6 +3021,7 @@ void CompleteFullMeshForMultipleEqualities(
         AddMultipleEqualityPredicate(thd, item_equal, &left_field,
                                      left_table_idx, &right_field,
                                      right_table_idx, selectivity, graph);
+                                     printf("7\n");
       }
     }
   }
