@@ -3001,7 +3001,7 @@ void CompleteFullMeshForMultipleEqualities(
     THD *thd, const Mem_root_array<Item_equal *> &multiple_equalities,
     JoinHypergraph *graph, string *trace) {
   for (Item_equal *item_equal : multiple_equalities) {
-    printf("%s\n", ItemToString(item_equal->const_item).c_str());
+    printf("%s\n", ItemToString(item_equal->get_const()).c_str());
     double selectivity = EstimateSelectivity(thd, item_equal, trace);
     for (Item_field &left_field : item_equal->get_fields()) {
       const int left_table_idx =
