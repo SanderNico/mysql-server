@@ -3001,14 +3001,19 @@ void CompleteFullMeshForMultipleEqualities(
     THD *thd, const Mem_root_array<Item_equal *> &multiple_equalities,
     JoinHypergraph *graph, string *trace) {
   for (Item_equal *item_equal : multiple_equalities) {
-    printf("%s\n", ItemToString(item_equal->get_const()).c_str());
+    printf("1\n");
     double selectivity = EstimateSelectivity(thd, item_equal, trace);
+    printf("2\n");
     for (Item_field &left_field : item_equal->get_fields()) {
+      printf("3\n");
       const int left_table_idx =
           left_field.field->table->pos_in_table_list->tableno();
+          printf("4\n");
       for (Item_field &right_field : item_equal->get_fields()) {
+        printf("5\n");
         const int right_table_idx =
             right_field.field->table->pos_in_table_list->tableno();
+            printf("6\n");
         if (right_table_idx <= left_table_idx) {
           continue;
         }
@@ -3160,7 +3165,6 @@ bool MakeJoinHypergraph(THD *thd, string *trace, JoinHypergraph *graph) {
       std::unique(multiple_equalities.begin(), multiple_equalities.end()),
       multiple_equalities.end());
   CompleteFullMeshForMultipleEqualities(thd, multiple_equalities, graph, trace);
-  printf("Reached here\n");
   if (graph->graph.edges.size() != old_graph_edges) {
     // We added at least one cycle-inducing edge.
     PromoteCycleJoinPredicates(thd, root, multiple_equalities, graph, trace);
