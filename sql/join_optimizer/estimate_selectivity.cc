@@ -129,7 +129,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       Item *right = eq->arguments()[1];
       double selectivity = -1;
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
-        printf("1\n");
         double estimatedRowsLeft = -1;
         double estimatedRowsRight = -1;
         for (Field *field : {down_cast<Item_field *>(left)->field}) {
@@ -138,14 +137,12 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             estimatedRowsLeft = (double)dict_it->second.totalcount();
           }
         }
-        printf("2\n");
         for(Field *field : {down_cast<Item_field *>(right)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
           if(dict_it != Dictionary.end()){
             estimatedRowsRight = (double)dict_it->second.totalcount();
           }
         }
-        printf("3\n");
         selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
         printf("4, %f\n", selectivity);
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
@@ -165,7 +162,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           }
         }
       }
-      printf("5\n");
       if (selectivity >= 0.0){
         if (trace != nullptr) {
           *trace +=
@@ -177,7 +173,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     }
   }
   
-  printf("6\n");
   if(current_job_selectivities){
     if (trace != nullptr) {
               *trace +=
@@ -208,21 +203,24 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   // to find a better selectivity estimate. We look for indexes on both
   // fields, and pick the least selective (see EstimateFieldSelectivity()
   // for why).
-  printf("7\n");
   if (condition->type() == Item::FUNC_ITEM &&
       down_cast<Item_func *>(condition)->functype() == Item_func::EQ_FUNC) {
-        printf("8\n");
     Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
     Item *left = eq->arguments()[0];
     Item *right = eq->arguments()[1];
+    printf("1\n");
     if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
+      printf("2\n");
       double selectivity = -1.0;
       for (Field *field : {down_cast<Item_field *>(left)->field,
                            down_cast<Item_field *>(right)->field}) {
+                             printf("forloop\n");
         selectivity =
             std::max(selectivity, EstimateFieldSelectivity(field, trace));
       }
+      printf("3\n");
       if (selectivity >= 0.0) {
+        printf("4\n");
         if (trace != nullptr) {
           *trace +=
               StringPrintf(" - used an index for %s, selectivity = %.3f\n",
