@@ -169,8 +169,9 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       Item *right = eq->arguments()[1];
 
       printf("RIGHT: %s\n", ItemToString(right).c_str());
-      while((&right = *right++)){
-        printf("IN WHILE-LOOP: %s\n", ItemToString(right).c_str());
+      Item c;
+      while((c = *right++)){
+        printf("IN WHILE-LOOP: %s\n", ItemToString(c).c_str());
       }
       
     }
