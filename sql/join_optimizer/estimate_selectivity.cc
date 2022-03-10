@@ -109,7 +109,6 @@ static double EstimateFieldSelectivity(Field *field, string *trace) {
   for joins with multiple predicates.
  */
 double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
-  printf("ESTIMATE: START\n");
   // If the item is a true constant, we can say immediately whether it passes
   // or filters all rows. (Actually, calling get_filtering_effect() below
   // would crash if used_tables() is zero, which it is for const items.)
@@ -126,7 +125,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   if(current_auto_statistics){
     if (condition->type() == Item::FUNC_ITEM &&
       down_cast<Item_func *>(condition)->functype() == Item_func::EQ_FUNC) {
-      printf("FUNC ITEM\n");
       Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
       Item *left = eq->arguments()[0];
       Item *right = eq->arguments()[1];
@@ -134,7 +132,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
         double estimatedRowsLeft = -1;
         double estimatedRowsRight = -1;
-        printf("RIGHT ABOVE FOR-LOOP\n");
         for (Field *field : {down_cast<Item_field *>(left)->field}) {
           printf("autoStatistics left FORloop, tablename: %s, columnName: %s\n", field->table_name[0], field->field_name);
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
@@ -150,11 +147,10 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           }
         }
         selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
-        printf("4, %f\n", selectivity);
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
-        printf("ELSE-IF\n");
         for(Field *field : {down_cast<Item_field *>(left)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
+          printf("tableName: %s, tableNameTest: %s\n", field->table_name[0], field->orig_table_name);
           if(dict_it != Dictionary.end()){
             // Parsing the predicate, removing '
             std::string parsedPredicate = ItemToString(right);
@@ -163,20 +159,16 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             // Estimate selectivity using countminsketch
             double estimatedRows = (double)dict_it->second.estimate(parsedPredicate.c_str());
             double totalRows = (double)dict_it->second.totalcount();
-            printf("Estimated rows: %f, total rows: %f, predicate(tostring): %s, tableName: %s, tableNameTest: %s\n", 
-            estimatedRows, totalRows, parsedPredicate.c_str(), field->table_name[0], field->orig_table_name);
             selectivity = estimatedRows/totalRows;
           }
         }
       }
-      printf("SELECTIVITY RIGHT ABOVE TRACE: %f\n", selectivity);
       if (selectivity >= 0.0){
         if (trace != nullptr) {
           *trace +=
             StringPrintf(" - used estimated selectivity for %s, selectivity = %.6f\n",
                         ItemToString(condition).c_str(), selectivity);
         }
-        printf("AUTO\n");
         return selectivity;
       }
     }
@@ -201,7 +193,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
                   StringPrintf(" - used hardcoded selectivity for %s, selectivity = %.3f\n",
                               ItemToString(condition).c_str(), selectivity);
             }
-            printf("JOB\n");
             return selectivity;
           }
       }
@@ -233,7 +224,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
               StringPrintf(" - used an index for %s, selectivity = %.3f\n",
                            ItemToString(condition).c_str(), selectivity);
         }
-        printf("INDEX\n");
         return selectivity;
       }
     }
@@ -287,7 +277,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         *trace += StringPrintf(" - used an index for %s, selectivity = %.3f\n",
                                ItemToString(condition).c_str(), selectivity);
       }
-      printf("MULTI-EQUALITIES\n");
       return selectivity;
     }
   }
@@ -317,6 +306,5 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     *trace += StringPrintf(" - fallback selectivity for %s = %.3f\n",
                            ItemToString(condition).c_str(), selectivity);
   }
-  printf("FALLBACK\n");
   return selectivity;
 }
