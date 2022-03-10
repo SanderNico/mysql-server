@@ -150,7 +150,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
-          printf("tableName: %s, tableNameTest: %s\n", field->table_name[0], field->orig_table_name);
+          printf("tableName: %s, tableNameTest: %s, \n", field->table_name[0], field->table_name[1]);
           if(dict_it != Dictionary.end()){
             // Parsing the predicate, removing '
             std::string parsedPredicate = ItemToString(right);
