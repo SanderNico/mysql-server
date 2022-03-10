@@ -169,6 +169,9 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       Item *right = eq->arguments()[1];
 
       printf("RIGHT: %s\n", ItemToString(right).c_str());
+      for (Item *object : right){
+        printf("OBJECT: %s\n", ItemToString(object).c_str());
+      }
     }
     if (selectivity >= 0.0){
       if (trace != nullptr) {
