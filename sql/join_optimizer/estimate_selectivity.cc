@@ -133,15 +133,13 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         double estimatedRowsLeft = -1;
         double estimatedRowsRight = -1;
         for (Field *field : {down_cast<Item_field *>(left)->field}) {
-          printf("autoStatistics left FORloop, tablename: %s, columnName: %s\n", field->table_name[0], field->field_name);
-          auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
+          auto dict_it = Dictionary.find(std::make_pair(field->table->s->table_name.str, field->field_name));
           if(dict_it != Dictionary.end()){
             estimatedRowsLeft = (double)dict_it->second.totalcount();
           }
         }
         for(Field *field : {down_cast<Item_field *>(right)->field}){
-          printf("autoStatistics right FORloop, tablename: %s, columnName: %s\n", field->table_name[0], field->field_name);
-          auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
+          auto dict_it = Dictionary.find(std::make_pair(field->table->s->table_name.str, field->field_name));
           if(dict_it != Dictionary.end()){
             estimatedRowsRight = (double)dict_it->second.totalcount();
           }
@@ -149,8 +147,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){
-          auto dict_it = Dictionary.find(std::make_pair(field->table_name[0], field->field_name));
-          printf("tableName: %s, tableNameTest: %s, \n", field->table_name[0], field->table->s->table_name.str);
+          auto dict_it = Dictionary.find(std::make_pair(field->table->s->table_name.str, field->field_name));
           if(dict_it != Dictionary.end()){
             // Parsing the predicate, removing '
             std::string parsedPredicate = ItemToString(right);
@@ -213,9 +210,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       double selectivity = -1.0;
       for (Field *field : {down_cast<Item_field *>(left)->field,
                            down_cast<Item_field *>(right)->field}) {
-                             printf("forloop, tablename: %s, columnName: %s\n", field->table_name[0], field->field_name);
-        selectivity =
-            std::max(selectivity, EstimateFieldSelectivity(field, trace));
+        selectivity = std::max(selectivity, EstimateFieldSelectivity(field, trace));
       }
       if (selectivity >= 0.0) {
         printf("4, %f\n", selectivity);
