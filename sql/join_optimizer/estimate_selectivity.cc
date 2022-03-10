@@ -166,7 +166,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       down_cast<Item_func *>(condition)->functype() == Item_func::IN_FUNC){
       Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
       Item *left = eq->arguments()[0];
-      Item *right = eq->arguments()[1][1];
+      Item right = eq->arguments()[1][1];
 
       printf("RIGHT: %s\n", ItemToString(right).c_str());
     }
