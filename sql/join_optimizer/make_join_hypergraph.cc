@@ -3001,19 +3001,13 @@ void CompleteFullMeshForMultipleEqualities(
     THD *thd, const Mem_root_array<Item_equal *> &multiple_equalities,
     JoinHypergraph *graph, string *trace) {
   for (Item_equal *item_equal : multiple_equalities) {
-    printf("1\n");
     double selectivity = EstimateSelectivity(thd, item_equal, trace);
-    printf("2\n");
     for (Item_field &left_field : item_equal->get_fields()) {
-      printf("3\n");
       const int left_table_idx =
           left_field.field->table->pos_in_table_list->tableno();
-          printf("4\n");
       for (Item_field &right_field : item_equal->get_fields()) {
-        printf("5\n");
         const int right_table_idx =
             right_field.field->table->pos_in_table_list->tableno();
-            printf("6\n");
         if (right_table_idx <= left_table_idx) {
           continue;
         }
@@ -3021,7 +3015,6 @@ void CompleteFullMeshForMultipleEqualities(
         AddMultipleEqualityPredicate(thd, item_equal, &left_field,
                                      left_table_idx, &right_field,
                                      right_table_idx, selectivity, graph);
-                                     printf("7\n");
       }
     }
   }

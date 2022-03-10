@@ -123,6 +123,8 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   
 
   if(current_auto_statistics){
+    printf("CONDITION TYPE: %d, FUNCTYPE: %d\n", condition->type(), down_cast<Item_func *>(condition)->functype());
+    printf("CONDITION: %s\n", ItemToString(condition).c_str());
     if (condition->type() == Item::FUNC_ITEM &&
       down_cast<Item_func *>(condition)->functype() == Item_func::EQ_FUNC) {
       Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
