@@ -163,8 +163,8 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             // Estimate selectivity using countminsketch
             double estimatedRows = (double)dict_it->second.estimate(parsedPredicate.c_str());
             double totalRows = (double)dict_it->second.totalcount();
-            printf("Estimated rows: %f, total rows: %f, predicate(tostring): %s\n", 
-            estimatedRows, totalRows, parsedPredicate.c_str());
+            printf("Estimated rows: %f, total rows: %f, predicate(tostring): %s, tableName: %s, tableNameTest: %s\n", 
+            estimatedRows, totalRows, parsedPredicate.c_str(), field->table_name[0], field->orig_table_name);
             selectivity = estimatedRows/totalRows;
           }
         }
