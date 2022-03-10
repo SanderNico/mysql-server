@@ -171,7 +171,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
        printf("RIGHT: %s\n", ItemToString(right).c_str());
 
       for (Field *field : {down_cast<Item_field *>(right)->field}) {
-        prinf("INTO FOR-LOOP\n");
+        printf("INTO FOR-LOOP\n");
         String str;
         String *res = field->val_str(&str);
         printf("FIELD: %s\n", res->c_ptr());
