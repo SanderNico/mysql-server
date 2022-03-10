@@ -168,18 +168,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       Item *left = eq->arguments()[0];
       Item *right = eq->arguments()[1];
 
-       printf("RIGHT: %s\n", ItemToString(right).c_str());
-
-      for (Field *field : {down_cast<Item_field *>(right)->field}) {
-        printf("INTO FOR-LOOP\n");
-        String str;
-        String *res = field->val_str(&str);
-        printf("FIELD: %s\n", res->c_ptr());
-        //   auto dict_it = Dictionary.find(std::make_pair(field->table->s->table_name.str, field->field_name));
-        //   if(dict_it != Dictionary.end()){
-        //     estimatedRowsLeft = (double)dict_it->second.totalcount();
-        //   }
-        }
+      printf("RIGHT: %s\n", ItemToString(right).c_str());
     }
     if (selectivity >= 0.0){
       if (trace != nullptr) {
