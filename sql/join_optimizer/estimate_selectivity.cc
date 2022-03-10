@@ -170,7 +170,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
       printf("RIGHT: %s\n", ItemToString(right).c_str());
       Item *c;
-      while((c = *right++)){
+      while((*c = *right++)){
         printf("IN WHILE-LOOP: %s\n", ItemToString(c).c_str());
       }
       
