@@ -123,6 +123,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   
 
   if(current_auto_statistics){
+    double selectivity = -1;
     printf("CONDITION TYPE: %d, FUNCTYPE: %d\n", condition->type(), down_cast<Item_func *>(condition)->functype());
     printf("CONDITION: %s\n", ItemToString(condition).c_str());
     if (condition->type() == Item::FUNC_ITEM &&
@@ -130,7 +131,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
       Item *left = eq->arguments()[0];
       Item *right = eq->arguments()[1];
-      double selectivity = -1;
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
         double estimatedRowsLeft = -1;
         double estimatedRowsRight = -1;
@@ -162,14 +162,31 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           }
         }
       }
-      if (selectivity >= 0.0){
-        if (trace != nullptr) {
-          *trace +=
-            StringPrintf(" - used estimated selectivity for %s, selectivity = %.6f\n",
-                        ItemToString(condition).c_str(), selectivity);
+    }else if (condition->type() == Item::FUNC_ITEM &&
+      down_cast<Item_func *>(condition)->functype() == Item_func::IN_FUNC){
+      Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
+      Item *left = eq->arguments()[0];
+      Item *right = eq->arguments()[1];
+
+       printf("RIGHT: %s\n", ItemToString(right).c_str());
+
+      for (Field *field : {down_cast<Item_field *>(right)->field}) {
+        String str;
+        String *res = field->val_str(&str);
+        printf("FIELD: %s\n", res->c_ptr());
+        //   auto dict_it = Dictionary.find(std::make_pair(field->table->s->table_name.str, field->field_name));
+        //   if(dict_it != Dictionary.end()){
+        //     estimatedRowsLeft = (double)dict_it->second.totalcount();
+        //   }
         }
-        return selectivity;
+    }
+    if (selectivity >= 0.0){
+      if (trace != nullptr) {
+        *trace +=
+          StringPrintf(" - used estimated selectivity for %s, selectivity = %.6f\n",
+                      ItemToString(condition).c_str(), selectivity);
       }
+      return selectivity;
     }
   }
   
