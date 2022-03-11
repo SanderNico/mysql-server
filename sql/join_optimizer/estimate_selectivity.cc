@@ -147,6 +147,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           auto dict_it = Dictionary.find(std::make_pair(field->table->s->table_name.str, field->field_name));
           if(dict_it != Dictionary.end()){
             estimatedRowsRight = (double)dict_it->second.totalcount();
+            int * hashes = dict_it->second.getfirstHashes();
             printf("HASH 1: %d, HASH 2: %d", hashes[0], hashes[1]);
           }
         }
