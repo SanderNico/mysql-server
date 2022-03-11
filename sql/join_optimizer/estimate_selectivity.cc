@@ -135,8 +135,12 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       if (left->type() == Item::FIELD_ITEM && right->type() == Item::FIELD_ITEM) {
         double estimatedRowsLeft = -1;
         double estimatedRowsRight = -1;
+
+        auto dict_left;
+        auto dict_right;
         for (Field *field : {down_cast<Item_field *>(left)->field}) {
           auto dict_it = Dictionary.find(std::make_pair(field->table->s->table_name.str, field->field_name));
+          dict_left = dict_it;
           if(dict_it != Dictionary.end()){
             estimatedRowsLeft = (double)dict_it->second.totalcount();
             int * hashes = dict_it->second.getfirstHashes();
@@ -144,12 +148,13 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
             int * hashedRow = dict_it->second.getHashedRow(0);
             for(unsigned int i = 0; i < dict_it->second.getWidth(); i++){
-              printf("HASH: %d, Index: %d\n", hashedRow[i], i);
+              // printf("HASH: %d, Index: %d\n", hashedRow[i], i);
             }
           }
         }
         for(Field *field : {down_cast<Item_field *>(right)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table->s->table_name.str, field->field_name));
+          dict_right = dict_it;
           if(dict_it != Dictionary.end()){
             estimatedRowsRight = (double)dict_it->second.totalcount();
             int * hashes = dict_it->second.getfirstHashes();
@@ -157,10 +162,16 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
             int * hashedRow = dict_it->second.getHashedRow(0);
             for(unsigned int i = 0; i < dict_it->second.getWidth(); i++){
-              printf("HASH: %d, Index: %d\n", hashedRow[i], i);
+              // printf("HASH: %d, Index: %d\n", hashedRow[i], i);
             }
           }
         }
+
+        if(dict_left != Dictionary.end() && dict_right != Dictionary.end()){
+          for(int i = 0; i < dict_left->second.getDepth(); i++){
+          }
+        }
+
         selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){
