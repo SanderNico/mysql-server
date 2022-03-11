@@ -172,6 +172,11 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       printf("RIGHT: %s\n", ItemToString(right).c_str());
       printf("LEFT: %s\n", ItemToString(left).c_str());
 
+      right++;
+
+      printf("RIGHT AFTER ++: %s\n", ItemToString(right).c_str());
+
+
     }
     if (selectivity >= 0.0){
       if (trace != nullptr) {
