@@ -165,33 +165,29 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       }
     }else if (condition->type() == Item::FUNC_ITEM &&
       down_cast<Item_func *>(condition)->functype() == Item_func::IN_FUNC){
+      // For IN - predicates
       Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
       Item *left = eq->arguments()[0];
       Item *right = eq->arguments()[1];
-
       Field *field = down_cast<Item_field *>(left)->field;
 
       auto dict_it = Dictionary.find(std::make_pair(field->table->s->table_name.str, field->field_name));
-      printf("ARG COUNT: %d\n", eq->arg_count);
       if(dict_it != Dictionary.end()){
         double estimatedRows = 0;
         double totalRows = dict_it->second.totalcount();
 
+        // Loops through arguments on right side (therefore starting at 1)
         for (unsigned int i = 1; i < eq->arg_count; i++){
-          
           right = eq->arguments()[i];
+
           // Parsing the predicate, removing '
           std::string parsedPredicate = ItemToString(right);
           parsedPredicate.erase(remove(parsedPredicate.begin(), parsedPredicate.end(), '\''), parsedPredicate.end());
-
           estimatedRows += (double) dict_it->second.estimate(parsedPredicate.c_str());
-          
-          printf("RIGHT: %s\nParsedPredicate: %s", ItemToString(right).c_str(), parsedPredicate.c_str());
+          printf("RIGHT: %s, ParsedPredicate: %s\n", ItemToString(right).c_str(), parsedPredicate.c_str());
        }
-
        selectivity = estimatedRows/totalRows;
       }
-      printf("LEFT: %s\n", ItemToString(left).c_str());
     }
     if (selectivity >= 0.0){
       if (trace != nullptr) {
