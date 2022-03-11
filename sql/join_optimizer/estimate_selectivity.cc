@@ -184,7 +184,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           std::string parsedPredicate = ItemToString(right);
           parsedPredicate.erase(remove(parsedPredicate.begin(), parsedPredicate.end(), '\''), parsedPredicate.end());
 
-          estimatedRows += (double) dict_it->second.estimate(parsedPredicate);
+          estimatedRows += (double) dict_it->second.estimate(parsedPredicate.c_str());
           
           printf("RIGHT: %s\nParsedPredicate: %s", ItemToString(right).c_str(), parsedPredicate.c_str());
        }
