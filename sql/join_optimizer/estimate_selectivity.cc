@@ -136,8 +136,8 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         double estimatedRowsLeft = -1;
         double estimatedRowsRight = -1;
 
-        auto dict_left;
-        auto dict_right;
+        std::map<std::pair<std::string, std::string>, CountMinSketch>::iterator dict_left;
+        std::map<std::pair<std::string, std::string>, CountMinSketch>::iterator dict_right;
         for (Field *field : {down_cast<Item_field *>(left)->field}) {
           auto dict_it = Dictionary.find(std::make_pair(field->table->s->table_name.str, field->field_name));
           dict_left = dict_it;
