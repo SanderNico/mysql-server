@@ -143,7 +143,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             printf("LEFT: HASH 1: %d, HASH 2: %d\n", hashes[0], hashes[1]);
 
             int * hashedRow = dict_it->second.getHashedRow(0);
-            for(unsigned int i = 0; i < dict_it->second.getWidth; i++){
+            for(unsigned int i = 0; i < dict_it->second.getWidth(); i++){
               printf("HASH: %d, Index: %d\n", hashedRow[i], i);
             }
           }
@@ -156,7 +156,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             printf("RIGHT: HASH 1: %d, HASH 2: %d\n", hashes[0], hashes[1]);
 
             int * hashedRow = dict_it->second.getHashedRow(0);
-            for(unsigned int i = 0; i < dict_it->second.getWidth; i++){
+            for(unsigned int i = 0; i < dict_it->second.getWidth(); i++){
               printf("HASH: %d, Index: %d\n", hashedRow[i], i);
             }
           }
