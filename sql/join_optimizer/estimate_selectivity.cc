@@ -172,16 +172,26 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       Field *field = down_cast<Item_field *>(left)->field;
 
       auto dict_it = Dictionary.find(std::make_pair(field->table->s->table_name.str, field->field_name));
-      printf("ARG COUNT: %d", eq->arg_count);
+      printf("ARG COUNT: %d\n", eq->arg_count);
       if(dict_it != Dictionary.end()){
+        double estimatedRows = 0;
+        double totalRows = dict_it->second.totalcount();
+
         for (unsigned int i = 1; i < eq->arg_count; i++){
+          
           right = eq->arguments()[i];
-          printf("RIGHT: %s\n", ItemToString(right).c_str());
+          // Parsing the predicate, removing '
+          std::string parsedPredicate = ItemToString(right);
+          parsedPredicate.erase(remove(parsedPredicate.begin(), parsedPredicate.end(), '\''), parsedPredicate.end());
+
+          estimatedRows += (double) dict_it->second.estimate(parsedPredicate);
+          
+          printf("RIGHT: %s\nParsedPredicate: %s", ItemToString(right).c_str(), parsedPredicate.c_str());
        }
+
+       selectivity = estimatedRows/totalRows;
       }
-
       printf("LEFT: %s\n", ItemToString(left).c_str());
-
     }
     if (selectivity >= 0.0){
       if (trace != nullptr) {
