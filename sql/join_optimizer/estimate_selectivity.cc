@@ -168,7 +168,8 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         }
 
         if(dict_left != Dictionary.end() && dict_right != Dictionary.end()){
-          for(int i = 0; i < dict_left->second.getDepth(); i++){
+          for(unsigned int i = 0; i < dict_left->second.getDepth(); i++){
+            printf("DEPTH: %d", i);
           }
         }
 
