@@ -120,6 +120,21 @@ unsigned int CountMinSketch::hashstr(const char *str) {
   }
   return hash;
 }
+
+unsigned int CountMinSketch::getDepth(){
+  return depth;
+}
+
+unsigned int CountMinSketch::getWidth(){
+  return width;
+}
+
+int * CountMinSketch::getfirstHashes(){
+  return hashes[0];
+}
+
+
+
 std::map<std::string, unsigned int> Tables = {{"aka_name", 1312273}, {"aka_title", 528337}, {"cast_info", 63475835}, {"char_name", 4314864},
 {"comp_cast_type", 4}, {"company_name", 362131}, {"company_type", 4}, {"complete_cast", 135086}, {"info_type", 113}, {"keyword", 236627},
 {"kind_type", 9}, {"link_type", 18}, {"movie_companies", 4958296}, {"movie_info", 29774984}, {"movie_keyword", 7480087}, 

@@ -59,6 +59,12 @@ public:
   // same as djb2 hash function
   unsigned int hashstr(const char *str);
 
+  unsigned int getDepth();
+
+  unsigned int getWidth();
+
+  int * getfirstHashes();
+
   // destructor
   // ~CountMinSketch();
 };
