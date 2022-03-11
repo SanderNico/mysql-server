@@ -167,6 +167,8 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           }
         }
 
+        // AVSLUTTA HER! KJØR DOT-product på hashedROW for alle index? Dobbel for loop
+
         if(dict_left != Dictionary.end() && dict_right != Dictionary.end()){
           for(unsigned int i = 0; i < dict_left->second.getDepth(); i++){
             printf("DEPTH: %d", i);
