@@ -65,6 +65,8 @@ public:
 
   int * getfirstHashes();
 
+  int * getHashedRow(int index);
+
   // destructor
   // ~CountMinSketch();
 };

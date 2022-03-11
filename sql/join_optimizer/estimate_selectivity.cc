@@ -141,6 +141,11 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             estimatedRowsLeft = (double)dict_it->second.totalcount();
             int * hashes = dict_it->second.getfirstHashes();
             printf("LEFT: HASH 1: %d, HASH 2: %d\n", hashes[0], hashes[1]);
+
+            int * hashedRow = dict_it->second.getHashedRow(0);
+            for(unsigned int i = 0; i < dict_it->second.getWidth; i++){
+              printf("HASH: %d, Index: %d\n", hashedRow[i], i);
+            }
           }
         }
         for(Field *field : {down_cast<Item_field *>(right)->field}){
@@ -149,6 +154,11 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             estimatedRowsRight = (double)dict_it->second.totalcount();
             int * hashes = dict_it->second.getfirstHashes();
             printf("RIGHT: HASH 1: %d, HASH 2: %d\n", hashes[0], hashes[1]);
+
+            int * hashedRow = dict_it->second.getHashedRow(0);
+            for(unsigned int i = 0; i < dict_it->second.getWidth; i++){
+              printf("HASH: %d, Index: %d\n", hashedRow[i], i);
+            }
           }
         }
         selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
