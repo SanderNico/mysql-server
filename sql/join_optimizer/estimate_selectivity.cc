@@ -109,6 +109,7 @@ static double EstimateFieldSelectivity(Field *field, string *trace) {
   for joins with multiple predicates.
  */
 double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
+  printf("ESTIMATE START\n");
   // If the item is a true constant, we can say immediately whether it passes
   // or filters all rows. (Actually, calling get_filtering_effect() below
   // would crash if used_tables() is zero, which it is for const items.)
@@ -169,11 +170,8 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       Item *right = eq->arguments()[1];
 
       printf("RIGHT: %s\n", ItemToString(right).c_str());
-      Item *c;
-      while((*c = *right++)){
-        printf("IN WHILE-LOOP: %s\n", ItemToString(c).c_str());
-      }
-      
+      printf("LEFT: %s\n", ItemToString(left).c_str());
+
     }
     if (selectivity >= 0.0){
       if (trace != nullptr) {
@@ -217,6 +215,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   // for why).
   if (condition->type() == Item::FUNC_ITEM &&
       down_cast<Item_func *>(condition)->functype() == Item_func::EQ_FUNC) {
+        printf("INDEX\n");
     Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
     Item *left = eq->arguments()[0];
     Item *right = eq->arguments()[1];
@@ -271,6 +270,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
   if (condition->type() == Item::FUNC_ITEM &&
       down_cast<Item_func *>(condition)->functype() ==
           Item_func::MULT_EQUAL_FUNC) {
+    printf("MULTEQUAL\n");
     Item_equal *equal = down_cast<Item_equal *>(condition);
 
     // These should have been expanded early, before we get here.
