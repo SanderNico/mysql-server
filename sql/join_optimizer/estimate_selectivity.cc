@@ -167,15 +167,10 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       down_cast<Item_func *>(condition)->functype() == Item_func::IN_FUNC){
       Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
       Item *left = eq->arguments()[0];
-      Item *right = eq->arguments()[1];
+      Item *right = eq->arguments()[2];
 
       printf("RIGHT: %s\n", ItemToString(right).c_str());
       printf("LEFT: %s\n", ItemToString(left).c_str());
-
-      right++;
-
-      printf("RIGHT AFTER ++: %s\n", ItemToString(right).c_str());
-
 
     }
     if (selectivity >= 0.0){
