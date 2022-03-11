@@ -172,7 +172,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       
 
       for(Item *test: {(eq->arguments()}){
-        printf("TEST: %s\n", ItemToString(test.c_str());
+        printf("TEST: %s\n", ItemToString(test).c_str());
       }
 
       printf("RIGHT: %s\n", ItemToString(right).c_str());
