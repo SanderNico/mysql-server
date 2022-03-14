@@ -63,7 +63,7 @@ public:
 
   unsigned int getWidth();
 
-  int * getfirstHashes();
+  int * getfirstHashes(int index);
 
   int * getHashedRow(int index);
 

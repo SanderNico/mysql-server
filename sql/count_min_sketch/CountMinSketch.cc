@@ -129,8 +129,8 @@ unsigned int CountMinSketch::getWidth(){
   return width;
 }
 
-int * CountMinSketch::getfirstHashes(){
-  return hashes[0];
+int * CountMinSketch::getfirstHashes(int index){
+  return hashes[index];
 }
 
 int * CountMinSketch::getHashedRow(int index){
