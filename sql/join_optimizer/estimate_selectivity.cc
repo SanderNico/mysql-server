@@ -167,14 +167,18 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             
             for(unsigned int  it = 0; it < dict_left->second.getWidth(); it++){
               rowValue += hashedLeft[it]*hashedRight[it];
+
+              if(i == 0){
+                printf("First rows, LEFT: %d, RIGHT: %d", hashedLeft[it], hashedRight[it]);
+              }
             }
 
             estimatedRows = std::min(estimatedRows, rowValue);
-            printf("DEPTH: %d", i);
+            printf("DEPTH: %d\n", i);
           }
         }
 
-        printf("EstimatedRows: %d", estimatedRows);
+        printf("EstimatedRows: %d\n", estimatedRows);
 
         if(estimatedRows != INT_MAX){
           selectivity = (double) estimatedRows / (estimatedRowsLeft*estimatedRowsRight);
