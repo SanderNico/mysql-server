@@ -170,7 +170,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             }
 
             estimatedRows = std::min(estimatedRows, rowValue);
-            printf("DEPTH: %d, RowValue: %d\n", i, estimatedRows);
+            printf("DEPTH: %d, RowValue: %d\n", i, rowValue);
           }
         }
 
