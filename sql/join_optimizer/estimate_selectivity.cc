@@ -165,8 +165,8 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             int rowValue = 0;
 
             
-            for(unsigned int  i = 0; i < dict_left->second.getWidth(); i++){
-              rowValue += hashedLeft[i]*hashedRight[i];
+            for(unsigned int  it = 0; it < dict_left->second.getWidth(); it++){
+              rowValue += hashedLeft[it]*hashedRight[it];
             }
 
             estimatedRows = std::min(estimatedRows, rowValue);
