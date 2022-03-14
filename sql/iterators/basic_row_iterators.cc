@@ -263,7 +263,7 @@ int TableScanIterator::Read() {
                 it_dict->second.updateTotalCount();
             }else{
               // Inserts into CountMinSketch
-              CountMinSketch c(0.0001, 0.01);
+              CountMinSketch c(0.0001, 0.001);
               printf("Created CountMinSketch for table %s on column %s\n", tableName.c_str(), columnName.c_str());
               String str;
               String *res = field->val_str(&str);
