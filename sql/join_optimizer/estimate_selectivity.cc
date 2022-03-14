@@ -143,13 +143,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           dict_left = dict_it;
           if(dict_it != Dictionary.end()){
             estimatedRowsLeft = (double)dict_it->second.totalcount();
-            int * hashes = dict_it->second.getfirstHashes();
-            printf("LEFT: HASH 1: %d, HASH 2: %d\n", hashes[0], hashes[1]);
-
-            int * hashedRow = dict_it->second.getHashedRow(0);
-            for(unsigned int i = 0; i < dict_it->second.getWidth(); i++){
-              // printf("HASH: %d, Index: %d\n", hashedRow[i], i);
-            }
           }
         }
         for(Field *field : {down_cast<Item_field *>(right)->field}){
@@ -157,25 +150,38 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           dict_right = dict_it;
           if(dict_it != Dictionary.end()){
             estimatedRowsRight = (double)dict_it->second.totalcount();
-            int * hashes = dict_it->second.getfirstHashes();
-            printf("RIGHT: HASH 1: %d, HASH 2: %d\n", hashes[0], hashes[1]);
-
-            int * hashedRow = dict_it->second.getHashedRow(0);
-            for(unsigned int i = 0; i < dict_it->second.getWidth(); i++){
-              // printf("HASH: %d, Index: %d\n", hashedRow[i], i);
-            }
           }
         }
 
         // AVSLUTTA HER! KJØR DOT-product på hashedROW for alle index? Dobbel for loop
 
+        int estimatedRows = INT_MAX;
         if(dict_left != Dictionary.end() && dict_right != Dictionary.end()){
           for(unsigned int i = 0; i < dict_left->second.getDepth(); i++){
+
+            int * hashedLeft = dict_left->second.getHashedRow(i);
+            int * hashedRight = dict_right->second.getHashedRow(i);
+
+            int rowValue = 0;
+
+            
+            for(unsigned int  i = 0; i < dict_left->second.getWidth(); i++){
+              rowValue += hashedLeft[i]*hashedRight[i];
+            }
+
+            estimatedRows = std::min(estimatedRows, rowValue);
             printf("DEPTH: %d", i);
           }
         }
 
-        selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
+        printf("EstimatedRows: %d", estimatedRows);
+
+        if(estimatedRows != INT_MAX){
+          selectivity = (double) estimatedRows / (estimatedRowsLeft*estimatedRowsRight);
+        }
+
+
+        //selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
         for(Field *field : {down_cast<Item_field *>(left)->field}){
           auto dict_it = Dictionary.find(std::make_pair(field->table->s->table_name.str, field->field_name));
