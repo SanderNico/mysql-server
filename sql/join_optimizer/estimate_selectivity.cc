@@ -169,7 +169,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
               rowValue += hashedLeft[it]*hashedRight[it];
 
               if(i == 0){
-                printf("First rows, LEFT: %d, RIGHT: %d", hashedLeft[it], hashedRight[it]);
+                printf("First rows, LEFT: %d, RIGHT: %d\n", hashedLeft[it], hashedRight[it]);
               }
             }
 
