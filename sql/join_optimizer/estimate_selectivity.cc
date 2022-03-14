@@ -157,6 +157,9 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
         int estimatedRows = INT_MAX;
         if(dict_left != Dictionary.end() && dict_right != Dictionary.end()){
+          int * hashLeft = dict_left->second.getfirstHashes();
+          int * hashRight = dict_right->second.getfirstHashes();
+          printf("Hashleft: %d, %d\nHashright: %d, %d\n", hashLeft[0], hashLeft[1], hashRight[0], hashRight[1]);
           for(unsigned int i = 0; i < dict_left->second.getDepth(); i++){
 
             int * hashedLeft = dict_left->second.getHashedRow(i);

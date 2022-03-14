@@ -36,7 +36,7 @@ CountMinSketch::CountMinSketch(float ep, float gamm) {
     }
   }
   // initialize d pairwise independent hashes
-  srand(4215431);
+  srand(565);
   hashes = new int* [depth];
   for (i = 0; i < depth; i++) {
     hashes[i] = new int[2];
