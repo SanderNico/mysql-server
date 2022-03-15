@@ -80,6 +80,7 @@ void CountMinSketch::update(int item, int c) {
 // countMinSketch update item count (string)
 void CountMinSketch::update(const char *str, int c) {
   int hashval = hashstr(str);
+  printf("HASHVAL: %d\n", hashval);
   update(hashval, c);
 }
 
