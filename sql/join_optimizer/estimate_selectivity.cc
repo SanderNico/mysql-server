@@ -165,7 +165,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           printf("Hashleft: %d, %d\n", hash2[0], hash2[1]);
           printf("Hashleft: %d, %d\n", hash3[0], hash3[1]);
           printf("Hashleft: %d, %d\n", hash4[0], hash4[1]);
-
+          int totalError = 0;
           for(unsigned int i = 0; i < dict_left->second.getDepth(); i++){
 
             int * hashedLeft = dict_left->second.getHashedRow(i);
@@ -182,11 +182,12 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             }
             lengthLeft = std::sqrt(lengthLeft);
             lengthRight = std::sqrt(lengthRight);
+            totalError += lengthLeft * lengthRight;
 
             estimatedRows = std::min(estimatedRows, rowValue);
-            printf("Max error: %f \n", dict_left->second.getWidth()*lengthLeft*lengthRight);
             printf("DEPTH: %d, RowValue: %d\n", i, rowValue);
           }
+          printf("Max error: %f \n", (dict_left->second.getWidth()*totalError)/exp());
         }
 
         printf("EstimatedRows: %d\n", estimatedRows);
