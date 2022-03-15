@@ -137,6 +137,14 @@ int * CountMinSketch::getHashedRow(int index){
   return C[index];
 }
 
+double CountMinSketch::getEpsilon(){
+  return (double)epsilon;
+}
+
+double CountMinSketch::getGamma(){
+  return (double)gamma;
+}
+
 
 
 std::map<std::string, unsigned int> Tables = {{"aka_name", 1312273}, {"aka_title", 528337}, {"cast_info", 63475835}, {"char_name", 4314864},

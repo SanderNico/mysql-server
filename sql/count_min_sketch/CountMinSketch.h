@@ -67,6 +67,10 @@ public:
 
   int * getHashedRow(int index);
 
+  double getEpsilon();
+
+  double getGamma();
+
   // destructor
   // ~CountMinSketch();
 };
