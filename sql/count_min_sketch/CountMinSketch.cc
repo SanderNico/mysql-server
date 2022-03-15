@@ -73,6 +73,7 @@ void CountMinSketch::update(int item, int c) {
   unsigned int hashval = 0;
   for (unsigned int j = 0; j < depth; j++) {
     hashval = (hashes[j][0]*item+hashes[j][1])%LONG_PRIME%width;
+    printf("ROUND: %d, HASHVAL: %d\n", j, hashval);
     C[j][hashval] = C[j][hashval] + c;
   }
 }
