@@ -176,18 +176,16 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             double lengthLeft = 0;
             double lengthRight = 0;
             for(unsigned int  it = 0; it < dict_left->second.getWidth(); it++){
-              lengthLeft += (double)hashedLeft[it]*hashedLeft[it];
-              lengthRight += (double)hashedRight[it]*hashedRight[it];
+              lengthLeft += abs((double)hashedLeft[it]);
+              lengthRight += abs((double)hashedRight[it]);
               rowValue += hashedLeft[it]*hashedRight[it];
             }
-            lengthLeft = std::sqrt(lengthLeft);
-            lengthRight = std::sqrt(lengthRight);
-            totalError *= lengthLeft * lengthRight;
-
+            totalError += lengthLeft * lengthRight;
+            printf("Max error ONE ROW: %f \n", 0.00001*lengthLeft * lengthRight);
             estimatedRows = std::min(estimatedRows, rowValue);
             printf("DEPTH: %d, RowValue: %d\n", i, rowValue);
           }
-          printf("Max error: %f \n", (0.00001*totalError)/exp(1));
+          printf("Max error ALL ROWS: %f \n", (0.00001*totalError));
         }
 
         printf("EstimatedRows: %d\n", estimatedRows);
