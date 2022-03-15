@@ -72,7 +72,7 @@ void CountMinSketch::update(int item, int c) {
   total = total + c;
   unsigned int hashval = 0;
   for (unsigned int j = 0; j < depth; j++) {
-    hashval = (hashes[j][0]*item+hashes[j][1])%width;
+    hashval = (hashes[j][0]*item+hashes[j][1])%LONG_PRIME%width;
     C[j][hashval] = C[j][hashval] + c;
   }
 }
@@ -106,8 +106,8 @@ unsigned int CountMinSketch::estimate(const char *str) {
 
 // generates aj,bj from field Z_p for use in hashing
 void CountMinSketch::genajbj(int** hashes, int i) {
-  hashes[i][0] = rand();
-  hashes[i][1] = rand();
+  hashes[i][0] = int(float(rand())*float(LONG_PRIME)/float(RAND_MAX) + 1);
+  hashes[i][1] = int(float(rand())*float(LONG_PRIME)/float(RAND_MAX));
 }
 
 // generates a hash value for a sting
