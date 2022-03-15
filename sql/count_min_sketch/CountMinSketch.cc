@@ -114,7 +114,7 @@ void CountMinSketch::genajbj(int** hashes, int i) {
 // same as djb2 hash function
 unsigned int CountMinSketch::hashstr(const char *str) {
   unsigned long hash = 5381;
-  for (auto c : s) {
+  for (auto c : str) {
         hash = (hash << 5) + hash + c; /* hash * 33 + c */
   }
   return hash;  
