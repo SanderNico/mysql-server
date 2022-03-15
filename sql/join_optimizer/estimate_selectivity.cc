@@ -182,7 +182,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             }
             lengthLeft = std::sqrt(lengthLeft);
             lengthRight = std::sqrt(lengthRight);
-            totalError += lengthLeft * lengthRight;
+            totalError *= lengthLeft * lengthRight;
 
             estimatedRows = std::min(estimatedRows, rowValue);
             printf("DEPTH: %d, RowValue: %d\n", i, rowValue);
