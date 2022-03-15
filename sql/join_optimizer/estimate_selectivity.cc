@@ -187,7 +187,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             estimatedRows = std::min(estimatedRows, rowValue);
             printf("DEPTH: %d, RowValue: %d\n", i, rowValue);
           }
-          printf("Max error: %f \n", (dict_left->second.getWidth()*totalError)/exp());
+          printf("Max error: %f \n", (dict_left->second.getWidth()*totalError)/exp(1));
         }
 
         printf("EstimatedRows: %d\n", estimatedRows);
