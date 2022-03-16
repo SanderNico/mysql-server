@@ -109,7 +109,6 @@ static double EstimateFieldSelectivity(Field *field, string *trace) {
   for joins with multiple predicates.
  */
 double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
-  printf("ESTIMATE START\n");
   // If the item is a true constant, we can say immediately whether it passes
   // or filters all rows. (Actually, calling get_filtering_effect() below
   // would crash if used_tables() is zero, which it is for const items.)
@@ -125,8 +124,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
   if(current_auto_statistics){
     double selectivity = -1;
-    printf("CONDITION TYPE: %d, FUNCTYPE: %d\n", condition->type(), down_cast<Item_func *>(condition)->functype());
-    printf("CONDITION: %s\n", ItemToString(condition).c_str());
     if (condition->type() == Item::FUNC_ITEM &&
       down_cast<Item_func *>(condition)->functype() == Item_func::EQ_FUNC) {
       Item_func_eq *eq = down_cast<Item_func_eq *>(condition);
@@ -163,21 +160,13 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             int * hashedRight = dict_right->second.getHashedRow(i);
 
             int rowValue = 0;
-
-            double lengthLeft = 0;
-            double lengthRight = 0;
             for(unsigned int  it = 0; it < dict_left->second.getWidth(); it++){
-              lengthLeft += abs((double)hashedLeft[it]);
-              lengthRight += abs((double)hashedRight[it]);
               rowValue += hashedLeft[it]*hashedRight[it];
             }
-            printf("Max error ONE ROW: %f \n", dict_left->second.getEpsilon()*lengthLeft * lengthRight);
             estimatedRows = std::min(estimatedRows, rowValue);
-            printf("DEPTH: %d, RowValue: %d\n", i, rowValue);
           }
         }
 
-        printf("EstimatedRows: %d\n", estimatedRows);
 
         if(estimatedRows != INT_MAX){
           selectivity = (double) estimatedRows / (estimatedRowsLeft*estimatedRowsRight);
@@ -221,7 +210,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           std::string parsedPredicate = ItemToString(right);
           parsedPredicate.erase(remove(parsedPredicate.begin(), parsedPredicate.end(), '\''), parsedPredicate.end());
           estimatedRows += (double) dict_it->second.estimate(parsedPredicate.c_str());
-          printf("RIGHT: %s, ParsedPredicate: %s\n", ItemToString(right).c_str(), parsedPredicate.c_str());
        }
        selectivity = estimatedRows/totalRows;
       }
