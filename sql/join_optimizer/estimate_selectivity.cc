@@ -84,7 +84,7 @@ static double EstimateFieldSelectivity(Field *field, string *trace) {
           table->file->stats.records;
       if (trace != nullptr) {
         *trace +=
-            StringPrintf(" - found candidate index %s with selectivity %f\n",
+            StringPrintf(" - found candidate index %s with selectivity %.10f\n",
                          table->key_info[j].name, field_selectivity);
       }
       selectivity = std::max(selectivity, field_selectivity);
@@ -217,7 +217,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     if (selectivity >= 0.0){
       if (trace != nullptr) {
         *trace +=
-          StringPrintf(" - used estimated selectivity for %s, selectivity = %.6f\n",
+          StringPrintf(" - used estimated selectivity for %s, selectivity = %.10f\n",
                       ItemToString(condition).c_str(), selectivity);
       }
       return selectivity;
@@ -240,7 +240,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         if (selectivity >= 0.0){
           if (trace != nullptr) {
               *trace +=
-                  StringPrintf(" - used hardcoded selectivity for %s, selectivity = %.3f\n",
+                  StringPrintf(" - used hardcoded selectivity for %s, selectivity = %.10f\n",
                               ItemToString(condition).c_str(), selectivity);
             }
             return selectivity;
@@ -270,7 +270,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         printf("4, %f\n", selectivity);
         if (trace != nullptr) {
           *trace +=
-              StringPrintf(" - used an index for %s, selectivity = %.3f\n",
+              StringPrintf(" - used an index for %s, selectivity = %.10f\n",
                            ItemToString(condition).c_str(), selectivity);
         }
         return selectivity;
@@ -323,7 +323,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
     }
     if (selectivity >= 0.0) {
       if (trace != nullptr) {
-        *trace += StringPrintf(" - used an index for %s, selectivity = %.3f\n",
+        *trace += StringPrintf(" - used an index for %s, selectivity = %.10f\n",
                                ItemToString(condition).c_str(), selectivity);
       }
       return selectivity;
@@ -352,7 +352,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       /*rows_in_table=*/1000.0);
 
   if (trace != nullptr) {
-    *trace += StringPrintf(" - fallback selectivity for %s = %.3f\n",
+    *trace += StringPrintf(" - fallback selectivity for %s = %.10f\n",
                            ItemToString(condition).c_str(), selectivity);
   }
   return selectivity;
