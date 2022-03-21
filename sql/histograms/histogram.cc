@@ -82,6 +82,7 @@
 #include "sql/tztime.h"       // my_tz_UTC
 #include "sql_string.h"       // String
 #include "template_utils.h"
+#include "sql/count_min_sketch/CountMinSketch.h"
 
 struct TYPELIB;
 
@@ -761,6 +762,21 @@ static bool fill_value_maps(
     for (Field *field : fields) {
       histograms::Value_map_base *value_map =
           value_maps.at(field->field_index()).get();
+      
+
+      //Inserting into Sketch during histogram-updating
+      const char* tableName = table->s->table_name.str;
+      const char* columnName = field->field_name;
+      const auto it_dict = Dictionary.find(std::make_pair(tableName, columnName));
+      String str;
+      String *res = field->val_str(&str);
+      if(it_dict != Dictionary.end()){
+        it_dict->second.update(res->c_ptr(), (int) 100/sample_percentage);
+      }else{
+        CountMinSketch c(0.0001, 0.01);
+        const auto [c_it, success] = Dictionary.emplace(std::make_pair(tableName, columnName), c);
+        c_it->second.update(res->c_ptr(), (int) 100/sample_percentage);
+      }
 
       switch (histograms::field_type_to_value_map_type(field)) {
         case histograms::Value_map_type::STRING: {
