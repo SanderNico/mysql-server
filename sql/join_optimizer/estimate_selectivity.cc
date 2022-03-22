@@ -122,7 +122,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
       thd->optimizer_switch_flag(OPTIMIZER_SWITCH_JOB_SELECTIVITIES);
   
 
-  if(current_auto_statistics){
+  if(true){
     double selectivity = -1;
     if (condition->type() == Item::FUNC_ITEM &&
       down_cast<Item_func *>(condition)->functype() == Item_func::EQ_FUNC) {
