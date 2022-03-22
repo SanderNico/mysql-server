@@ -773,6 +773,7 @@ static bool fill_value_maps(
       if(it_dict != Dictionary.end()){
         it_dict->second.update(res->c_ptr(), (int) 100/sample_percentage);
       }else{
+        printf("Created CountMinSketch for table %s on column %s\n", tableName.c_str(), columnName.c_str());
         CountMinSketch c(0.0001, 0.01);
         const auto [c_it, success] = Dictionary.emplace(std::make_pair(tableName, columnName), c);
         c_it->second.update(res->c_ptr(), (int) 100/sample_percentage);
