@@ -267,7 +267,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         selectivity = std::max(selectivity, EstimateFieldSelectivity(field, trace));
       }
       if (selectivity >= 0.0) {
-        printf("4, %f\n", selectivity);
         if (trace != nullptr) {
           *trace +=
               StringPrintf(" - used an index for %s, selectivity = %.10f\n",
