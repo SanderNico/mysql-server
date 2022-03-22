@@ -769,14 +769,14 @@ static bool fill_value_maps(
       const char* columnName = field->field_name;
       const auto it_dict = Dictionary.find(std::make_pair(tableName, columnName));
       String str;
-      String *res = field->val_str(&str);
+      String *temp = field->val_str(&str);
       if(it_dict != Dictionary.end()){
-        it_dict->second.update(res->c_ptr(), (int) 100/sample_percentage);
+        it_dict->second.update(temp->c_ptr(), (int) 100/sample_percentage);
       }else{
-        printf("Created CountMinSketch for table %s on column %s\n", tableName.c_str(), columnName.c_str());
+        printf("Created CountMinSketch for table %s on column %s\n", tableName, columnName);
         CountMinSketch c(0.0001, 0.01);
         const auto [c_it, success] = Dictionary.emplace(std::make_pair(tableName, columnName), c);
-        c_it->second.update(res->c_ptr(), (int) 100/sample_percentage);
+        c_it->second.update(temp->c_ptr(), (int) 100/sample_percentage);
       }
 
       switch (histograms::field_type_to_value_map_type(field)) {
