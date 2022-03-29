@@ -155,36 +155,33 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         int estimatedRows = INT_MAX;
         int newEstimate = 0;
         if(dict_left != Dictionary.end() && dict_right != Dictionary.end()){
-          int allRowValues [dict_left->second.getDepth()*2];
+          int allRowValues [dict_left->second.getDepth()];
 
           for(unsigned int i = 0; i < dict_left->second.getDepth(); i++){
 
             int * hashedLeft = dict_left->second.getHashedRow(i);
             int * hashedRight = dict_right->second.getHashedRow(i);
 
-            int leftRow = 0;
-            int rightRow = 0;
+            int newRowValue = 0;
 
             int rowValue = 0;
             for(unsigned int  it = 0; it < dict_left->second.getWidth(); it++){
               rowValue += hashedLeft[it]*hashedRight[it];
 
-              leftRow += std::pow((hashedLeft[it] - (1/dict_left->second.getWidth()-1)*(dict_left->second.totalcount()-hashedLeft[it])), 2);
-              rightRow += std::pow((hashedRight[it] - (1/dict_right->second.getWidth()-1)*(dict_right->second.totalcount()-hashedRight[it])), 2);
+              newRowValue += (hashedLeft[it] - (1/dict_left->second.getWidth()-1)*(dict_left->second.totalcount()-hashedLeft[it])) *
+                              (hashedRight[it] - (1/dict_right->second.getWidth()-1)*(dict_right->second.totalcount()-hashedRight[it]));
             }
 
-            leftRow *= ((dict_left->second.getWidth()-1)/dict_left->second.getWidth());
-            rightRow *= ((dict_right->second.getWidth()-1)/dict_right->second.getWidth());
+            newRowValue *= ((dict_left->second.getWidth()-1)/dict_left->second.getWidth());
 
-            allRowValues[i] = leftRow;
-            allRowValues[i+dict_left->second.getDepth()];
+            allRowValues[i] = newRowValue;
             estimatedRows = std::min(estimatedRows, rowValue);
           }
 
           int n = sizeof(allRowValues) / sizeof(allRowValues[0]);
           std::sort(allRowValues, allRowValues + n);
 
-          newEstimate = (allRowValues[dict_left->second.getDepth()] + allRowValues[dict_left->second.getDepth()+1])/2;
+          newEstimate = allRowValues[dict_left->second.getDepth()/2];
         }
 
         double newSelectivity = (double) newEstimate / (estimatedRowsLeft*estimatedRowsRight);
