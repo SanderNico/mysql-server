@@ -172,7 +172,11 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
                               (hashedRight[it] - (1/(dict_right->second.getWidth()-1))*(dict_right->second.totalcount()-hashedRight[it]));
             }
 
+            printf("NewRowValue: %d\n", newRowValue);
+
             newRowValue *= ((dict_left->second.getWidth()-1)/dict_left->second.getWidth());
+
+            printf("NewRowValue AFTER: %d\n", newRowValue);
 
             allRowValues[i] = newRowValue;
             estimatedRows = std::min(estimatedRows, rowValue);
