@@ -162,7 +162,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             int * hashedLeft = dict_left->second.getHashedRow(i);
             int * hashedRight = dict_right->second.getHashedRow(i);
 
-            int newRowValue = 0;
+            double newRowValue = 0;
 
             int rowValue = 0;
             for(unsigned int  it = 0; it < dict_left->second.getWidth(); it++){
@@ -172,13 +172,13 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
                               (hashedRight[it] - (1/(dict_right->second.getWidth()-1))*(dict_right->second.totalcount()-hashedRight[it]));
             }
 
-            printf("NewRowValue: %d\n", newRowValue);
+            printf("NewRowValue: %f\n", newRowValue);
 
             newRowValue = newRowValue * ((dict_left->second.getWidth()-1)/dict_left->second.getWidth());
 
-            printf("NewRowValue AFTER: %d\n", newRowValue);
+            printf("NewRowValue AFTER: %f\n", newRowValue);
 
-            allRowValues[i] = newRowValue;
+            allRowValues[i] = std::ceil(newRowValue);
             estimatedRows = std::min(estimatedRows, rowValue);
           }
 
