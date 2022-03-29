@@ -184,7 +184,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           newEstimate = allRowValues[dict_left->second.getDepth()/2];
         }
 
-        for(int iter = 0; i < dict_left->second.getDepth(); i++){
+        for(int iter = 0; iter < dict_left->second.getDepth(); iter++){
           printf("INDEX: %d, ESTIMATED ROWS: %d\n", iter, allRowValues[iter]);
         }
 
