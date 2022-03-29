@@ -182,11 +182,14 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           std::sort(allRowValues, allRowValues + n);
 
           newEstimate = allRowValues[dict_left->second.getDepth()/2];
+
+
+          for(int iter = 0; iter < dict_left->second.getDepth(); iter++){
+            printf("INDEX: %d, ESTIMATED ROWS: %d\n", iter, allRowValues[iter]);
+          }
         }
 
-        for(int iter = 0; iter < dict_left->second.getDepth(); iter++){
-          printf("INDEX: %d, ESTIMATED ROWS: %d\n", iter, allRowValues[iter]);
-        }
+
 
         double newSelectivity = (double) newEstimate / (estimatedRowsLeft*estimatedRowsRight);
 
