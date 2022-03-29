@@ -194,7 +194,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           selectivity = (double) estimatedRows / (estimatedRowsLeft*estimatedRowsRight);
         }
 
-        printf("ORIGINAL Selectivity: %.8f, NEW selectivity: %.8f", selectivity, newSelectivity);
+        printf("ORIGINAL Selectivity: %.8f, NEW selectivity: %.8f\n", selectivity, newSelectivity);
 
 
         //selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
