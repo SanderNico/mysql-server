@@ -174,7 +174,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
             printf("NewRowValue: %f\n", newRowValue);
 
-            double wVar = (dict_left->second.getWidth()-1)/dict_left->second.getWidth();
+            double wVar = (double)(dict_left->second.getWidth()-1)/dict_left->second.getWidth();
 
             printf("vWAR: %f, DICT LEFT: %d\n", wVar, dict_left->second.getWidth());
 
