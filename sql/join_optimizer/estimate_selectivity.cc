@@ -153,24 +153,48 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         // AVSLUTTA HER! KJØR DOT-product på hashedROW for alle index? Dobbel for loop
 
         int estimatedRows = INT_MAX;
+        int newEstimate = 0;
         if(dict_left != Dictionary.end() && dict_right != Dictionary.end()){
+          int allRowValues [dict_left->second.getDepth()*2];
+
           for(unsigned int i = 0; i < dict_left->second.getDepth(); i++){
 
             int * hashedLeft = dict_left->second.getHashedRow(i);
             int * hashedRight = dict_right->second.getHashedRow(i);
 
+            int leftRow = 0;
+            int rightRow = 0;
+
             int rowValue = 0;
             for(unsigned int  it = 0; it < dict_left->second.getWidth(); it++){
               rowValue += hashedLeft[it]*hashedRight[it];
+
+              leftRow += std::pow((hashedLeft[it] - (1/dict_left->second.getWidth()-1)*(dict_left->second.totalcount()-hashedLeft[it])), 2);
+              rightRow += std::pow((hashedRight[it] - (1/dict_right->second.getWidth()-1)*(dict_right->second.totalcount()-hashedRight[it])), 2);
             }
+
+            leftRow *= ((dict_left->second.getWidth()-1)/dict_left->second.getWidth());
+            rightRow *= ((dict_right->second.getWidth()-1)/dict_right->second.getWidth());
+
+            allRowValues[i] = leftRow;
+            allRowValues[i+dict_left->second.getDepth()];
             estimatedRows = std::min(estimatedRows, rowValue);
           }
+
+          int n = sizeof(allRowValues) / sizeof(allRowValues[0]);
+          std::sort(allRowValues, allRowValues + n);
+
+          newEstimate = (allRowValues[dict_left->second.getDepth()] + allRowValues[dict_left->second.getDepth()+1])/2;
         }
+
+        double newSelectivity = (double) newEstimate / (estimatedRowsLeft*estimatedRowsRight);
 
 
         if(estimatedRows != INT_MAX){
           selectivity = (double) estimatedRows / (estimatedRowsLeft*estimatedRowsRight);
         }
+
+        printf("ORIGINAL Selectivity: %.8f, NEW selectivity: %.8f", selectivity, newSelectivity);
 
 
         //selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
