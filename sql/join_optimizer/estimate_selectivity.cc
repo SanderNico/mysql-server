@@ -156,7 +156,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         int newEstimate = 0;
         if(dict_left != Dictionary.end() && dict_right != Dictionary.end()){
           int allRowValues [dict_left->second.getDepth()];
-          double first = ((double)1/(double)(dict_left->second.getWidth()-1));
+          double averageFactor = ((double)1/(double)(dict_left->second.getWidth()-1));
           for(unsigned int i = 0; i < dict_left->second.getDepth(); i++){
 
             int * hashedLeft = dict_left->second.getHashedRow(i);
@@ -168,20 +168,15 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             for(unsigned int  it = 0; it < dict_left->second.getWidth(); it++){
               rowValue += hashedLeft[it]*hashedRight[it];
 
-              double secondLeft = (double)(dict_left->second.totalcount()-hashedLeft[it]);
-              double secondRight = (double)(dict_right->second.totalcount()-hashedRight[it]);
-              double leftVal = first * secondLeft;
-              double rightVal = first * secondRight;
+              double totalRestLeft = (double)(dict_left->second.totalcount()-hashedLeft[it]);
+              double totalRestRight = (double)(dict_right->second.totalcount()-hashedRight[it]);
+              double leftVal = averageFactor * totalRestLeft;
+              double rightVal = averageFactor * totalRestRight;
 
               newRowValue += (hashedLeft[it] - leftVal) * (hashedRight[it] - rightVal);
-
-              if(it % 250 == 0){
-                printf("RowValue: %d, NewRowValue: %d\n", rowValue, newRowValue);
-                printf("Left: %f, Right %f\n", leftVal, rightVal);
-              }
             }
+
             double wVal = (double)(dict_left->second.getWidth()-1)/dict_left->second.getWidth();
-            printf("wVal: %f\n", wVal);
             double newEstimateValue = (double)newRowValue * wVal;
 
             allRowValues[i] = (int)std::ceil(newEstimateValue);
@@ -191,25 +186,14 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           int n = sizeof(allRowValues) / sizeof(allRowValues[0]);
           std::sort(allRowValues, allRowValues + n);
 
-          newEstimate = allRowValues[dict_left->second.getDepth()/2];
+          //Set estimated rows using CMM
+          estimatedRows = std::min(allRowValues[dict_left->second.getDepth()/2], estimatedRows);
 
-
-          for(unsigned int iter = 0; iter < dict_left->second.getDepth(); iter++){
-            printf("INDEX: %d, ESTIMATED ROWS: %d\n", iter, allRowValues[iter]);
-          }
         }
-
-
-
-        double newSelectivity = (double) newEstimate / (estimatedRowsLeft*estimatedRowsRight);
-
 
         if(estimatedRows != INT_MAX){
           selectivity = (double) estimatedRows / (estimatedRowsLeft*estimatedRowsRight);
         }
-
-        printf("ORIGINAL Selectivity: %.8f, NEW selectivity: %.8f\n", selectivity, newSelectivity);
-
 
         //selectivity = std::max((double)-1, std::max(estimatedRowsLeft, estimatedRowsRight)/(estimatedRowsLeft * estimatedRowsRight));
       }else if(left->type() == Item::FIELD_ITEM && !(right->type() == Item::FIELD_ITEM)){
