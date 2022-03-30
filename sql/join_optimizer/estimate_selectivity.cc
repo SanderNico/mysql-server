@@ -156,7 +156,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         int newEstimate = 0;
         if(dict_left != Dictionary.end() && dict_right != Dictionary.end()){
           int allRowValues [dict_left->second.getDepth()];
-
+          double first = ((double)1/(double)(dict_left->second.getWidth()-1));
           for(unsigned int i = 0; i < dict_left->second.getDepth(); i++){
 
             int * hashedLeft = dict_left->second.getHashedRow(i);
@@ -168,17 +168,16 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             for(unsigned int  it = 0; it < dict_left->second.getWidth(); it++){
               rowValue += hashedLeft[it]*hashedRight[it];
 
-              double first =((double)1/(double)(dict_left->second.getWidth()-1));
-              double second = (double)(dict_left->second.totalcount()-hashedLeft[it]);
-              double leftVal = ((1/(dict_left->second.getWidth()-1))*(dict_left->second.totalcount()-hashedLeft[it]));
-              double rightVal = ((1/(dict_right->second.getWidth()-1))*(dict_right->second.totalcount()-hashedRight[it]));
+              double secondLeft = (double)(dict_left->second.totalcount()-hashedLeft[it]);
+              double secondRight = (double)(dict_right->second.totalcount()-hashedRight[it]);
+              double leftVal = first * secondLeft;
+              double rightVal = first * secondRight;
 
-              newRowValue += (hashedLeft[it] * hashedRight[it]);
+              newRowValue += (hashedLeft[it] - leftVal) * (hashedRight[it] - rightVal);
 
               if(it % 250 == 0){
                 printf("RowValue: %d, NewRowValue: %d\n", rowValue, newRowValue);
                 printf("Left: %f, Right %f\n", leftVal, rightVal);
-                printf("First: %f, Second: %f\n", first, second);
               }
             }
             double wVal = (double)(dict_left->second.getWidth()-1)/dict_left->second.getWidth();
