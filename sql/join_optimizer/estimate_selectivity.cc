@@ -172,7 +172,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
                               (hashedRight[it] - (1/(dict_right->second.getWidth()-1))*(dict_right->second.totalcount()-hashedRight[it]));
 
               if(it % 250 == 0){
-                printf("RowValue: %d, NewRowValue: %f", rowvalue, newRowValue);
+                printf("RowValue: %d, NewRowValue: %f", rowValue, newRowValue);
               }
             }
 
