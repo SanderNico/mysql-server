@@ -179,7 +179,11 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             double wVal = (double)(dict_left->second.getWidth()-1)/dict_left->second.getWidth();
             double newEstimateValue = (double)newRowValue * wVal;
 
-            allRowValues[i] = (int)std::ceil(newEstimateValue);
+            if(std::ceil(newEstimateValue < 0)){
+              allRowValues[i] = INT_MAX;
+            }else {
+              allRowValues[i] = (int)std::ceil(newEstimateValue);
+            }
             estimatedRows = std::min(estimatedRows, rowValue);
           }
 
