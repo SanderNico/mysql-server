@@ -153,7 +153,6 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
         // AVSLUTTA HER! KJØR DOT-product på hashedROW for alle index? Dobbel for loop
 
         int estimatedRows = INT_MAX;
-        int newEstimate = 0;
         if(dict_left != Dictionary.end() && dict_right != Dictionary.end()){
           int allRowValues [dict_left->second.getDepth()];
           double averageFactor = ((double)1/(double)(dict_left->second.getWidth()-1));
