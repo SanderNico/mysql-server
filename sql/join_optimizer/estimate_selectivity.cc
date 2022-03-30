@@ -175,7 +175,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
 
               if(it % 250 == 0){
                 printf("RowValue: %d, NewRowValue: %f\n", rowValue, newRowValue);
-                printf("Left: %d, Right %d\n", leftVal, rightVal);
+                printf("Left: %f, Right %f\n", leftVal, rightVal);
               }
             }
 
