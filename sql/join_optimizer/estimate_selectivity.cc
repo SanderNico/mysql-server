@@ -168,11 +168,10 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             for(unsigned int  it = 0; it < dict_left->second.getWidth(); it++){
               rowValue += hashedLeft[it]*hashedRight[it];
 
-              int leftVal = ((1/(dict_left->second.getWidth()-1))*(dict_left->second.totalcount()-hashedLeft[it]));
-              int rightVal = ((1/(dict_right->second.getWidth()-1))*(dict_right->second.totalcount()-hashedRight[it]));
+              double leftVal = (double)((1/(dict_left->second.getWidth()-1))*(dict_left->second.totalcount()-hashedLeft[it]));
+              double rightVal = (double)((1/(dict_right->second.getWidth()-1))*(dict_right->second.totalcount()-hashedRight[it]));
 
-              newRowValue += (hashedLeft[it] - ((1/(dict_left->second.getWidth()-1))*(dict_left->second.totalcount()-hashedLeft[it]))) *
-                              (hashedRight[it] - ((1/(dict_right->second.getWidth()-1))*(dict_right->second.totalcount()-hashedRight[it])));
+              newRowValue += (hashedLeft[it] * hashedRight[it]);
 
               if(it % 250 == 0){
                 printf("RowValue: %d, NewRowValue: %f\n", rowValue, newRowValue);
