@@ -168,7 +168,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             for(unsigned int  it = 0; it < dict_left->second.getWidth(); it++){
               rowValue += hashedLeft[it]*hashedRight[it];
 
-              double first = (double)(1/(dict_left->second.getWidth()-1));
+              double first =((double)1/(double)(dict_left->second.getWidth()-1));
               double second = (double)(dict_left->second.totalcount()-hashedLeft[it]);
               double leftVal = ((1/(dict_left->second.getWidth()-1))*(dict_left->second.totalcount()-hashedLeft[it]));
               double rightVal = ((1/(dict_right->second.getWidth()-1))*(dict_right->second.totalcount()-hashedRight[it]));
@@ -178,11 +178,11 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
               if(it % 250 == 0){
                 printf("RowValue: %d, NewRowValue: %d\n", rowValue, newRowValue);
                 printf("Left: %f, Right %f\n", leftVal, rightVal);
-                printf("First: %f, Second: %f", first, second);
+                printf("First: %f, Second: %f\n", first, second);
               }
             }
             double wVal = (double)(dict_left->second.getWidth()-1)/dict_left->second.getWidth();
-            printf("wVal: %f", wVal);
+            printf("wVal: %f\n", wVal);
             double newEstimateValue = (double)newRowValue * wVal;
 
             allRowValues[i] = (int)std::ceil(newEstimateValue);
