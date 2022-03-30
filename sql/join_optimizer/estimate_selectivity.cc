@@ -168,7 +168,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
             for(unsigned int  it = 0; it < dict_left->second.getWidth(); it++){
               rowValue += hashedLeft[it]*hashedRight[it];
 
-              double first = (double)(1/(dict_left->second.getWidth()-1);
+              double first = (double)(1/(dict_left->second.getWidth()-1));
               double second = (double)(dict_left->second.totalcount()-hashedLeft[it]);
               double leftVal = (((1/(dict_left->second.getWidth()-1))*(dict_left->second.totalcount()-hashedLeft[it]));
               double rightVal = ((1/(dict_right->second.getWidth()-1))*(dict_right->second.totalcount()-hashedRight[it]));
