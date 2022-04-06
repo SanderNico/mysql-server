@@ -153,4 +153,4 @@ std::map<std::string, unsigned int> Tables = {{"aka_name", 1312273}, {"aka_title
 {"comp_cast_type", 4}, {"company_name", 362131}, {"company_type", 4}, {"complete_cast", 135086}, {"info_type", 113}, {"keyword", 236627},
 {"kind_type", 9}, {"link_type", 18}, {"movie_companies", 4958296}, {"movie_info", 29774984}, {"movie_keyword", 7480087}, 
 {"movie_link", 2585150}, {"name", 6379740}, {"person_info", 4130207}, {"role_type", 12}, {"title", 4736508}};
-std::map<std::pair<std::string, std::string>, CountMinSketch, Malloc_allocator< CountMinSketch * >(key_memory_count_min_sketch)> Dictionary;
+std::map<std::pair<std::string, std::string>, CountMinSketch, Malloc_allocator< CountMinSketch * >> Dictionary;
