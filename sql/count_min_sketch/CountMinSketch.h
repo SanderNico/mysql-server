@@ -76,5 +76,5 @@ public:
   // ~CountMinSketch();
 };
 extern std::map<std::string, unsigned int> Tables;
-extern std::map<std::pair<std::string, std::string>, CountMinSketch, Malloc_allocator<CountMinSketch *> > Dictionary;
+extern std::map<std::pair<std::string, std::string>, CountMinSketch, Malloc_allocator<CountMinSketch> > Dictionary;
 #endif /* COUNTMINSKETCH */
