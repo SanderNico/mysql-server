@@ -142,7 +142,6 @@ PSI_memory_key key_memory_user_var_entry;
 PSI_memory_key key_memory_user_var_entry_value;
 PSI_memory_key key_memory_sp_cache;
 PSI_memory_key key_memory_write_set_extraction;
-PSI_memory_key key_memory_count_min_sketch;
 
 #ifdef HAVE_PSI_INTERFACE
 
@@ -377,9 +376,8 @@ static PSI_memory_info all_server_memory[] = {
      "Mem root for temporary objects allocated while dropping tables or the "
      "whole database."},
     {&key_memory_rm_db_mdl_reqs_root, "rm_db::mdl_reqs_root", PSI_FLAG_THREAD,
-     0, "Mem root for allocating MDL requests while dropping datbase."},
-     {&key_memory_count_min_sketch, "CountMinSketch", PSI_FLAG_MEM_COLLECT,
-     0, "Memory allocated for CountMinSketches"}};
+     0, "Mem root for allocating MDL requests while dropping datbase."}
+
 
 void register_server_memory_keys() {
   const char *category = "sql";
