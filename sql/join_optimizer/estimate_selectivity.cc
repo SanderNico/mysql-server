@@ -189,7 +189,7 @@ double EstimateSelectivity(THD *thd, Item *condition, string *trace) {
           int n = sizeof(allRowValues) / sizeof(allRowValues[0]);
           std::sort(allRowValues, allRowValues + n);
 
-          Set estimated rows using CMM
+          //Set estimated rows using CMM
           if(estimatedRows < 0){
             estimatedRows = allRowValues[dict_left->second.getDepth()/2];
           }else {
