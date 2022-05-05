@@ -1,6 +1,5 @@
 #include <map>
 #include <string>
-#include "sql/malloc_allocator.h"
 
 #ifndef COUNTMINSKETCH
 #define COUNTMINSKETCH
@@ -76,5 +75,5 @@ public:
   // ~CountMinSketch();
 };
 extern std::map<std::string, unsigned int> Tables;
-extern std::map<std::pair<std::string, std::string>, CountMinSketch, std::less<std::pair<std::string, std::string>>, Malloc_allocator<std::pair<const std::pair<std::string, std::string>, CountMinSketch>>> Dictionary;
+extern std::map<std::pair<std::string, std::string>, CountMinSketch> Dictionary;
 #endif /* COUNTMINSKETCH */
