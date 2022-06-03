@@ -54,7 +54,7 @@
 #include "sql/sql_tmp_table.h"
 #include "sql/system_variables.h"
 #include "sql/table.h"
-#include "sql/count_min_sketch/CountMinSketch.h"
+#include "sql/count_min_sketch/count_min_sketch.h"
 
 
 struct POSITION;

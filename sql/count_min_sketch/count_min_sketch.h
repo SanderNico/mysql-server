@@ -16,9 +16,9 @@ class CountMinSketch {
   // the smaller the better
   float epsilon;
   
-  // gamma (probability for accuracy), 0 < gamma < 1
+  // delta (probability for accuracy), 0 < delta < 1
   // the bigger the better
-  float gamma;
+  float delta;
   
   // aj, bj \in Z_p
   // both elements of fild Z_p used in generation of hash
@@ -40,7 +40,7 @@ class CountMinSketch {
 
 public:
   // constructor
-  CountMinSketch(float eps, float gamma);
+  CountMinSketch(float eps, float delta);
   
   // update item (int) by count c
   void update(int item, int c);
@@ -69,7 +69,7 @@ public:
 
   double getEpsilon();
 
-  double getGamma();
+  double getDelta();
 
   // destructor
   // ~CountMinSketch();

@@ -3,7 +3,7 @@
 # include <cstdlib>
 # include <ctime>
 # include <limits>
-# include "sql/count_min_sketch/CountMinSketch.h"
+# include "sql/count_min_sketch/count_min_sketch.h"
 
 /**
    Class definition for CountMinSketch.
@@ -19,12 +19,12 @@
 
 // CountMinSketch constructor
 // ep -> error 0.01 < ep < 1 (the smaller the better)
-// gamma -> probability for error (the smaller the better) 0 < gamm < 1
-CountMinSketch::CountMinSketch(float ep, float gamm) {
+// delta -> probability for error (the smaller the better) 0 < delt < 1
+CountMinSketch::CountMinSketch(float ep, float delt) {
   epsilon = ep;
-  gamma = gamm;
+  delta = delt;
   width = ceil(exp(1)/epsilon);
-  depth = ceil(log(1/gamma));
+  depth = ceil(log(1/delta));
   total = 0;
   // initialize counter array of arrays, C
   C = new int *[depth];
@@ -141,8 +141,8 @@ double CountMinSketch::getEpsilon(){
   return (double)epsilon;
 }
 
-double CountMinSketch::getGamma(){
-  return (double)gamma;
+double CountMinSketch::getDelta(){
+  return (double)delta;
 }
 
 

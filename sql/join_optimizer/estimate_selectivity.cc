@@ -45,7 +45,7 @@
 #include "sql/tuple_struct.h"
 #include "sql/join_optimizer/selectivity_reader.h"
 #include "sql/sql_class.h"
-#include "sql/count_min_sketch/CountMinSketch.h"
+#include "sql/count_min_sketch/count_min_sketch.h"
 
 using std::string;
 
